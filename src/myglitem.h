@@ -1,13 +1,13 @@
 #ifndef MYGLITEM_H
 #define MYGLITEM_H
-#include "src/glitem.h"
-#include "src/glcube.h"
+#include "glitem.h"
+#include "glcube.h"
 #include "glsphere.h"
 #include <QOpenGLBuffer>
 #include <QtGlobal>
-#include "src/gldisc.h"
-#include "src/glfield.h"
-#include "src/glmouseray.h"
+#include "gldisc.h"
+#include "glfield.h"
+#include "glmouseray.h"
 
 class MyGLItem : public GLItem
 {

@@ -2,7 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QTranslator>
 #include <QLocale>
-#include "qml/myglitem.h"
+#include "myglitem.h"
 
 int main(int argc, char *argv[])
 {

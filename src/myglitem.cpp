@@ -614,8 +614,6 @@ void MyGLItem::doSynchronizeThreads()
         float x_diff = start.x() - end.x();
         float z_diff = start.z() - end.z();
 
-        float start_x = start.x();
-        float start_z = start.z();
         float end_x = end.x();
         float end_z = end.z();
 

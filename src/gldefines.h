@@ -19,7 +19,7 @@
 #include <QVector3D>
 #include "glcolorrgba.h"
 
-#ifdef _WIN32 _Linux
+#ifdef _WIN32
 #include "GL/gl.h"
 #else
 #include "OpenGL/gl.h"
