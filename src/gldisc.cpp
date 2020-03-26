@@ -4,6 +4,7 @@
 GLDisc::GLDisc(const QString & name, const QVector3D &fieldCoord, float radius, const GLColorRgba &color, const QString textureFile, float height, IndexType slices)
     :GLBody(name, radius, color, textureFile)
 {
+    m_disc_Name = name;
     m_FieldCoord = fieldCoord;
     m_height = height;
     m_slices = slices;
@@ -129,6 +130,21 @@ QVector3D GLDisc::getDisc_Coordinates() const
 void GLDisc::setDisc_Coordinates(const QVector3D &disc_Coordinates)
 {
     m_disc_Coordinates = disc_Coordinates;
+}
+
+QString GLDisc::getDisc_Color() const
+{
+    return m_disc_Color;
+}
+
+void GLDisc::setDisc_Color(const QString &disc_Color)
+{
+    m_disc_Color = disc_Color;
+}
+
+QString GLDisc::getDisc_Name() const
+{
+    return m_disc_Name;
 }
 
 void GLDisc::finishAnimation()

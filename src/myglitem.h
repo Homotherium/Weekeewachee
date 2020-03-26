@@ -39,6 +39,9 @@ class MyGLItem : public GLItem
     GLDisc *m_disc_black_papier;
     GLDisc *m_disc_black_brunnen;
 
+    QList<GLDisc*> m_whitedisks_list;
+    QList<GLDisc*> m_blackdisks_list;
+
     GLField *m_field;
 
     void createTriangles();
@@ -74,6 +77,10 @@ public:
     void paintUnderQmlScene() Q_DECL_OVERRIDE;
     void paintOnTopOfQmlScene() Q_DECL_OVERRIDE;
     void setupGeometry() Q_DECL_OVERRIDE;
+
+    bool kampf(GLDisc * disk, QVector3D stein, QPoint hit_coordinaten);
+    void moveDisk(GLDisc * disk, QVector3D start, QVector3D end);
+    void move_away(GLDisc * disk);
 
 public slots:
     void mousePressed(int x, int y, int button);

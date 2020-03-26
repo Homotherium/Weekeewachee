@@ -58,12 +58,19 @@ public:
     QVector3D getDisc_Coordinates() const;
     void setDisc_Coordinates(const QVector3D &disc_Coordinates);
 
+    QString getDisc_Color() const;
+    void setDisc_Color(const QString &disc_Color);
+
+    QString getDisc_Name() const;
+
 private:
     float m_height;
     IndexType m_slices;
     //QPoint m_FieldCoord;
     QVector3D m_FieldCoord;
     QVector3D m_disc_Coordinates;
+    QString m_disc_Name;
+    QString m_disc_Color;
     bool m_isKing;
 
     //Animation
