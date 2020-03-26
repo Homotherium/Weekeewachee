@@ -391,6 +391,12 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
             m_blackdisks_list = e_disks_list;
             m_whitedisks_list = f_disks_list;
         }
+        if (m_whitedisks_list.isEmpty()){
+            qDebug() << "Black Player wins!";
+        }
+        if (m_blackdisks_list.isEmpty()){
+            qDebug() << "White Player wins!";
+        }
     }
     return true;
 }
@@ -460,7 +466,7 @@ void MyGLItem::move_away(GLDisc *disk)
 {
     disk->move(QVector3D(+15.0f, 0.0f, +15.0f));
     disk->setDisc_Coordinates(disk->getDisc_Coordinates() + QVector3D(+15.0f, 0.0f, +15.0f));
-    qDebug() << "Disk ist gelöscht";
+    qDebug() << "Disk " << disk->getDisc_Color() << " " << disk->getDisc_Name() << " ist gelöscht";
 }
 
 void MyGLItem::mouseReleased(int x, int y, int button)
