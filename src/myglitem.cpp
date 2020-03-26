@@ -618,7 +618,6 @@ void MyGLItem::doSynchronizeThreads()
         float end_z = end.z();
 
         if (end_x > 6.0f || end_x < -6.0f || end_z > 9.0f || end_z < -9.0f){
-            //m_disc->move(start);
             qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
         } else {
             // oben-rechts
