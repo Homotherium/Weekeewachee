@@ -249,6 +249,7 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
                 return false;
             }
         }
+        f_disks_list = m_blackdisks_list;
         e_disks_list = m_whitedisks_list;
     } else {
         qDebug() << "Gleiche Farbe white";
@@ -260,6 +261,7 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
                 return false;
             }
         }
+        f_disks_list = m_whitedisks_list;
         e_disks_list = m_blackdisks_list;
     }
     // Gleiche Stein
@@ -268,9 +270,10 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
         {
             qDebug() << "Gleiche Stein: " << disk->getDisc_Name() << " trifft " <<
                         e_disks_list[i]->getDisc_Name();
-            if(disk->getDisc_Name() == e_disks_list[i]->getDisc_Name())
+            if(disk->getDisc_Name() == e_disks_list[i]->getDisc_Name()){
                 qDebug() << "Steine sind gleich";
-            return false;
+                return false;
+            }
         }
     }
     // Kampf
@@ -289,8 +292,82 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
             if(disk->getDisc_Name() == "stein" && e_disks_list[i]->getDisc_Name() == "papier"){
                 qDebug() << "stein gegen papier";
                 move_away(disk);
-                //f_disks_list.removeOne(disk);
-                f_disks_list.removeAt(f_disks_list.indexOf(disk));
+                f_disks_list.removeAt(0);
+                figth = true;
+                break;
+            }
+            if(disk->getDisc_Name() == "stein" && e_disks_list[i]->getDisc_Name() == "brunnen"){
+                qDebug() << "stein gegen brunnen";
+                move_away(disk);
+                f_disks_list.removeAt(0);
+                figth = true;
+                break;
+            }
+            if(disk->getDisc_Name() == "schere" && e_disks_list[i]->getDisc_Name() == "stein"){
+                qDebug() << "schere gegen stein";
+                move_away(disk);
+                f_disks_list.removeAt(1);
+                figth = true;
+                break;
+            }
+            if(disk->getDisc_Name() == "schere" && e_disks_list[i]->getDisc_Name() == "papier"){
+                qDebug() << "schere gegen papier";
+                moveDisk(disk, disk->getDisc_Coordinates(), kampf_punkt);
+                move_away(e_disks_list[i]);
+                e_disks_list.removeAt(i);
+                figth = true;
+                break;
+            }
+            if(disk->getDisc_Name() == "schere" && e_disks_list[i]->getDisc_Name() == "brunnen"){
+                qDebug() << "schere gegen brunnen";
+                move_away(disk);
+                f_disks_list.removeAt(1);
+                figth = true;
+                break;
+            }
+            if(disk->getDisc_Name() == "papier" && e_disks_list[i]->getDisc_Name() == "stein"){
+                qDebug() << "papier gegen stein";
+                moveDisk(disk, disk->getDisc_Coordinates(), kampf_punkt);
+                move_away(e_disks_list[i]);
+                e_disks_list.removeAt(i);
+                figth = true;
+                break;
+            }
+            if(disk->getDisc_Name() == "papier" && e_disks_list[i]->getDisc_Name() == "schere"){
+                qDebug() << "papier gegen schere";
+                move_away(disk);
+                f_disks_list.removeAt(2);
+                figth = true;
+                break;
+            }
+            if(disk->getDisc_Name() == "papier" && e_disks_list[i]->getDisc_Name() == "brunnen"){
+                qDebug() << "papier gegen brunnen";
+                moveDisk(disk, disk->getDisc_Coordinates(), kampf_punkt);
+                move_away(e_disks_list[i]);
+                e_disks_list.removeAt(i);
+                figth = true;
+                break;
+            }
+            if(disk->getDisc_Name() == "brunnen" && e_disks_list[i]->getDisc_Name() == "stein"){
+                qDebug() << "brunnen gegen stein";
+                moveDisk(disk, disk->getDisc_Coordinates(), kampf_punkt);
+                move_away(e_disks_list[i]);
+                e_disks_list.removeAt(i);
+                figth = true;
+                break;
+            }
+            if(disk->getDisc_Name() == "brunnen" && e_disks_list[i]->getDisc_Name() == "schere"){
+                qDebug() << "brunnen gegen schere";
+                moveDisk(disk, disk->getDisc_Coordinates(), kampf_punkt);
+                move_away(e_disks_list[i]);
+                e_disks_list.removeAt(i);
+                figth = true;
+                break;
+            }
+            if(disk->getDisc_Name() == "brunnen" && e_disks_list[i]->getDisc_Name() == "papier"){
+                qDebug() << "brunnen gegen papier";
+                move_away(disk);
+                f_disks_list.removeAt(3);
                 figth = true;
                 break;
             }
@@ -298,7 +375,10 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
     }
 
     // Bewegen
-    moveDisk(disk, disk->getDisc_Coordinates(), kampf_punkt);
+    if (!figth){
+        qDebug() << "Move";
+        moveDisk(disk, disk->getDisc_Coordinates(), kampf_punkt);
+    }
 
     // Liste aktualisieren
     if (figth) {
@@ -378,8 +458,8 @@ void MyGLItem::moveDisk(GLDisc * disk, QVector3D start, QVector3D end)
 
 void MyGLItem::move_away(GLDisc *disk)
 {
-    disk->move(QVector3D(+9.0f, 0.0f, +9.0f));
-    disk->setDisc_Coordinates(disk->getDisc_Coordinates() + QVector3D(+9.0f, 0.0f, +9.0f));
+    disk->move(QVector3D(+15.0f, 0.0f, +15.0f));
+    disk->setDisc_Coordinates(disk->getDisc_Coordinates() + QVector3D(+15.0f, 0.0f, +15.0f));
     qDebug() << "Disk ist gelöscht";
 }
 
