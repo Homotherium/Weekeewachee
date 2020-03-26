@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>models/Stein_weiss1.dat</file>
+    </qresource>
+</RCC>

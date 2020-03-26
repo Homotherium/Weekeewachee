@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>textures/sbrett.png</file>
+        <file>textures/Stein_schwarz.png</file>
+        <file>textures/Stein_Schwarz.xcf</file>
+        <file>textures/Stein_weiss.png</file>
+        <file>textures/Stein_weiss.xcf</file>
+        <file>textures/Stein_Schwarz_brunnen.png</file>
+        <file>textures/Stein_Schwarz_papier.png</file>
+        <file>textures/Stein_Schwarz_schere.png</file>
+        <file>textures/Stein_Schwarz_stein.png</file>
+        <file>textures/Stein_weiss_brunnen.png</file>
+        <file>textures/Stein_weiss_papier.png</file>
+        <file>textures/Stein_weiss_schere.png</file>
+        <file>textures/Stein_weiss_stein.png</file>
+    </qresource>
+</RCC>
