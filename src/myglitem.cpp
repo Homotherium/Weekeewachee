@@ -227,12 +227,24 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
     qDebug() << hit_coordinaten;
     QList<GLDisc*> f_disks_list;
     QList<GLDisc*> e_disks_list;
+    bool figth = false;
+
+    // Print Black List
+    for (int b = 0; b < m_blackdisks_list.size(); b++) {
+        qDebug() << m_blackdisks_list[b]->getDisc_Name() << m_blackdisks_list[b]->getDisc_Color() << m_blackdisks_list[b]->getDisc_Coordinates();
+    }
+    // Print White List
+    for (int w = 0; w < m_whitedisks_list.size(); w++) {
+        qDebug() << m_whitedisks_list[w]->getDisc_Name() << m_whitedisks_list[w]->getDisc_Color() << m_whitedisks_list[w]->getDisc_Coordinates();
+    }
+
+
     // Gleiche Farbe
     if (disk->getDisc_Color() == "black"){
         for (int i = 0; i < m_blackdisks_list.size(); i++) {
             if(m_blackdisks_list[i]->isHit(hit_coordinaten, renderer()))
             {
-                qDebug() << "Gleiche Farbe: " << disk->getDisc_Name() << " " << disk->getDisc_Color() << " trifft mit " <<
+                qDebug() << "Gleiche Farbe: " << disk->getDisc_Name() << " " << disk->getDisc_Color() << " trifft " <<
                             m_blackdisks_list[i]->getDisc_Name() << " " << m_blackdisks_list[i]->getDisc_Color();
                 return false;
             }
@@ -243,7 +255,7 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
         for (int i = 0; i < m_whitedisks_list.size(); i++) {
             if(m_whitedisks_list[i]->isHit(hit_coordinaten, renderer()))
             {
-                qDebug() << "Gleiche Farbe: " << disk->getDisc_Name() << " " << disk->getDisc_Color() << " trifft mit " <<
+                qDebug() << "Gleiche Farbe: " << disk->getDisc_Name() << " " << disk->getDisc_Color() << " trifft " <<
                             m_whitedisks_list[i]->getDisc_Name() << " " << m_whitedisks_list[i]->getDisc_Color();
                 return false;
             }
@@ -254,16 +266,16 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
     for (int i = 0; i < e_disks_list.size(); i++) {
         if(e_disks_list[i]->isHit(hit_coordinaten, renderer()))
         {
-            qDebug() << "Gleiche Stein: " << disk->getDisc_Name() << " trifft mit " <<
+            qDebug() << "Gleiche Stein: " << disk->getDisc_Name() << " trifft " <<
                         e_disks_list[i]->getDisc_Name();
             if(disk->getDisc_Name() == e_disks_list[i]->getDisc_Name())
                 qDebug() << "Steine sind gleich";
-                return false;
+            return false;
         }
     }
     // Kampf
+    qDebug() << "Kampf";
     for (int i = 0; i < e_disks_list.size(); i++) {
-        qDebug() << "Kampf";
         if(e_disks_list[i]->isHit(hit_coordinaten, renderer()))
         {
             if(disk->getDisc_Name() == "stein" && e_disks_list[i]->getDisc_Name() == "schere"){
@@ -271,13 +283,15 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
                 moveDisk(disk, disk->getDisc_Coordinates(), kampf_punkt);
                 move_away(e_disks_list[i]);
                 e_disks_list.removeAt(i);
+                figth = true;
                 break;
             }
             if(disk->getDisc_Name() == "stein" && e_disks_list[i]->getDisc_Name() == "papier"){
-                 qDebug() << "stein gegen papier";
+                qDebug() << "stein gegen papier";
                 move_away(disk);
                 //f_disks_list.removeOne(disk);
                 f_disks_list.removeAt(f_disks_list.indexOf(disk));
+                figth = true;
                 break;
             }
         }
@@ -287,16 +301,17 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
     moveDisk(disk, disk->getDisc_Coordinates(), kampf_punkt);
 
     // Liste aktualisieren
-    if (disk->getDisc_Color() == "black"){
-        qDebug() << "Liste aktualisieren if";
-        m_whitedisks_list = e_disks_list;
-        m_blackdisks_list = f_disks_list;
-    } else {
-        qDebug() << "Liste aktualisieren else";
-        m_blackdisks_list = e_disks_list;
-        m_whitedisks_list = f_disks_list;
+    if (figth) {
+        if (disk->getDisc_Color() == "black"){
+            qDebug() << "Liste aktualisieren if";
+            m_whitedisks_list = e_disks_list;
+            m_blackdisks_list = f_disks_list;
+        } else {
+            qDebug() << "Liste aktualisieren else";
+            m_blackdisks_list = e_disks_list;
+            m_whitedisks_list = f_disks_list;
+        }
     }
-
     return true;
 }
 
@@ -384,217 +399,217 @@ void MyGLItem::mouseReleased(int x, int y, int button)
     qDebug() << " mouse released";
     qDebug() << QPoint(x,y);
 
-//    //Kampf für White Stein
-//    if(m_disc == m_disc_white_stein){
+    //    //Kampf für White Stein
+    //    if(m_disc == m_disc_white_stein){
 
-//        if(m_disc_black_schere->isHit(QPoint(x,y),renderer()))
-//        {
-//            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
-//            m_disc_black_schere->move(QVector3D(+11.0f, 0.0f, +11.0f));
-//        }
+    //        if(m_disc_black_schere->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
+    //            m_disc_black_schere->move(QVector3D(+11.0f, 0.0f, +11.0f));
+    //        }
 
-//        if(m_disc_black_stein->isHit(QPoint(x,y),renderer()))
-//        {
-//            qDebug() << "nichts passiert";
-//        }
+    //        if(m_disc_black_stein->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            qDebug() << "nichts passiert";
+    //        }
 
-//        if(m_disc_black_papier->isHit(QPoint(x,y),renderer()))
-//        {
-//            qDebug() << "Black Stein disc was hit!";
-//            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
-//            m_disc_white_stein->move(QVector3D(100.0, 100.0, 106.25));
-//        }
+    //        if(m_disc_black_papier->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            qDebug() << "Black Stein disc was hit!";
+    //            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
+    //            m_disc_white_stein->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
 
-//        if(m_disc_black_brunnen->isHit(QPoint(x,y),renderer()))
-//        {
-//            m_disc_white_stein->move(QVector3D(100.0, 100.0, 106.25));
-//        }
-//    }
+    //        if(m_disc_black_brunnen->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            m_disc_white_stein->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
+    //    }
 
-//    //Kampf für White Schere
-//    if(m_disc == m_disc_white_schere){
+    //    //Kampf für White Schere
+    //    if(m_disc == m_disc_white_schere){
 
-//        if(m_disc_black_schere->isHit(QPoint(x,y),renderer()))
-//        {
-//            qDebug() << "nichts passiert";
-//        }
+    //        if(m_disc_black_schere->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            qDebug() << "nichts passiert";
+    //        }
 
-//        if(m_disc_black_stein->isHit(QPoint(x,y),renderer()))
-//        {
-//            qDebug() << "nichts passiert";
-//            m_disc_white_schere->move(QVector3D(100.0, 100.0, 106.25));
-//        }
+    //        if(m_disc_black_stein->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            qDebug() << "nichts passiert";
+    //            m_disc_white_schere->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
 
-//        if(m_disc_black_papier->isHit(QPoint(x,y),renderer()))
-//        {
-//            qDebug() << "Black Stein disc was hit!";
-//            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
-//            m_disc_black_papier->move(QVector3D(100.0, 100.0, 106.25));
-//        }
+    //        if(m_disc_black_papier->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            qDebug() << "Black Stein disc was hit!";
+    //            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
+    //            m_disc_black_papier->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
 
-//        if(m_disc_black_brunnen->isHit(QPoint(x,y),renderer()))
-//        {
-//            m_disc_white_schere->move(QVector3D(100.0, 100.0, 106.25));
-//        }
-//    }
+    //        if(m_disc_black_brunnen->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            m_disc_white_schere->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
+    //    }
 
-//    //Kampf für White Papier
-//    if(m_disc == m_disc_white_papier){
+    //    //Kampf für White Papier
+    //    if(m_disc == m_disc_white_papier){
 
-//        if(m_disc_black_schere->isHit(QPoint(x,y),renderer()))
-//        {
-//            m_disc_white_papier->move(QVector3D(100.0, 100.0, 106.25));
-//        }
+    //        if(m_disc_black_schere->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            m_disc_white_papier->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
 
-//        if(m_disc_black_stein->isHit(QPoint(x,y),renderer()))
-//        {
-//            m_disc_black_stein->move(QVector3D(100.0, 100.0, 106.25));
-//        }
+    //        if(m_disc_black_stein->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            m_disc_black_stein->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
 
-//        if(m_disc_black_papier->isHit(QPoint(x,y),renderer()))
-//        {
-//            qDebug() << "nichts passiert";
+    //        if(m_disc_black_papier->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            qDebug() << "nichts passiert";
 
-//        }
+    //        }
 
-//        if(m_disc_black_brunnen->isHit(QPoint(x,y),renderer()))
-//        {
-//            m_disc_black_brunnen->move(QVector3D(100.0, 100.0, 106.25));
-//        }
-//    }
+    //        if(m_disc_black_brunnen->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            m_disc_black_brunnen->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
+    //    }
 
-//    //Kampf für White Brunnen
-//    if(m_disc == m_disc_white_brunnen){
+    //    //Kampf für White Brunnen
+    //    if(m_disc == m_disc_white_brunnen){
 
-//        if(m_disc_black_schere->isHit(QPoint(x,y),renderer()))
-//        {
-//            m_disc_black_schere->move(QVector3D(100.0, 100.0, 106.25));
-//        }
+    //        if(m_disc_black_schere->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            m_disc_black_schere->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
 
-//        if(m_disc_black_stein->isHit(QPoint(x,y),renderer()))
-//        {
-//            m_disc_black_stein->move(QVector3D(100.0, 100.0, 106.25));
-//        }
+    //        if(m_disc_black_stein->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            m_disc_black_stein->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
 
-//        if(m_disc_black_papier->isHit(QPoint(x,y),renderer()))
-//        {
-//            m_disc_white_brunnen->move(QVector3D(100.0, 100.0, 106.25));
-//        }
+    //        if(m_disc_black_papier->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            m_disc_white_brunnen->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
 
-//        if(m_disc_black_brunnen->isHit(QPoint(x,y),renderer()))
-//        {
-//            qDebug() << "nichts passiert";
-//        }
-//    }
-
-
-//    //Kampf Schwarz
-
-//    //Kampf für Black Stein
-//    if(m_disc == m_disc_black_stein){
-
-//        if(m_disc_white_schere->isHit(QPoint(x,y),renderer()))
-//        {
-//            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
-//            m_disc_white_schere->move(QVector3D(100.0, 100.0, 106.25));
-
-//        }
-
-//        if(m_disc_black_stein->isHit(QPoint(x,y),renderer()))
-//        {
-//            qDebug() << "nichts passiert";
-//        }
-
-//        if(m_disc_white_papier->isHit(QPoint(x,y),renderer()))
-//        {
-//            qDebug() << "Black Stein disc was hit!";
-//            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
-//            m_disc_black_stein->move(QVector3D(100.0, 100.0, 106.25));
-//        }
-
-//        if(m_disc_white_brunnen->isHit(QPoint(x,y),renderer()))
-//        {
-//            m_disc_black_stein->move(QVector3D(100.0, 100.0, 106.25));
-//        }
-//    }
-
-//    //Kampf für Black Schere
-//    if(m_disc == m_disc_black_schere){
-
-//        if(m_disc_white_schere->isHit(QPoint(x,y),renderer()))
-//        {
-//            qDebug() << "nichts passiert";
-//        }
-
-//        if(m_disc_white_stein->isHit(QPoint(x,y),renderer()))
-//        {
-//            qDebug() << "nichts passiert";
-//            m_disc_black_schere->move(QVector3D(100.0, 100.0, 106.25));
+    //        if(m_disc_black_brunnen->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            qDebug() << "nichts passiert";
+    //        }
+    //    }
 
 
-//        }
+    //    //Kampf Schwarz
 
-//        if(m_disc_white_papier->isHit(QPoint(x,y),renderer()))
-//        {
-//            qDebug() << "Black Stein disc was hit!";
-//            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
-//            m_disc_white_papier->move(QVector3D(100.0, 100.0, 106.25));
-//        }
+    //    //Kampf für Black Stein
+    //    if(m_disc == m_disc_black_stein){
 
-//        if(m_disc_white_brunnen->isHit(QPoint(x,y),renderer()))
-//        {
-//            m_disc_black_schere->move(QVector3D(100.0, 100.0, 106.25));
-//        }
-//    }
+    //        if(m_disc_white_schere->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
+    //            m_disc_white_schere->move(QVector3D(100.0, 100.0, 106.25));
 
-//    //Kampf für Black Papier
-//    if(m_disc == m_disc_black_papier){
+    //        }
 
-//        if(m_disc_white_schere->isHit(QPoint(x,y),renderer()))
-//        {
-//            m_disc_black_papier->move(QVector3D(100.0, 100.0, 106.25));
-//        }
+    //        if(m_disc_black_stein->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            qDebug() << "nichts passiert";
+    //        }
 
-//        if(m_disc_white_stein->isHit(QPoint(x,y),renderer()))
-//        {
-//            m_disc_white_stein->move(QVector3D(100.0, 100.0, 106.25));
-//        }
+    //        if(m_disc_white_papier->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            qDebug() << "Black Stein disc was hit!";
+    //            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
+    //            m_disc_black_stein->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
 
-//        if(m_disc_white_papier->isHit(QPoint(x,y),renderer()))
-//        {
-//            qDebug() << "nichts passiert";
+    //        if(m_disc_white_brunnen->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            m_disc_black_stein->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
+    //    }
 
-//        }
+    //    //Kampf für Black Schere
+    //    if(m_disc == m_disc_black_schere){
 
-//        if(m_disc_white_brunnen->isHit(QPoint(x,y),renderer()))
-//        {
-//            m_disc_white_brunnen->move(QVector3D(100.0, 100.0, 106.25));
-//        }
-//    }
+    //        if(m_disc_white_schere->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            qDebug() << "nichts passiert";
+    //        }
 
-//    //Kampf für Black Brunnen
-//    if(m_disc == m_disc_black_brunnen){
+    //        if(m_disc_white_stein->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            qDebug() << "nichts passiert";
+    //            m_disc_black_schere->move(QVector3D(100.0, 100.0, 106.25));
 
-//        if(m_disc_white_schere->isHit(QPoint(x,y),renderer()))
-//        {
-//            m_disc_white_schere->move(QVector3D(100.0, 100.0, 106.25));
-//        }
 
-//        if(m_disc_white_stein->isHit(QPoint(x,y),renderer()))
-//        {
-//            m_disc_white_stein->move(QVector3D(100.0, 100.0, 106.25));
-//        }
+    //        }
 
-//        if(m_disc_white_papier->isHit(QPoint(x,y),renderer()))
-//        {
-//            m_disc_black_brunnen->move(QVector3D(100.0, 100.0, 106.25));
-//        }
+    //        if(m_disc_white_papier->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            qDebug() << "Black Stein disc was hit!";
+    //            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
+    //            m_disc_white_papier->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
 
-//        if(m_disc_white_brunnen->isHit(QPoint(x,y),renderer()))
-//        {
-//            qDebug() << "nichts passiert";
-//        }
-//    }
+    //        if(m_disc_white_brunnen->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            m_disc_black_schere->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
+    //    }
+
+    //    //Kampf für Black Papier
+    //    if(m_disc == m_disc_black_papier){
+
+    //        if(m_disc_white_schere->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            m_disc_black_papier->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
+
+    //        if(m_disc_white_stein->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            m_disc_white_stein->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
+
+    //        if(m_disc_white_papier->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            qDebug() << "nichts passiert";
+
+    //        }
+
+    //        if(m_disc_white_brunnen->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            m_disc_white_brunnen->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
+    //    }
+
+    //    //Kampf für Black Brunnen
+    //    if(m_disc == m_disc_black_brunnen){
+
+    //        if(m_disc_white_schere->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            m_disc_white_schere->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
+
+    //        if(m_disc_white_stein->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            m_disc_white_stein->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
+
+    //        if(m_disc_white_papier->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            m_disc_black_brunnen->move(QVector3D(100.0, 100.0, 106.25));
+    //        }
+
+    //        if(m_disc_white_brunnen->isHit(QPoint(x,y),renderer()))
+    //        {
+    //            qDebug() << "nichts passiert";
+    //        }
+    //    }
 
     QVector3D movePos;
     renderer()->mouseIntersection(&movePos, v_Y, 0.0f, m_lastMouseEvent->pos());
@@ -772,67 +787,67 @@ void MyGLItem::doSynchronizeThreads()
         m_disc->jumpDown();
         QVector3D end;
         renderer()->mouseIntersection(&end, v_Y, 0.0f, m_lastMouseEvent->pos());
-//        QVector3D start = m_disc->getDisc_Coordinates();
-//        qDebug() << "start: " << start << "end: " << end;
-//        float x_diff = start.x() - end.x();
-//        float z_diff = start.z() - end.z();
-//        float end_x = end.x();
-//        float end_z = end.z();
-//        if (end_x > 6.0f || end_x < -6.0f || end_z > 9.0f || end_z < -9.0f){
-//            qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
-//        } else {
-//            // oben-rechts
-//            if (x_diff < -1.5f && z_diff > 1.5f) {
-//                m_disc->move(QVector3D(+3.0f, 0.0f, -3.0f));
-//                m_disc->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, -3.0f));
-//                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
-//            }
-//            // oben-links
-//            if (x_diff > 1.5f && z_diff > 1.5f) {
-//                m_disc->move(QVector3D(-3.0f, 0.0f, -3.0f));
-//                m_disc->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, -3.0f));
-//                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
-//            }
-//            // unten-links
-//            if (x_diff > 1.5f && z_diff < -1.5f) {
-//                m_disc->move(QVector3D(-3.0f, 0.0f, +3.0f));
-//                m_disc->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, +3.0f));
-//                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
-//            }
-//            // unten-rechts
-//            if (x_diff < -1.5f && z_diff < -1.5f) {
-//                m_disc->move(QVector3D(+3.0f, 0.0f, +3.0f));
-//                m_disc->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, +3.0f));
-//                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
-//            }
-//            // oben
-//            if (x_diff < 1.5f && x_diff > -1.5f && z_diff > 1.5f) {
-//                m_disc->move(QVector3D(0.0f, 0.0f, -3.0f));
-//                m_disc->setDisc_Coordinates(start + QVector3D(0.0f, 0.0f, -3.0f));
-//                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
-//            }
-//            // unten
-//            if (x_diff < 1.5f && x_diff > -1.5f && z_diff < -1.5f) {
-//                m_disc->move(QVector3D(0.0f, 0.0f, +3.0f));
-//                m_disc->setDisc_Coordinates(start + QVector3D(0.0f, 0.0f, +3.0f));
-//                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
-//            }
-//            // links
-//            if (x_diff > 1.5f && z_diff > -1.5f && z_diff < 1.5f) {
-//                m_disc->move(QVector3D(-3.0f, 0.0f, 0.0f));
-//                m_disc->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, 0.0f));
-//                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
-//            }
-//            // rechts
-//            if (x_diff < -1.5f && z_diff > -1.5f && z_diff < 1.5f) {
-//                m_disc->move(QVector3D(+3.0f, 0.0f, 0.0f));
-//                m_disc->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, 0.0f));
-//                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
-//            }
-//        }
+        //        QVector3D start = m_disc->getDisc_Coordinates();
+        //        qDebug() << "start: " << start << "end: " << end;
+        //        float x_diff = start.x() - end.x();
+        //        float z_diff = start.z() - end.z();
+        //        float end_x = end.x();
+        //        float end_z = end.z();
+        //        if (end_x > 6.0f || end_x < -6.0f || end_z > 9.0f || end_z < -9.0f){
+        //            qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        //        } else {
+        //            // oben-rechts
+        //            if (x_diff < -1.5f && z_diff > 1.5f) {
+        //                m_disc->move(QVector3D(+3.0f, 0.0f, -3.0f));
+        //                m_disc->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, -3.0f));
+        //                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        //            }
+        //            // oben-links
+        //            if (x_diff > 1.5f && z_diff > 1.5f) {
+        //                m_disc->move(QVector3D(-3.0f, 0.0f, -3.0f));
+        //                m_disc->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, -3.0f));
+        //                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        //            }
+        //            // unten-links
+        //            if (x_diff > 1.5f && z_diff < -1.5f) {
+        //                m_disc->move(QVector3D(-3.0f, 0.0f, +3.0f));
+        //                m_disc->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, +3.0f));
+        //                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        //            }
+        //            // unten-rechts
+        //            if (x_diff < -1.5f && z_diff < -1.5f) {
+        //                m_disc->move(QVector3D(+3.0f, 0.0f, +3.0f));
+        //                m_disc->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, +3.0f));
+        //                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        //            }
+        //            // oben
+        //            if (x_diff < 1.5f && x_diff > -1.5f && z_diff > 1.5f) {
+        //                m_disc->move(QVector3D(0.0f, 0.0f, -3.0f));
+        //                m_disc->setDisc_Coordinates(start + QVector3D(0.0f, 0.0f, -3.0f));
+        //                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        //            }
+        //            // unten
+        //            if (x_diff < 1.5f && x_diff > -1.5f && z_diff < -1.5f) {
+        //                m_disc->move(QVector3D(0.0f, 0.0f, +3.0f));
+        //                m_disc->setDisc_Coordinates(start + QVector3D(0.0f, 0.0f, +3.0f));
+        //                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        //            }
+        //            // links
+        //            if (x_diff > 1.5f && z_diff > -1.5f && z_diff < 1.5f) {
+        //                m_disc->move(QVector3D(-3.0f, 0.0f, 0.0f));
+        //                m_disc->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, 0.0f));
+        //                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        //            }
+        //            // rechts
+        //            if (x_diff < -1.5f && z_diff > -1.5f && z_diff < 1.5f) {
+        //                m_disc->move(QVector3D(+3.0f, 0.0f, 0.0f));
+        //                m_disc->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, 0.0f));
+        //                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        //            }
+        //        }
         qDebug() << "Kampf Überprüfung";
         if (kampf(m_disc, end, m_lastMouseEvent->pos())){
-             qDebug() << "YES!!!";
+            qDebug() << "YES!!!";
         }
         m_totalAnimationSteps = 50;
         m_animationActive = true;
