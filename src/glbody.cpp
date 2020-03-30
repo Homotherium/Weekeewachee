@@ -575,7 +575,6 @@ bool GLBody::isCubeHit(QVector3D mouseNear, QVector3D mouseFar)
         result = isParallelogramHit(p1, p2, p3, mouseNear, lineDirection);
     }
     if(result)
-      qDebug() << m_name << " isCubeHit hit detected at: " << name ;
     return result;
 }
 

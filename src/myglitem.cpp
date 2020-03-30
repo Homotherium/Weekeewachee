@@ -20,15 +20,12 @@ MyGLItem::MyGLItem() : GLItem()
     m_mouseEventProcessed = false;
     m_lastMouseEvent = nullptr;
 
-
     m_mouseRaySet = false;
     m_animationStep = 0;
     m_totalAnimationSteps = 0;
     m_animationActive = false;
     m_movementEnabled = false;
     m_timer->start();
-
-
 
     m_disc_white_stein = new GLDisc("stein",QVector3D(2,0.0,-5));
     m_disc_white_schere = new GLDisc("schere", QVector3D(4.5,0.0,-5));
@@ -53,34 +50,18 @@ MyGLItem::MyGLItem() : GLItem()
     m_disc = new GLDisc("My disc",QVector3D(0.0, 0.0,0.0));
     m_disc_other = new GLDisc("My disc Other",QVector3D(0, 0.0, 0));
 
-    //m_disc_black = new GLDisc("disc_black",QPoint(0,0));
-
-
-
     m_field = new GLField();
     setPlayer(true);
     setIsMoveCorrect(true);
-
-
 }
 
 void MyGLItem::paintUnderQmlScene()
 {
-    //drawTriangles();
-    //drawCube();
     m_field->draw(renderer());
-
 }
 
 void MyGLItem::paintOnTopOfQmlScene()
 {
-    //drawF();
-    //drawF2(5);
-    //m_cube->draw(renderer());
-    //m_sphere->draw(renderer());
-
-    //m_renderer->scale(QVector3D(2, 2, 2));
-
     m_disc_black_stein->draw(renderer());
     m_disc_black_schere->draw(renderer());
     m_disc_black_papier->draw(renderer());
@@ -90,11 +71,6 @@ void MyGLItem::paintOnTopOfQmlScene()
     m_disc_white_schere->draw(renderer());
     m_disc_white_papier->draw(renderer());
     m_disc_white_brunnen->draw(renderer());
-
-
-
-
-
 }
 
 void MyGLItem::createTriangles()
@@ -112,7 +88,6 @@ void MyGLItem::drawTriangles()
 {
     if(m_lastAxesPoint - m_firstAxesPoint == 0) //We have no axes
     {
-        qDebug() << "GLItem::drawAxes(): No axes data available.";
         return;
     }
 
@@ -130,15 +105,7 @@ void MyGLItem::drawTriangles()
     m_renderer->disableAttributeArrays();
     m_vertexBuffer->release();
 
-
-    //    int stride = sizeof(GLPoint);
-    //    m_renderer->activateAttributeArray(GLESRenderer::VERTEX_LOCATION,
-    //                                       m_points[0].vertexPointer(), stride);
-    //    m_renderer->activateAttributeArray(GLESRenderer::COLOR_LOCATION,
-    //                                       m_points[0].colorPointer(), stride);
-    //    glDrawArrays(GL_TRIANGLES, m_firstTrianglePoint, m_lastTrianglePoint - m_firstTrianglePoint + 1); //Coordinate Axes
-    //    m_renderer->disableAttributeArrays();
-    //    //restore old settings
+    //restore old settings
     m_renderer->setColorArrayEnabled(m_colorArrayEnabled);
     m_renderer->setLightingEnabled(m_lightingEnabled);
 }
@@ -150,25 +117,8 @@ void MyGLItem::setupGeometry()
     m_vertexBuffer = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     if(!m_vertexBuffer->create())
     {
-        qDebug() <<"Vertex Buffer create failed";
         exit(1);
     }
-    //createTriangles();
-    //    createCube(QVector3D(0,0,0),QVector3D(1,1,1));
-    //    //createF(5);
-    //    //createNormalsF();
-
-    //    m_vertexBuffer->bind();
-    //    m_vertexBuffer->allocate(m_points.data(), m_points.size() *
-    //    static_cast<int>(sizeof(GLPoint)) );
-    //    m_vertexBuffer->release();
-
-    //    qDebug() << "readBinaryModelFile" << m_disc_black->readBinaryModelFile(":/models/Stein_weiss1.dat", nullptr, nullptr);
-    //    qDebug() << "readBinaryModelFile" << m_disc_white->readBinaryModelFile(":/models/Stein_weiss1.dat", nullptr, nullptr);
-    //    qDebug() << m_disc_white->setTextureFile("D:/Studium/5_Semester/MM/Jannik_Finke_mm2019/textures/Stein_weiss.png");
-    //    qDebug() << m_disc_black->setTextureFile("D:/Studium/5_Semester/MM/Jannik_Finke_mm2019/textures/Stein_schwarz.png");
-    //    m_disc_black->createTextureObjects();
-    //    m_disc_white->createTextureObjects();
 
     m_field->setTextureFile(":/textures/sbrett.png");
 
@@ -229,12 +179,9 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
     if (!isMoveCorrect){
         return false;
     }
-
-    qDebug() << hit_coordinaten;
     QList<GLDisc*> f_disks_list;
     QList<GLDisc*> e_disks_list;
     bool figth = false;
-
     // Gleiche Farbe
     if (disk->getDisc_Color() == "black"){
         for (int i = 0; i < m_blackdisks_list.size(); i++) {
@@ -488,230 +435,13 @@ void MyGLItem::mouseReleased(int x, int y, int button)
     if(window())
         window()->update();
 
-
     m_disc->setSelected(false);
-    qDebug() << " mouse released";
-    qDebug() << QPoint(x,y);
-
-    //    //Kampf für White Stein
-    //    if(m_disc == m_disc_white_stein){
-
-    //        if(m_disc_black_schere->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
-    //            m_disc_black_schere->move(QVector3D(+11.0f, 0.0f, +11.0f));
-    //        }
-
-    //        if(m_disc_black_stein->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            qDebug() << "nichts passiert";
-    //        }
-
-    //        if(m_disc_black_papier->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            qDebug() << "Black Stein disc was hit!";
-    //            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
-    //            m_disc_white_stein->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-
-    //        if(m_disc_black_brunnen->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            m_disc_white_stein->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-    //    }
-
-    //    //Kampf für White Schere
-    //    if(m_disc == m_disc_white_schere){
-
-    //        if(m_disc_black_schere->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            qDebug() << "nichts passiert";
-    //        }
-
-    //        if(m_disc_black_stein->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            qDebug() << "nichts passiert";
-    //            m_disc_white_schere->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-
-    //        if(m_disc_black_papier->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            qDebug() << "Black Stein disc was hit!";
-    //            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
-    //            m_disc_black_papier->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-
-    //        if(m_disc_black_brunnen->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            m_disc_white_schere->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-    //    }
-
-    //    //Kampf für White Papier
-    //    if(m_disc == m_disc_white_papier){
-
-    //        if(m_disc_black_schere->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            m_disc_white_papier->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-
-    //        if(m_disc_black_stein->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            m_disc_black_stein->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-
-    //        if(m_disc_black_papier->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            qDebug() << "nichts passiert";
-
-    //        }
-
-    //        if(m_disc_black_brunnen->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            m_disc_black_brunnen->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-    //    }
-
-    //    //Kampf für White Brunnen
-    //    if(m_disc == m_disc_white_brunnen){
-
-    //        if(m_disc_black_schere->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            m_disc_black_schere->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-
-    //        if(m_disc_black_stein->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            m_disc_black_stein->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-
-    //        if(m_disc_black_papier->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            m_disc_white_brunnen->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-
-    //        if(m_disc_black_brunnen->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            qDebug() << "nichts passiert";
-    //        }
-    //    }
-
-
-    //    //Kampf Schwarz
-
-    //    //Kampf für Black Stein
-    //    if(m_disc == m_disc_black_stein){
-
-    //        if(m_disc_white_schere->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
-    //            m_disc_white_schere->move(QVector3D(100.0, 100.0, 106.25));
-
-    //        }
-
-    //        if(m_disc_black_stein->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            qDebug() << "nichts passiert";
-    //        }
-
-    //        if(m_disc_white_papier->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            qDebug() << "Black Stein disc was hit!";
-    //            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
-    //            m_disc_black_stein->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-
-    //        if(m_disc_white_brunnen->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            m_disc_black_stein->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-    //    }
-
-    //    //Kampf für Black Schere
-    //    if(m_disc == m_disc_black_schere){
-
-    //        if(m_disc_white_schere->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            qDebug() << "nichts passiert";
-    //        }
-
-    //        if(m_disc_white_stein->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            qDebug() << "nichts passiert";
-    //            m_disc_black_schere->move(QVector3D(100.0, 100.0, 106.25));
-
-
-    //        }
-
-    //        if(m_disc_white_papier->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            qDebug() << "Black Stein disc was hit!";
-    //            qDebug() << "Ready to Party :D Black Steine wurde getroffen";
-    //            m_disc_white_papier->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-
-    //        if(m_disc_white_brunnen->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            m_disc_black_schere->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-    //    }
-
-    //    //Kampf für Black Papier
-    //    if(m_disc == m_disc_black_papier){
-
-    //        if(m_disc_white_schere->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            m_disc_black_papier->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-
-    //        if(m_disc_white_stein->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            m_disc_white_stein->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-
-    //        if(m_disc_white_papier->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            qDebug() << "nichts passiert";
-
-    //        }
-
-    //        if(m_disc_white_brunnen->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            m_disc_white_brunnen->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-    //    }
-
-    //    //Kampf für Black Brunnen
-    //    if(m_disc == m_disc_black_brunnen){
-
-    //        if(m_disc_white_schere->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            m_disc_white_schere->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-
-    //        if(m_disc_white_stein->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            m_disc_white_stein->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-
-    //        if(m_disc_white_papier->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            m_disc_black_brunnen->move(QVector3D(100.0, 100.0, 106.25));
-    //        }
-
-    //        if(m_disc_white_brunnen->isHit(QPoint(x,y),renderer()))
-    //        {
-    //            qDebug() << "nichts passiert";
-    //        }
-    //    }
 
     QVector3D movePos;
     renderer()->mouseIntersection(&movePos, v_Y, 0.0f, m_lastMouseEvent->pos());
     QVector3D moveDistance = movePos + m_pressPosToDiscPos;
 
     m_disc->setFieldCoord(moveDistance);
-
-
 }
 
 void MyGLItem::mouseMoved(int x, int y, int button)
@@ -747,8 +477,6 @@ void MyGLItem::mouseMoved(int x, int y, int button)
 
 void MyGLItem::mousePressed(int x, int y, int button)
 {
-
-    qDebug() << " MyGLItem::mousePressEvent running on thread: " << QThread::currentThreadId();
     if(m_lastMouseEvent)
         delete m_lastMouseEvent;
     m_lastMouseEvent = new QMouseEvent(QMouseEvent::MouseButtonPress, QPointF(x, y), QPointF(x, y),
@@ -772,73 +500,16 @@ void MyGLItem::mousePressed(int x, int y, int button)
             setIsMoveCorrect(false);
         }
     }
-
-
-
-
-
-    //qDebug() << "Myglitem mouse pressed" << x << y;
-    if(m_disc_black_schere->isHit(QPoint(x,y),renderer()))
-    {
-        /*
-       qDebug() << "Black Schere disc was hit!";
-       m_disc_black_schere->jumpUp();
-       qDebug() << "Test1";
-       m_totalAnimationSteps = 50;
-       m_animationActive = true;
-
-       m_lastMouseEvent->setAccepted(true);
-       qDebug() << "Test2";
-       */
-        qDebug() << "Black Schere disc was hit!";
-        m_disc = m_disc_black_schere;
-
+    for (int w = 0; w < m_whitedisks_list.size(); w++) {
+        if(m_whitedisks_list[w]->isHit(QPoint(x,y),renderer())){
+            m_disc = m_whitedisks_list[w];
+        }
     }
-
-
-    if(m_disc_black_stein->isHit(QPoint(x,y),renderer()))
-    {
-        qDebug() << "Black Stein disc was hit!";
-        m_disc = m_disc_black_stein;
+    for (int b = 0; b < m_blackdisks_list.size(); b++) {
+        if(m_blackdisks_list[b]->isHit(QPoint(x,y),renderer())){
+            m_disc = m_blackdisks_list[b];
+        }
     }
-
-    if(m_disc_black_papier->isHit(QPoint(x,y),renderer()))
-    {
-        qDebug() << "Black Papier disc was hit!";
-        m_disc = m_disc_black_papier;
-    }
-
-    if(m_disc_black_brunnen->isHit(QPoint(x,y),renderer()))
-    {
-        qDebug() << "Black Brunnen disc was hit!";
-        m_disc = m_disc_black_brunnen;
-    }
-
-    if(m_disc_white_schere->isHit(QPoint(x,y),renderer()))
-    {
-        qDebug() << "White Schere disc was hit!";
-        m_disc = m_disc_white_schere;
-    }
-
-    if(m_disc_white_papier->isHit(QPoint(x,y),renderer()))
-    {
-        qDebug() << "White Papier disc was hit!";
-        m_disc = m_disc_white_papier;
-    }
-
-    if(m_disc_white_stein->isHit(QPoint(x,y),renderer()))
-    {
-        qDebug() << "White Stein disc was hit!";
-        m_disc = m_disc_white_stein;
-    }
-
-    if(m_disc_white_brunnen->isHit(QPoint(x,y),renderer()))
-    {
-        qDebug() << "White Brunnen disc was hit!";
-        m_disc = m_disc_white_brunnen;
-    }
-
-
 }
 
 void MyGLItem::doSynchronizeThreads()
@@ -849,47 +520,19 @@ void MyGLItem::doSynchronizeThreads()
 
     //Mouse pressed
     if(m_lastMouseEvent && (m_lastMouseEvent->type() == QMouseEvent::MouseButtonPress) && !m_lastMouseEvent->isAccepted()){
-
-        //m_disc->setShowFrame(m_disc->isHit(m_lastMouseEvent->pos(), renderer()));
         m_lastMouseEvent->setAccepted(true);
-        //Calculate distance from press point to disc center
-
-        //        QVector3D pressPos;
-        //        renderer()->mouseIntersection(&pressPos, v_Y, 0.0f, m_lastMouseEvent->pos());
-        //        //m_disc->setDisc_Coordinates(pressPos);
-        //        //QVector3D discPos = m_disc->getTransformation() * v_Zero; //translation of disc
-        //        QVector3D discPos = m_disc->getDisc_Coordinates();
-        //        m_pressPosToDiscPos = discPos - pressPos;
-        //        //m_pressPosToDiscPos = m_pressPosToDiscPos * -1;
-        //        qDebug() << "m_pressPosToDiscPos: " << m_pressPosToDiscPos << "pressPos" << pressPos;
         QVector3D nearPoint;
         QVector3D farPoint;
-        //    //    qDebug() << " MyGLItem::paintOnTop running on thread: " << QThread::currentThreadId();
-
-        //        /*
         if( m_lastMouseEvent){
-            qDebug() << "Test62";
             renderer()->calculateMousePoints(&nearPoint, &farPoint, m_lastMouseEvent->pos());
-            qDebug() << "Test63" << nearPoint << " far point" << farPoint;
-            //m_mouseRay->setPoints(nearPoint, farPoint);
-            qDebug() << "Test64";
         }
-        //        */
-
         if(m_disc->isHit(nearPoint, farPoint)){
-            qDebug() << "Test65";
             m_disc->setSelected(true);
-            //m_disc->setShowFrame(true);
         }
-
         m_disc->jumpUp();
         m_totalAnimationSteps = 50;
         m_animationActive = true;
         m_lastMouseEvent->setAccepted(true);
-
-        //m_disc->setFieldCoord(pressPos);
-
-
     }
 
     //mouse release
@@ -898,64 +541,6 @@ void MyGLItem::doSynchronizeThreads()
         m_disc->jumpDown();
         QVector3D end;
         renderer()->mouseIntersection(&end, v_Y, 0.0f, m_lastMouseEvent->pos());
-        //        QVector3D start = m_disc->getDisc_Coordinates();
-        //        qDebug() << "start: " << start << "end: " << end;
-        //        float x_diff = start.x() - end.x();
-        //        float z_diff = start.z() - end.z();
-        //        float end_x = end.x();
-        //        float end_z = end.z();
-        //        if (end_x > 6.0f || end_x < -6.0f || end_z > 9.0f || end_z < -9.0f){
-        //            qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
-        //        } else {
-        //            // oben-rechts
-        //            if (x_diff < -1.5f && z_diff > 1.5f) {
-        //                m_disc->move(QVector3D(+3.0f, 0.0f, -3.0f));
-        //                m_disc->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, -3.0f));
-        //                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
-        //            }
-        //            // oben-links
-        //            if (x_diff > 1.5f && z_diff > 1.5f) {
-        //                m_disc->move(QVector3D(-3.0f, 0.0f, -3.0f));
-        //                m_disc->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, -3.0f));
-        //                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
-        //            }
-        //            // unten-links
-        //            if (x_diff > 1.5f && z_diff < -1.5f) {
-        //                m_disc->move(QVector3D(-3.0f, 0.0f, +3.0f));
-        //                m_disc->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, +3.0f));
-        //                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
-        //            }
-        //            // unten-rechts
-        //            if (x_diff < -1.5f && z_diff < -1.5f) {
-        //                m_disc->move(QVector3D(+3.0f, 0.0f, +3.0f));
-        //                m_disc->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, +3.0f));
-        //                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
-        //            }
-        //            // oben
-        //            if (x_diff < 1.5f && x_diff > -1.5f && z_diff > 1.5f) {
-        //                m_disc->move(QVector3D(0.0f, 0.0f, -3.0f));
-        //                m_disc->setDisc_Coordinates(start + QVector3D(0.0f, 0.0f, -3.0f));
-        //                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
-        //            }
-        //            // unten
-        //            if (x_diff < 1.5f && x_diff > -1.5f && z_diff < -1.5f) {
-        //                m_disc->move(QVector3D(0.0f, 0.0f, +3.0f));
-        //                m_disc->setDisc_Coordinates(start + QVector3D(0.0f, 0.0f, +3.0f));
-        //                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
-        //            }
-        //            // links
-        //            if (x_diff > 1.5f && z_diff > -1.5f && z_diff < 1.5f) {
-        //                m_disc->move(QVector3D(-3.0f, 0.0f, 0.0f));
-        //                m_disc->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, 0.0f));
-        //                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
-        //            }
-        //            // rechts
-        //            if (x_diff < -1.5f && z_diff > -1.5f && z_diff < 1.5f) {
-        //                m_disc->move(QVector3D(+3.0f, 0.0f, 0.0f));
-        //                m_disc->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, 0.0f));
-        //                qDebug() << "new Disc_Coordinates: " << m_disc->getDisc_Coordinates();
-        //            }
-        //        }
         qDebug() << "Kampf Überprüfung";
         if (kampf(m_disc, end, m_lastMouseEvent->pos())){
             qDebug() << "YES!!!";
@@ -1015,7 +600,6 @@ void MyGLItem::setupBuffers()
     //setup vertexbuffer
     m_vertexBuffer = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     if(!m_vertexBuffer->create()){
-        qDebug() <<"Vertex Buffer create failed";
         exit(1);
     }
     m_vertexBuffer->bind();
@@ -1026,7 +610,6 @@ void MyGLItem::setupBuffers()
     //setup indexbuffer
     m_indexBuffer = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
     if(!m_indexBuffer->create()){
-        qDebug() <<"Index Buffer create failed";
         exit(1);
     }
     m_indexBuffer->bind();
@@ -1050,9 +633,6 @@ void MyGLItem::wheelEvent(QWheelEvent * e)
         temp /= 1.1f;
         m_eye = m_center + temp;
     }
-    //    if (window()) {
-    //       window()->update();
-    ////    }
     update();
 }
 
@@ -1093,7 +673,6 @@ void MyGLItem::drawCube()
 {
     if(m_lastAxesPoint - m_firstAxesPoint == 0) //We have no axes
     {
-        qDebug() << "GLItem::drawAxes(): No axes data available.";
         return;
     }
 
@@ -1134,7 +713,6 @@ void MyGLItem::drawF()
 {
     if(m_lastAxesPoint - m_firstAxesPoint == 0) //We have no axes
     {
-        qDebug() << "GLItem::drawAxes(): No axes data available.";
         return;
     }
 
