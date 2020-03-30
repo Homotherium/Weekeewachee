@@ -50,9 +50,6 @@ class MyGLItem : public GLItem
     void createNormals();
     void createNormalsF();
     void drawCube();
-    void createF(float height);
-    void drawF();
-    void drawF2(float height);
 
     void jumpUp();
     void jumpDown();

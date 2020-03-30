@@ -695,67 +695,6 @@ void MyGLItem::drawCube()
     m_renderer->setLightingEnabled(m_lightingEnabled);
 }
 
-void MyGLItem::createF(float height)
-{
-    float length = height/5;
-
-    m_firstFPoint = m_points.size();
-    createCube(QVector3D(0,0,0),QVector3D(length,height,length));
-    createCube(QVector3D(0,2*length,0),QVector3D(2*length,3*length,length));
-    createCube(QVector3D(0,4*length,0),QVector3D(3*length,height,length));
-    m_lastFPoint = m_points.size() -1;
-    createNormals();
-}
-
-
-
-void MyGLItem::drawF()
-{
-    if(m_lastAxesPoint - m_firstAxesPoint == 0) //We have no axes
-    {
-        return;
-    }
-
-    m_renderer->setColorArrayEnabled(true);
-    m_renderer->setLightingEnabled(false);
-
-
-    m_vertexBuffer->bind();
-    //setup renderer
-    m_renderer->activateAttributeBuffer(GLESRenderer::VERTEX_LOCATION);
-    m_renderer->activateAttributeBuffer(GLESRenderer::COLOR_LOCATION);
-    //draw
-    // for(int i  = m_firstFPoint; i < m_lastFPoint; i += 3)
-    glDrawArrays(GL_TRIANGLES,m_firstFPoint,m_lastFPoint - m_firstFPoint +1);
-    //draw Normals
-    glDrawArrays(GL_LINES,m_firstNormalPoint, m_lastNormalPoint - m_firstNormalPoint +1);
-    //cleanup
-    m_renderer->disableAttributeArrays();
-    m_vertexBuffer->release();
-
-    m_renderer->setColorArrayEnabled(m_colorArrayEnabled);
-    m_renderer->setLightingEnabled(m_lightingEnabled);
-}
-
-void MyGLItem::drawF2(float height)
-{
-    renderer()->pushMvMatrix();
-    renderer()->scale(QVector3D(1.0f, height, 1.0f));
-    drawCube();
-    renderer()->popMvMatrix();
-
-    renderer()->pushMvMatrix();
-    renderer()->translate(QVector3D(1.0f, 2.0f, 0.0f));
-    drawCube();
-    renderer()->popMvMatrix();
-
-    renderer()->pushMvMatrix();
-    renderer()->translate(QVector3D(1.0f, 4.0f, 0.0f));
-    renderer()->scale(QVector3D(2.0f, 1.0f, 1.0f));
-    drawCube();
-    renderer()->popMvMatrix();
-}
-
 bool MyGLItem::getIsMoveCorrect() const
 {
     return isMoveCorrect;
