@@ -68,6 +68,9 @@ class MyGLItem : public GLItem
     bool m_mouseEventProcessed;
     bool m_mouseRaySet;
 
+    bool player;
+    bool isMoveCorrect;
+
 private:
     GLMouseRay * m_mouseRay;
 
@@ -81,6 +84,13 @@ public:
     bool kampf(GLDisc * disk, QVector3D stein, QPoint hit_coordinaten);
     void moveDisk(GLDisc * disk, QVector3D start, QVector3D end);
     void move_away(GLDisc * disk);
+    void changePlayer(bool player);
+
+    bool getPlayer() const;
+    void setPlayer(bool value);
+
+    bool getIsMoveCorrect() const;
+    void setIsMoveCorrect(bool value);
 
 public slots:
     void mousePressed(int x, int y, int button);

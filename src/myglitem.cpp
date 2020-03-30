@@ -58,6 +58,8 @@ MyGLItem::MyGLItem() : GLItem()
 
 
     m_field = new GLField();
+    setPlayer(true);
+    setIsMoveCorrect(true);
 
 
 }
@@ -224,20 +226,14 @@ void MyGLItem::setupGeometry()
 
 bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinaten)
 {
+    if (!isMoveCorrect){
+        return false;
+    }
+
     qDebug() << hit_coordinaten;
     QList<GLDisc*> f_disks_list;
     QList<GLDisc*> e_disks_list;
     bool figth = false;
-
-    // Print Black List
-    for (int b = 0; b < m_blackdisks_list.size(); b++) {
-        qDebug() << m_blackdisks_list[b]->getDisc_Name() << m_blackdisks_list[b]->getDisc_Color() << m_blackdisks_list[b]->getDisc_Coordinates();
-    }
-    // Print White List
-    for (int w = 0; w < m_whitedisks_list.size(); w++) {
-        qDebug() << m_whitedisks_list[w]->getDisc_Name() << m_whitedisks_list[w]->getDisc_Color() << m_whitedisks_list[w]->getDisc_Coordinates();
-    }
-
 
     // Gleiche Farbe
     if (disk->getDisc_Color() == "black"){
@@ -373,13 +369,12 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
             }
         }
     }
-
     // Bewegen
     if (!figth){
         qDebug() << "Move";
         moveDisk(disk, disk->getDisc_Coordinates(), kampf_punkt);
     }
-
+    changePlayer(player);
     // Liste aktualisieren
     if (figth) {
         if (disk->getDisc_Color() == "black"){
@@ -397,6 +392,14 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
         if (m_blackdisks_list.isEmpty()){
             qDebug() << "White Player wins!";
         }
+    }
+    // Print Black List
+    for (int b = 0; b < m_blackdisks_list.size(); b++) {
+        qDebug() << m_blackdisks_list[b]->getDisc_Name() << m_blackdisks_list[b]->getDisc_Color() << m_blackdisks_list[b]->getDisc_Coordinates();
+    }
+    // Print White List
+    for (int w = 0; w < m_whitedisks_list.size(); w++) {
+        qDebug() << m_whitedisks_list[w]->getDisc_Name() << m_whitedisks_list[w]->getDisc_Color() << m_whitedisks_list[w]->getDisc_Coordinates();
     }
     return true;
 }
@@ -467,6 +470,11 @@ void MyGLItem::move_away(GLDisc *disk)
     disk->move(QVector3D(+15.0f, 0.0f, +15.0f));
     disk->setDisc_Coordinates(disk->getDisc_Coordinates() + QVector3D(+15.0f, 0.0f, +15.0f));
     qDebug() << "Disk " << disk->getDisc_Color() << " " << disk->getDisc_Name() << " ist gelöscht";
+}
+
+void MyGLItem::changePlayer(bool player)
+{
+    setPlayer(!player);
 }
 
 void MyGLItem::mouseReleased(int x, int y, int button)
@@ -749,6 +757,23 @@ void MyGLItem::mousePressed(int x, int y, int button)
 
     if(window())
         window()->update();
+
+    QList<GLDisc*> disks_list;
+    if (player){
+        disks_list = m_blackdisks_list;
+    } else {
+        disks_list = m_whitedisks_list;
+    }
+
+    setIsMoveCorrect(true);
+    for (int d = 0; d < disks_list.size(); d++) {
+        if(disks_list[d]->isHit(QPoint(x,y),renderer())){
+            qDebug() << "Spieler darf diese Fabre nicht bewegen!!!!!!!!!!!";
+            setIsMoveCorrect(false);
+        }
+    }
+
+
 
 
 
@@ -1151,4 +1176,24 @@ void MyGLItem::drawF2(float height)
     renderer()->scale(QVector3D(2.0f, 1.0f, 1.0f));
     drawCube();
     renderer()->popMvMatrix();
+}
+
+bool MyGLItem::getIsMoveCorrect() const
+{
+    return isMoveCorrect;
+}
+
+void MyGLItem::setIsMoveCorrect(bool value)
+{
+    isMoveCorrect = value;
+}
+
+bool MyGLItem::getPlayer() const
+{
+    return player;
+}
+
+void MyGLItem::setPlayer(bool value)
+{
+    player = value;
 }
