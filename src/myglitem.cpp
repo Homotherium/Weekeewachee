@@ -360,6 +360,7 @@ void MyGLItem::moveDisk(GLDisc * disk, QVector3D start, QVector3D end)
     float end_z = end.z();
     if (end_x > 6.0f || end_x < -6.0f || end_z > 9.0f || end_z < -9.0f){
         qDebug() << "Out of Range, new disc_Coordinates: " << disk->getDisc_Coordinates();
+        setPlayer(!player);
     } else {
         // oben-rechts
         if (x_diff < -1.5f && z_diff > 1.5f) {
@@ -455,8 +456,6 @@ void MyGLItem::mouseMoved(int x, int y, int button)
 
     if(window())
         window()->update();
-
-
 
     QVector3D movePos;
     renderer()->mouseIntersection(&movePos, v_Y, 0.0f, m_lastMouseEvent->pos());
@@ -591,9 +590,6 @@ void MyGLItem::doSynchronizeThreads()
     }
 
 }
-
-
-
 
 void MyGLItem::setupBuffers()
 {
