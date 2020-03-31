@@ -47,6 +47,16 @@ MyGLItem::MyGLItem() : GLItem()
     m_blackdisks_list.append(m_disc_black_papier);
     m_blackdisks_list.append(m_disc_black_brunnen);
 
+    m_blackPos.append(QVector3D(-1.5f, 0.0f, -7.5f));
+    m_blackPos.append(QVector3D(1.5f, 0.0f, -7.5f));
+    m_blackPos.append(QVector3D(4.5f, 0.0f, -7.5f));
+    m_blackPos.append(QVector3D(-4.5f, 0.0f, -7.5f));
+
+    m_whitePos.append(QVector3D(-4.5f, 0.0f, 7.5f));
+    m_whitePos.append(QVector3D(-1.5f, 0.0f, 7.5f));
+    m_whitePos.append(QVector3D(1.5f, 0.0f, 7.5f));
+    m_whitePos.append(QVector3D(4.5f, 0.0f, 7.5f));
+
     m_disc = new GLDisc("My disc",QVector3D(0.0, 0.0,0.0));
     m_disc_other = new GLDisc("My disc Other",QVector3D(0, 0.0, 0));
 
@@ -171,7 +181,6 @@ void MyGLItem::setupGeometry()
     m_disc_white_papier->setDisc_Coordinates(QVector3D(-1.5f, 0.0f, 7.5f));
     m_disc_white_stein->setDisc_Coordinates(QVector3D(1.5f, 0.0f, 7.5f));
     m_disc_white_schere->setDisc_Coordinates(QVector3D(4.5f, 0.0f, 7.5f));
-
 }
 
 bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinaten)
@@ -334,7 +343,6 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
             m_whitedisks_list = f_disks_list;
         }
     }
-    gameOverTest();
     // Print Black List
     for (int b = 0; b < m_blackdisks_list.size(); b++) {
         qDebug() << m_blackdisks_list[b]->getDisc_Name() << m_blackdisks_list[b]->getDisc_Color() << m_blackdisks_list[b]->getDisc_Coordinates();
@@ -536,8 +544,8 @@ void MyGLItem::doSynchronizeThreads()
         QVector3D end;
         renderer()->mouseIntersection(&end, v_Y, 0.0f, m_lastMouseEvent->pos());
         qDebug() << "Kampf Überprüfung";
-        if (kampf(m_disc, end, m_lastMouseEvent->pos())){
-            qDebug() << "YES!!!";
+        kampf(m_disc, end, m_lastMouseEvent->pos());
+        if (!gameOverTest()){
             rotateBoard();
         }
         m_totalAnimationSteps = 50;
@@ -697,19 +705,39 @@ void MyGLItem::setIsMoveCorrect(bool value)
     isMoveCorrect = value;
 }
 
-void MyGLItem::gameOverTest()
+bool MyGLItem::gameOverTest()
 {
+    for (int b = 0; b < m_blackdisks_list.size(); b++) {
+        for (int i = 0; i < 4; i++) {
+            if (m_blackdisks_list[b]->getDisc_Coordinates() == m_whitePos[i]){
+                qDebug() << "Black Player wins!";
+                return true;
+            }
+        }
+    }
+    for (int w = 0; w < m_whitedisks_list.size(); w++) {
+        for (int j = 0; j < 4; j++) {
+            if (m_whitedisks_list[w]->getDisc_Coordinates() == m_blackPos[j]){
+                qDebug() << "White Player wins!";
+                return true;
+            }
+        }
+    }
     if (m_whitedisks_list.isEmpty()){
         qDebug() << "Black Player wins!";
+        return true;
     }
     if (m_blackdisks_list.isEmpty()){
         qDebug() << "White Player wins!";
+        return true;
     }
     if (m_whitedisks_list.size() == 1 && m_blackdisks_list.size() == 1){
         if(m_whitedisks_list[0]->getDisc_Name() == m_blackdisks_list[0]->getDisc_Name()){
             qDebug() << "Spiel ist unentschieden beendet!";
+            return true;
         }
     }
+    return false;
 }
 
 void MyGLItem::rotateBoard()

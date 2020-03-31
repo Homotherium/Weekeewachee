@@ -41,6 +41,8 @@ class MyGLItem : public GLItem
 
     QList<GLDisc*> m_whitedisks_list;
     QList<GLDisc*> m_blackdisks_list;
+    QList<QVector3D> m_blackPos;
+    QList<QVector3D> m_whitePos;
 
     GLField *m_field;
 
@@ -89,7 +91,7 @@ public:
     bool getIsMoveCorrect() const;
     void setIsMoveCorrect(bool value);
 
-    void gameOverTest();
+    bool gameOverTest();
     void rotateBoard();
 
 public slots:
