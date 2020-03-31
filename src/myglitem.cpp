@@ -543,7 +543,7 @@ void MyGLItem::doSynchronizeThreads()
         qDebug() << "Kampf Überprüfung";
         if (kampf(m_disc, end, m_lastMouseEvent->pos())){
             qDebug() << "YES!!!";
-            rorateBoard();
+            rotateBoard();
         }
         m_totalAnimationSteps = 50;
         m_animationActive = true;
@@ -702,7 +702,7 @@ void MyGLItem::setIsMoveCorrect(bool value)
     isMoveCorrect = value;
 }
 
-void MyGLItem::rorateBoard()
+void MyGLItem::rotateBoard()
 {
     qDebug() << "Seiten wechseln";
     m_eye = m_eye * QVector3D(1.0f, 1.0f, -1.0f);
