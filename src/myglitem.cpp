@@ -539,7 +539,6 @@ void MyGLItem::doSynchronizeThreads()
 
     //mouse release
     if(m_lastMouseEvent && (m_lastMouseEvent->type() == QMouseEvent::MouseButtonRelease) && !m_lastMouseEvent->isAccepted()){
-        m_disc->setSelected(false);
         m_disc->jumpDown();
         QVector3D end;
         renderer()->mouseIntersection(&end, v_Y, 0.0f, m_lastMouseEvent->pos());
@@ -548,6 +547,7 @@ void MyGLItem::doSynchronizeThreads()
         if (!gameOverTest()){
             rotateBoard();
         }
+        m_disc->setSelected(false);
         m_totalAnimationSteps = 50;
         m_animationActive = true;
         m_lastMouseEvent->setAccepted(true);

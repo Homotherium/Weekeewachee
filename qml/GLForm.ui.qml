@@ -7,8 +7,6 @@ Item {
     width: 600
     height: 400
     property alias mouseArea: mouseArea
-    property alias buttonRight: buttonRight
-    property alias buttonLeft: buttonLeft
     property alias myGLItem: myGLItem
     property alias viewportX: myGLItem.viewportX
     property alias viewportY: myGLItem.viewportY
@@ -30,16 +28,6 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 3
-
-            Button {
-                id: buttonLeft
-                text: qsTr("Rotate left")
-            }
-
-            Button {
-                id: buttonRight
-                text: qsTr("Rotate right")
-            }
         }
 
     }
