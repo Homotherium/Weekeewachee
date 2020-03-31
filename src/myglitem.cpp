@@ -204,7 +204,6 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
         f_disks_list = m_blackdisks_list;
         e_disks_list = m_whitedisks_list;
     } else {
-        qDebug() << "Gleiche Farbe white";
         for (int i = 0; i < m_whitedisks_list.size(); i++) {
             if(m_whitedisks_list[i]->isHit(hit_coordinaten, renderer()))
             {
@@ -344,13 +343,13 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
         }
     }
     // Print Black List
-    for (int b = 0; b < m_blackdisks_list.size(); b++) {
-        qDebug() << m_blackdisks_list[b]->getDisc_Name() << m_blackdisks_list[b]->getDisc_Color() << m_blackdisks_list[b]->getDisc_Coordinates();
-    }
+//    for (int b = 0; b < m_blackdisks_list.size(); b++) {
+//        qDebug() << m_blackdisks_list[b]->getDisc_Name() << m_blackdisks_list[b]->getDisc_Color() << m_blackdisks_list[b]->getDisc_Coordinates();
+//    }
     // Print White List
-    for (int w = 0; w < m_whitedisks_list.size(); w++) {
-        qDebug() << m_whitedisks_list[w]->getDisc_Name() << m_whitedisks_list[w]->getDisc_Color() << m_whitedisks_list[w]->getDisc_Coordinates();
-    }
+//    for (int w = 0; w < m_whitedisks_list.size(); w++) {
+//        qDebug() << m_whitedisks_list[w]->getDisc_Name() << m_whitedisks_list[w]->getDisc_Color() << m_whitedisks_list[w]->getDisc_Coordinates();
+//    }
     return true;
 }
 
@@ -525,7 +524,6 @@ void MyGLItem::doSynchronizeThreads()
     GLItem::doSynchronizeThreads();
     setupRenderer();
 
-
     //Mouse pressed
     if(m_lastMouseEvent && (m_lastMouseEvent->type() == QMouseEvent::MouseButtonPress) && !m_lastMouseEvent->isAccepted()){
         m_lastMouseEvent->setAccepted(true);
@@ -551,7 +549,7 @@ void MyGLItem::doSynchronizeThreads()
         renderer()->mouseIntersection(&end, v_Y, 0.0f, m_lastMouseEvent->pos());
         qDebug() << "Kampf Überprüfung";
         kampf(m_disc, end, m_lastMouseEvent->pos());
-
+        qDebug() << "";
         m_totalAnimationSteps = 50;
         m_animationActive = true;
         m_lastMouseEvent->setAccepted(true);
