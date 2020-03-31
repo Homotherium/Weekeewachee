@@ -418,8 +418,8 @@ void MyGLItem::moveDisk(GLDisc * disk, QVector3D start, QVector3D end)
 
 void MyGLItem::move_away(GLDisc *disk)
 {
-    disk->move(QVector3D(+15.0f, 0.0f, +15.0f));
-    disk->setDisc_Coordinates(disk->getDisc_Coordinates() + QVector3D(+15.0f, 0.0f, +15.0f));
+    disk->move(QVector3D(+100.0f, 0.0f, +100.0f));
+    disk->setDisc_Coordinates(disk->getDisc_Coordinates() + QVector3D(+100.0f, 0.0f, +100.0f));
     qDebug() << "Disk " << disk->getDisc_Color() << " " << disk->getDisc_Name() << " ist gelöscht";
 }
 
@@ -546,6 +546,8 @@ void MyGLItem::doSynchronizeThreads()
         kampf(m_disc, end, m_lastMouseEvent->pos());
         if (!gameOverTest()){
             rotateBoard();
+        }  else {
+            setupGeometry();
         }
         m_disc->setSelected(false);
         m_totalAnimationSteps = 50;
