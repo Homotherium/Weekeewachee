@@ -89,6 +89,7 @@ public:
     bool getIsMoveCorrect() const;
     void setIsMoveCorrect(bool value);
 
+    void gameOverTest();
     void rotateBoard();
 
 public slots:
