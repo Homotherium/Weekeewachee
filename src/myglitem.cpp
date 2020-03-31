@@ -413,6 +413,12 @@ void MyGLItem::moveDisk(GLDisc * disk, QVector3D start, QVector3D end)
             disk->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, 0.0f));
             qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
         }
+        // Board umdrehen
+        if (!gameOverTest()){
+            rotateBoard();
+        }  else {
+            setupGeometry();
+        }
     }
 }
 
@@ -540,16 +546,12 @@ void MyGLItem::doSynchronizeThreads()
     //mouse release
     if(m_lastMouseEvent && (m_lastMouseEvent->type() == QMouseEvent::MouseButtonRelease) && !m_lastMouseEvent->isAccepted()){
         m_disc->jumpDown();
+        m_disc->setSelected(false);
         QVector3D end;
         renderer()->mouseIntersection(&end, v_Y, 0.0f, m_lastMouseEvent->pos());
         qDebug() << "Kampf Überprüfung";
         kampf(m_disc, end, m_lastMouseEvent->pos());
-        if (!gameOverTest()){
-            rotateBoard();
-        }  else {
-            setupGeometry();
-        }
-        m_disc->setSelected(false);
+
         m_totalAnimationSteps = 50;
         m_animationActive = true;
         m_lastMouseEvent->setAccepted(true);
