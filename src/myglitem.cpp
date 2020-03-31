@@ -747,7 +747,7 @@ bool MyGLItem::gameOverTest()
 void MyGLItem::rotateBoard()
 {
     qDebug() << "Seiten wechseln";
-    if (player){
+    if (!player){
         qDebug() << "White Player turn";
     } else {
         qDebug() << "Black Player turn";
