@@ -543,6 +543,7 @@ void MyGLItem::doSynchronizeThreads()
         qDebug() << "Kampf Überprüfung";
         if (kampf(m_disc, end, m_lastMouseEvent->pos())){
             qDebug() << "YES!!!";
+            rorateBoard();
         }
         m_totalAnimationSteps = 50;
         m_animationActive = true;
@@ -699,6 +700,13 @@ bool MyGLItem::getIsMoveCorrect() const
 void MyGLItem::setIsMoveCorrect(bool value)
 {
     isMoveCorrect = value;
+}
+
+void MyGLItem::rorateBoard()
+{
+    qDebug() << "Seiten wechseln";
+    m_eye = m_eye * QVector3D(1.0f, 1.0f, -1.0f);
+    update();
 }
 
 bool MyGLItem::getPlayer() const

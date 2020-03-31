@@ -89,6 +89,8 @@ public:
     bool getIsMoveCorrect() const;
     void setIsMoveCorrect(bool value);
 
+    void rorateBoard();
+
 public slots:
     void mousePressed(int x, int y, int button);
     void mouseReleased(int x, int y, int button);
