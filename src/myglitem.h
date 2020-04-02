@@ -8,6 +8,7 @@
 #include "gldisc.h"
 #include "glfield.h"
 #include "glmouseray.h"
+#include "music.h"
 
 class MyGLItem : public GLItem
 {
@@ -69,6 +70,7 @@ class MyGLItem : public GLItem
 
     bool player;
     bool isMoveCorrect;
+    music * m_sounds;
 
 private:
     GLMouseRay * m_mouseRay;

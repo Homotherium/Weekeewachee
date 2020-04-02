@@ -63,6 +63,8 @@ MyGLItem::MyGLItem() : GLItem()
     m_field = new GLField();
     setPlayer(true);
     setIsMoveCorrect(true);
+    m_sounds = new music(this);
+    m_sounds->setEnabled(true);
 }
 
 void MyGLItem::paintUnderQmlScene()
@@ -412,6 +414,7 @@ void MyGLItem::moveDisk(GLDisc * disk, QVector3D start, QVector3D end)
             disk->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, 0.0f));
             qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
         }
+        m_sounds->playSound(":/music/Link.wav");
         // Board umdrehen
         if (!gameOverTest()){
             rotateBoard();

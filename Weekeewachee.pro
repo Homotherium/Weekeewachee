@@ -1,4 +1,4 @@
-QT += quick
+QT += quick multimedia
 
 CONFIG += c++11 sdk_no_version_check
 
@@ -15,6 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += src/main.cpp \
     src/glsphere.cpp \
+    src/music.cpp \
     src/myglitem.cpp \
     src/glbody.cpp \
     src/glbodygroup.cpp \
@@ -31,6 +32,7 @@ SOURCES += src/main.cpp \
 
 RESOURCES += \
     models.qrc \
+    music.qrc \
     qml.qrc \
     shaders.qrc \
     textures.qrc \
@@ -55,6 +57,7 @@ DISTFILES +=
 
 HEADERS += \
     src/glsphere.h \
+    src/music.h \
     src/myglitem.h \
     src/glbody.h \
     src/glbodygroup.h \
