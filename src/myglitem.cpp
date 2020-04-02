@@ -771,6 +771,7 @@ void MyGLItem::turnEnd()
         rotateBoard();
     }  else {
         setupGeometry();
+        update();
     }
 }
 

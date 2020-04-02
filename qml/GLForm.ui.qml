@@ -11,7 +11,6 @@ Item {
     property alias myGLItem: myGLItem
     property alias viewportX: myGLItem.viewportX
     property alias viewportY: myGLItem.viewportY
-    property alias label: label
 
     MyGLItem {
         id: myGLItem
@@ -60,9 +59,3 @@ Item {
 
     }
 }
-
-/*##^##
-Designer {
-    D{i:4;anchors_y:0}
-}
-##^##*/
