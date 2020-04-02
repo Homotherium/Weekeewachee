@@ -247,6 +247,7 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
                 move_away(disk);
                 f_disks_list.removeAt(0);
                 figth = true;
+                turnEnd();
                 break;
             }
             if(disk->getDisc_Name() == "stein" && e_disks_list[i]->getDisc_Name() == "brunnen"){
@@ -254,6 +255,7 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
                 move_away(disk);
                 f_disks_list.removeAt(0);
                 figth = true;
+                turnEnd();
                 break;
             }
             if(disk->getDisc_Name() == "schere" && e_disks_list[i]->getDisc_Name() == "stein"){
@@ -261,6 +263,7 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
                 move_away(disk);
                 f_disks_list.removeAt(1);
                 figth = true;
+                turnEnd();
                 break;
             }
             if(disk->getDisc_Name() == "schere" && e_disks_list[i]->getDisc_Name() == "papier"){
@@ -276,6 +279,7 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
                 move_away(disk);
                 f_disks_list.removeAt(1);
                 figth = true;
+                turnEnd();
                 break;
             }
             if(disk->getDisc_Name() == "papier" && e_disks_list[i]->getDisc_Name() == "stein"){
@@ -291,6 +295,7 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
                 move_away(disk);
                 f_disks_list.removeAt(2);
                 figth = true;
+                turnEnd();
                 break;
             }
             if(disk->getDisc_Name() == "papier" && e_disks_list[i]->getDisc_Name() == "brunnen"){
@@ -322,6 +327,7 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
                 move_away(disk);
                 f_disks_list.removeAt(3);
                 figth = true;
+                turnEnd();
                 break;
             }
         }
@@ -415,12 +421,7 @@ void MyGLItem::moveDisk(GLDisc * disk, QVector3D start, QVector3D end)
             qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
         }
         m_sounds->playSound(":/music/Link.wav");
-        // Board umdrehen
-        if (!gameOverTest()){
-            rotateBoard();
-        }  else {
-            setupGeometry();
-        }
+        turnEnd();
     }
 }
 
@@ -749,12 +750,28 @@ void MyGLItem::rotateBoard()
 {
     qDebug() << "Seiten wechseln";
     if (!player){
+        emit textChanged("White Player turn");
+        emit textColorChanged("white");
+        emit textBackgroundColorChanged("black");
         qDebug() << "White Player turn";
     } else {
+        emit textChanged("Black Player turn");
+        emit textColorChanged("black");
+        emit textBackgroundColorChanged("white");
         qDebug() << "Black Player turn";
     }
     m_eye = m_eye * QVector3D(1.0f, 1.0f, -1.0f);
     update();
+}
+
+void MyGLItem::turnEnd()
+{
+    // Board umdrehen
+    if (!gameOverTest()){
+        rotateBoard();
+    }  else {
+        setupGeometry();
+    }
 }
 
 bool MyGLItem::getPlayer() const

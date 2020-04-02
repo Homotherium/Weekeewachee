@@ -95,6 +95,12 @@ public:
 
     bool gameOverTest();
     void rotateBoard();
+    void turnEnd();
+
+signals:
+    void textChanged(const QString & text);
+    void textColorChanged(const QString & color);
+    void textBackgroundColorChanged(const QString & color);
 
 public slots:
     void mousePressed(int x, int y, int button);
