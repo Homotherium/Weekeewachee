@@ -4,6 +4,7 @@
 #include "src/glmouseray.h"
 #include <QVector3D>
 #include "QThread"
+#include <math.h>
 
 //MyGLItem::MyGLItem(QQuickItem *parent) : GLItem(parent)
 MyGLItem::MyGLItem() : GLItem()
