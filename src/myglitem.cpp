@@ -777,6 +777,15 @@ void MyGLItem::turnEnd()
         emit textColorChanged("black");
         emit textBackgroundColorChanged("yellow");
         setupGeometry();
+        m_whitedisks_list.append(m_disc_white_stein);
+        m_whitedisks_list.append(m_disc_white_schere);
+        m_whitedisks_list.append(m_disc_white_papier);
+        m_whitedisks_list.append(m_disc_white_brunnen);
+
+        m_blackdisks_list.append(m_disc_black_stein);
+        m_blackdisks_list.append(m_disc_black_schere);
+        m_blackdisks_list.append(m_disc_black_papier);
+        m_blackdisks_list.append(m_disc_black_brunnen);
         update();
     }
 }
