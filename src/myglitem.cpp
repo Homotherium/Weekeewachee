@@ -717,8 +717,17 @@ bool MyGLItem::discsDistance(QVector3D disc1, QVector3D disc2)
 {
     QVector3D distanceVector = QVector3D(disc1.x()-disc2.x(), 0.0f, disc1.z()-disc2.z());
     float distance = sqrt(distanceVector.x()*distanceVector.x() + distanceVector.z()*distanceVector.z());
-    if (distance > 6.05f){
-        return false;
+    if (abs(disc1.x()-disc2.x())<1.5f || abs(disc1.z()-disc2.z())<1.5f )
+    {
+        qDebug() << "Gerade gelaufen";
+        if(distance >4.5f)
+            return false;
+    }
+    else
+    {
+        if (distance > 6.05f){
+            return false;
+        }
     }
     return true;
 }
