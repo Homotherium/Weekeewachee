@@ -247,7 +247,6 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
                 move_away(disk);
                 f_disks_list.removeAt(0);
                 figth = true;
-                turnEnd();
                 break;
             }
             if(disk->getDisc_Name() == "stein" && e_disks_list[i]->getDisc_Name() == "brunnen"){
@@ -255,7 +254,6 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
                 move_away(disk);
                 f_disks_list.removeAt(0);
                 figth = true;
-                turnEnd();
                 break;
             }
             if(disk->getDisc_Name() == "schere" && e_disks_list[i]->getDisc_Name() == "stein"){
@@ -263,7 +261,6 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
                 move_away(disk);
                 f_disks_list.removeAt(1);
                 figth = true;
-                turnEnd();
                 break;
             }
             if(disk->getDisc_Name() == "schere" && e_disks_list[i]->getDisc_Name() == "papier"){
@@ -279,7 +276,6 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
                 move_away(disk);
                 f_disks_list.removeAt(1);
                 figth = true;
-                turnEnd();
                 break;
             }
             if(disk->getDisc_Name() == "papier" && e_disks_list[i]->getDisc_Name() == "stein"){
@@ -295,7 +291,6 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
                 move_away(disk);
                 f_disks_list.removeAt(2);
                 figth = true;
-                turnEnd();
                 break;
             }
             if(disk->getDisc_Name() == "papier" && e_disks_list[i]->getDisc_Name() == "brunnen"){
@@ -327,7 +322,6 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
                 move_away(disk);
                 f_disks_list.removeAt(3);
                 figth = true;
-                turnEnd();
                 break;
             }
         }
@@ -337,7 +331,6 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
         qDebug() << "Move";
         moveDisk(disk, disk->getDisc_Coordinates(), kampf_punkt);
     }
-    changePlayer(player);
     // Liste aktualisieren
     if (figth) {
         if (disk->getDisc_Color() == "black"){
@@ -350,14 +343,15 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
             m_whitedisks_list = f_disks_list;
         }
     }
+    turnEnd();
     // Print Black List
-//    for (int b = 0; b < m_blackdisks_list.size(); b++) {
-//        qDebug() << m_blackdisks_list[b]->getDisc_Name() << m_blackdisks_list[b]->getDisc_Color() << m_blackdisks_list[b]->getDisc_Coordinates();
-//    }
+    //    for (int b = 0; b < m_blackdisks_list.size(); b++) {
+    //        qDebug() << m_blackdisks_list[b]->getDisc_Name() << m_blackdisks_list[b]->getDisc_Color() << m_blackdisks_list[b]->getDisc_Coordinates();
+    //    }
     // Print White List
-//    for (int w = 0; w < m_whitedisks_list.size(); w++) {
-//        qDebug() << m_whitedisks_list[w]->getDisc_Name() << m_whitedisks_list[w]->getDisc_Color() << m_whitedisks_list[w]->getDisc_Coordinates();
-//    }
+    //    for (int w = 0; w < m_whitedisks_list.size(); w++) {
+    //        qDebug() << m_whitedisks_list[w]->getDisc_Name() << m_whitedisks_list[w]->getDisc_Color() << m_whitedisks_list[w]->getDisc_Coordinates();
+    //    }
     return true;
 }
 
@@ -366,63 +360,55 @@ void MyGLItem::moveDisk(GLDisc * disk, QVector3D start, QVector3D end)
     qDebug() << "start: " << start << "end: " << end;
     float x_diff = start.x() - end.x();
     float z_diff = start.z() - end.z();
-    float end_x = end.x();
-    float end_z = end.z();
-    if (end_x > 6.0f || end_x < -6.0f || end_z > 9.0f || end_z < -9.0f){
-        qDebug() << "Out of Range, new disc_Coordinates: " << disk->getDisc_Coordinates();
-        setPlayer(!player);
-    } else {
-        // oben-rechts
-        if (x_diff < -1.5f && z_diff > 1.5f) {
-            disk->move(QVector3D(+3.0f, 0.0f, -3.0f));
-            disk->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, -3.0f));
-            qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
-        }
-        // oben-links
-        if (x_diff > 1.5f && z_diff > 1.5f) {
-            disk->move(QVector3D(-3.0f, 0.0f, -3.0f));
-            disk->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, -3.0f));
-            qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
-        }
-        // unten-links
-        if (x_diff > 1.5f && z_diff < -1.5f) {
-            disk->move(QVector3D(-3.0f, 0.0f, +3.0f));
-            disk->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, +3.0f));
-            qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
-        }
-        // unten-rechts
-        if (x_diff < -1.5f && z_diff < -1.5f) {
-            disk->move(QVector3D(+3.0f, 0.0f, +3.0f));
-            disk->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, +3.0f));
-            qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
-        }
-        // oben
-        if (x_diff < 1.5f && x_diff > -1.5f && z_diff > 1.5f) {
-            disk->move(QVector3D(0.0f, 0.0f, -3.0f));
-            disk->setDisc_Coordinates(start + QVector3D(0.0f, 0.0f, -3.0f));
-            qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
-        }
-        // unten
-        if (x_diff < 1.5f && x_diff > -1.5f && z_diff < -1.5f) {
-            disk->move(QVector3D(0.0f, 0.0f, +3.0f));
-            disk->setDisc_Coordinates(start + QVector3D(0.0f, 0.0f, +3.0f));
-            qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
-        }
-        // links
-        if (x_diff > 1.5f && z_diff > -1.5f && z_diff < 1.5f) {
-            disk->move(QVector3D(-3.0f, 0.0f, 0.0f));
-            disk->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, 0.0f));
-            qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
-        }
-        // rechts
-        if (x_diff < -1.5f && z_diff > -1.5f && z_diff < 1.5f) {
-            disk->move(QVector3D(+3.0f, 0.0f, 0.0f));
-            disk->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, 0.0f));
-            qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
-        }
-        m_sounds->playSound(":/music/Link.wav");
-        turnEnd();
+    // oben-rechts
+    if (x_diff < -1.5f && z_diff > 1.5f) {
+        disk->move(QVector3D(+3.0f, 0.0f, -3.0f));
+        disk->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, -3.0f));
+        qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
     }
+    // oben-links
+    if (x_diff > 1.5f && z_diff > 1.5f) {
+        disk->move(QVector3D(-3.0f, 0.0f, -3.0f));
+        disk->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, -3.0f));
+        qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
+    }
+    // unten-links
+    if (x_diff > 1.5f && z_diff < -1.5f) {
+        disk->move(QVector3D(-3.0f, 0.0f, +3.0f));
+        disk->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, +3.0f));
+        qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
+    }
+    // unten-rechts
+    if (x_diff < -1.5f && z_diff < -1.5f) {
+        disk->move(QVector3D(+3.0f, 0.0f, +3.0f));
+        disk->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, +3.0f));
+        qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
+    }
+    // oben
+    if (x_diff < 1.5f && x_diff > -1.5f && z_diff > 1.5f) {
+        disk->move(QVector3D(0.0f, 0.0f, -3.0f));
+        disk->setDisc_Coordinates(start + QVector3D(0.0f, 0.0f, -3.0f));
+        qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
+    }
+    // unten
+    if (x_diff < 1.5f && x_diff > -1.5f && z_diff < -1.5f) {
+        disk->move(QVector3D(0.0f, 0.0f, +3.0f));
+        disk->setDisc_Coordinates(start + QVector3D(0.0f, 0.0f, +3.0f));
+        qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
+    }
+    // links
+    if (x_diff > 1.5f && z_diff > -1.5f && z_diff < 1.5f) {
+        disk->move(QVector3D(-3.0f, 0.0f, 0.0f));
+        disk->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, 0.0f));
+        qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
+    }
+    // rechts
+    if (x_diff < -1.5f && z_diff > -1.5f && z_diff < 1.5f) {
+        disk->move(QVector3D(+3.0f, 0.0f, 0.0f));
+        disk->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, 0.0f));
+        qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
+    }
+    m_sounds->playSound(":/music/Link.wav");
 }
 
 void MyGLItem::move_away(GLDisc *disk)
@@ -449,6 +435,15 @@ void MyGLItem::mouseReleased(int x, int y, int button)
         window()->update();
 
     m_disc->setSelected(false);
+    // Out of Range Test
+    QVector3D end;
+    renderer()->mouseIntersection(&end, v_Y, 0.0f, m_lastMouseEvent->pos());
+    float end_x = end.x();
+    float end_z = end.z();
+    if (end_x > 6.0f || end_x < -6.0f || end_z > 9.0f || end_z < -9.0f){
+        qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        setIsMoveCorrect(false);
+    }
 
     QVector3D movePos;
     renderer()->mouseIntersection(&movePos, v_Y, 0.0f, m_lastMouseEvent->pos());
@@ -505,6 +500,7 @@ void MyGLItem::mousePressed(int x, int y, int button)
     }
 
     setIsMoveCorrect(true);
+    // Ob Spiler richtige Farbe trifft
     for (int d = 0; d < disks_list.size(); d++) {
         if(disks_list[d]->isHit(QPoint(x,y),renderer())){
             qDebug() << "Spieler darf diese Fabre nicht bewegen!!!!!!!!!!!";
@@ -748,8 +744,9 @@ bool MyGLItem::gameOverTest()
 
 void MyGLItem::rotateBoard()
 {
+    QVector3D factor = QVector3D(1.0f, 1.0f, -1.0f);
     qDebug() << "Seiten wechseln";
-    if (!player){
+    if (player){
         emit textChanged("White Player turn");
         emit textColorChanged("white");
         emit textBackgroundColorChanged("black");
@@ -760,16 +757,19 @@ void MyGLItem::rotateBoard()
         emit textBackgroundColorChanged("white");
         qDebug() << "Black Player turn";
     }
-    m_eye = m_eye * QVector3D(1.0f, 1.0f, -1.0f);
+    m_eye = m_eye * factor;
     update();
 }
 
 void MyGLItem::turnEnd()
 {
-    // Board umdrehen
+    // Spieler wechsel
+    changePlayer(player);
     if (!gameOverTest()){
+        // Board umdrehen
         rotateBoard();
     }  else {
+        // Spiel neustarten
         setupGeometry();
         update();
     }
