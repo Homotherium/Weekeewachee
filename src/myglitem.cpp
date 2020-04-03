@@ -444,7 +444,11 @@ void MyGLItem::mouseReleased(int x, int y, int button)
         qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
         setIsMoveCorrect(false);
     }
-
+    // Distance Test
+    if (!discsDistance(m_disc->getDisc_Coordinates(), end)){
+        qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        setIsMoveCorrect(false);
+    }
     QVector3D movePos;
     renderer()->mouseIntersection(&movePos, v_Y, 0.0f, m_lastMouseEvent->pos());
     QVector3D moveDistance = movePos + m_pressPosToDiscPos;
@@ -705,6 +709,17 @@ bool MyGLItem::getIsMoveCorrect() const
 void MyGLItem::setIsMoveCorrect(bool value)
 {
     isMoveCorrect = value;
+}
+
+bool MyGLItem::discsDistance(QVector3D disc1, QVector3D disc2)
+{
+    QVector3D distanceVector = QVector3D(disc1.x()-disc2.x(), 0.0f, disc1.z()-disc2.z());
+    float distance = sqrt(distanceVector.x()*distanceVector.x() + distanceVector.z()*distanceVector.z());
+    qDebug() << "Abstand: " << distance;
+    if (distance > 6.05f){
+        return false;
+    }
+    return true;
 }
 
 bool MyGLItem::gameOverTest()

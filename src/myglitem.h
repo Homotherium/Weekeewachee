@@ -92,7 +92,7 @@ public:
 
     bool getIsMoveCorrect() const;
     void setIsMoveCorrect(bool value);
-
+    bool discsDistance(QVector3D disc1, QVector3D disc2);
     bool gameOverTest();
     void rotateBoard();
     void turnEnd();
