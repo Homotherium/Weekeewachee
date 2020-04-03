@@ -770,6 +770,12 @@ void MyGLItem::turnEnd()
         rotateBoard();
     }  else {
         // Spiel neustarten
+        setPlayer(true);
+        setIsMoveCorrect(true);
+        m_eye = QVector3D(0.0, 1.0, 1.0)* 17.0;
+        emit textChanged("Let's fight begin!!!!");
+        emit textColorChanged("black");
+        emit textBackgroundColorChanged("yellow");
         setupGeometry();
         update();
     }
