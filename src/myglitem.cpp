@@ -202,6 +202,7 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
             {
                 qDebug() << "Gleiche Farbe: " << disk->getDisc_Name() << " " << disk->getDisc_Color() << " trifft " <<
                             m_blackdisks_list[i]->getDisc_Name() << " " << m_blackdisks_list[i]->getDisc_Color();
+                m_sounds->playSound(":/music/when.wav");
                 return false;
             }
         }
@@ -213,6 +214,7 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
             {
                 qDebug() << "Gleiche Farbe: " << disk->getDisc_Name() << " " << disk->getDisc_Color() << " trifft " <<
                             m_whitedisks_list[i]->getDisc_Name() << " " << m_whitedisks_list[i]->getDisc_Color();
+                m_sounds->playSound(":/music/when.wav");
                 return false;
             }
         }
@@ -227,6 +229,7 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
                         e_disks_list[i]->getDisc_Name();
             if(disk->getDisc_Name() == e_disks_list[i]->getDisc_Name()){
                 qDebug() << "Steine sind gleich";
+                m_sounds->playSound(":/music/when.wav");
                 return false;
             }
         }
@@ -445,11 +448,13 @@ void MyGLItem::mouseReleased(int x, int y, int button)
     float end_z = end.z();
     if (end_x > 6.0f || end_x < -6.0f || end_z > 9.0f || end_z < -9.0f){
         qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        m_sounds->playSound(":/music/when.wav");
         setIsMoveCorrect(false);
     }
     // Distance Test
     if (!discsDistance(m_disc->getDisc_Coordinates(), end)){
         qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        m_sounds->playSound(":/music/when.wav");
         setIsMoveCorrect(false);
     }
     QVector3D movePos;
@@ -476,12 +481,12 @@ void MyGLItem::mouseMoved(int x, int y, int button)
     QVector3D moveDistance = movePos + m_pressPosToDiscPos;
     QMatrix4x4 m;
 
-    //    if(m_disc->getFieldCoord().x() > movePos.x()){
-    //        m.translate(moveDistance);
-    //        //m_disc->setFieldCoord(moveDistance);
-    //        m_disc->setTransformation(m);
-    //        //qDebug() << "Mouse move event Begrenzung erreicht";
-    //    }
+        if(m_disc->getFieldCoord().x() > movePos.x()){
+            //m.translate(moveDistance);
+            //m_disc->setFieldCoord(moveDistance);
+            m_disc->setTransformation(m);
+            //qDebug() << "Mouse move event Begrenzung erreicht";
+        }
 
 
     //qDebug() << " mouse moved" << "x wert: " << x << "y Wert: " << y;

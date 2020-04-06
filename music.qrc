@@ -3,5 +3,6 @@
         <file>music/Blop.wav</file>
         <file>music/clearly.wav</file>
         <file>music/applauses.wav</file>
+        <file>music/when.wav</file>
     </qresource>
 </RCC>
