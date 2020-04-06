@@ -109,11 +109,6 @@ public slots:
 
 protected:
     /**
-    * @brief wheelEvent zoom in/out
-    * @param e
-    */
-    void wheelEvent (QWheelEvent * e) Q_DECL_OVERRIDE;
-    /**
      * @brief doSynchronizeThreads Copy data from GUI-thread to render-thread and vice versa.
      * Virtual function to be overridden by subclasses
      */

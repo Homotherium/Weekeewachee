@@ -632,24 +632,6 @@ void MyGLItem::setupBuffers()
 
 }
 
-void MyGLItem::wheelEvent(QWheelEvent * e)
-{
-    if(e->delta() < 0)
-    {
-        //m_eye.setX(deltaX * 0.1);
-        QVector3D temp = m_eye - m_center;
-        temp *= 1.1f;
-        m_eye = m_center + temp;
-    }
-    else
-    {
-        QVector3D temp = m_eye - m_center;
-        temp /= 1.1f;
-        m_eye = m_center + temp;
-    }
-    update();
-}
-
 void MyGLItem::createNormals()
 {
     m_firstNormalPoint = m_points.size();
