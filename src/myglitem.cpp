@@ -739,6 +739,7 @@ bool MyGLItem::gameOverTest()
         for (int i = 0; i < 4; i++) {
             if (m_blackdisks_list[b]->getDisc_Coordinates() == m_whitePos[i]){
                 qDebug() << "Black Player wins!";
+                m_sounds->playSound(":/music/applauses.wav");
                 return true;
             }
         }
@@ -747,21 +748,25 @@ bool MyGLItem::gameOverTest()
         for (int j = 0; j < 4; j++) {
             if (m_whitedisks_list[w]->getDisc_Coordinates() == m_blackPos[j]){
                 qDebug() << "White Player wins!";
+                m_sounds->playSound(":/music/applauses.wav");
                 return true;
             }
         }
     }
     if (m_whitedisks_list.isEmpty()){
         qDebug() << "Black Player wins!";
+        m_sounds->playSound(":/music/applauses.wav");
         return true;
     }
     if (m_blackdisks_list.isEmpty()){
         qDebug() << "White Player wins!";
+        m_sounds->playSound(":/music/applauses.wav");
         return true;
     }
     if (m_whitedisks_list.size() == 1 && m_blackdisks_list.size() == 1){
         if(m_whitedisks_list[0]->getDisc_Name() == m_blackdisks_list[0]->getDisc_Name()){
             qDebug() << "Spiel ist unentschieden beendet!";
+            m_sounds->playSound(":/music/applauses.wav");
             return true;
         }
     }

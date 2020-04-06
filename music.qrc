@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>music/Blop.wav</file>
         <file>music/clearly.wav</file>
+        <file>music/applauses.wav</file>
     </qresource>
 </RCC>
