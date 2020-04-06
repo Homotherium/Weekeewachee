@@ -131,6 +131,7 @@ void MyGLItem::setupGeometry()
     m_vertexBuffer = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
     if(!m_vertexBuffer->create())
     {
+        qDebug() << "MIST!!!!!!!!";
         exit(1);
     }
 
@@ -793,9 +794,9 @@ void MyGLItem::rotateBoard()
 
 void MyGLItem::turnEnd()
 {
-    // Spieler wechsel
-    changePlayer(player);
     if (!gameOverTest()){
+        // Spieler wechsel
+        changePlayer(player);
         // Board umdrehen
         rotateBoard();
     }  else {
@@ -813,7 +814,9 @@ void MyGLItem::spielNeustarten()
     emit textChanged("Let's fight begin!!!!");
     emit textColorChanged("black");
     emit textBackgroundColorChanged("yellow");
+    qDebug() << "setupGeometry";
     setupGeometry();
+    qDebug() << "Liste";
     m_whitedisks_list.append(m_disc_white_stein);
     m_whitedisks_list.append(m_disc_white_schere);
     m_whitedisks_list.append(m_disc_white_papier);
@@ -823,7 +826,9 @@ void MyGLItem::spielNeustarten()
     m_blackdisks_list.append(m_disc_black_schere);
     m_blackdisks_list.append(m_disc_black_papier);
     m_blackdisks_list.append(m_disc_black_brunnen);
+    qDebug() << "Update";
     update();
+    qDebug() << "End";
 }
 
 bool MyGLItem::getPlayer() const
