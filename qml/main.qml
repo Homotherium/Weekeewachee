@@ -15,6 +15,7 @@ ApplicationWindow {
             mouseArea.onPressed: myGLItem.mousePressed(mouse.x, mouse.y, mouse.button)
             mouseArea.onReleased:myGLItem.mouseReleased(mouse.x, mouse.y, mouse.button)
             mouseArea.onPositionChanged:myGLItem.mouseMoved(mouse.x, mouse.y, mouse.button)
+            button.onClicked: myGLItem.spielNeustarten()
         }
     }
 }

@@ -476,22 +476,21 @@ void MyGLItem::mouseMoved(int x, int y, int button)
     if(window())
         window()->update();
 
-    QVector3D movePos;
-    renderer()->mouseIntersection(&movePos, v_Y, 0.0f, m_lastMouseEvent->pos());
-    QVector3D moveDistance = movePos + m_pressPosToDiscPos;
-    QMatrix4x4 m;
+//    QVector3D movePos;
+//    renderer()->mouseIntersection(&movePos, v_Y, 0.0f, m_lastMouseEvent->pos());
+//    QVector3D moveDistance = movePos + m_pressPosToDiscPos;
+//    QMatrix4x4 m;
 
-        if(m_disc->getFieldCoord().x() > movePos.x()){
-            //m.translate(moveDistance);
-            //m_disc->setFieldCoord(moveDistance);
-            m_disc->setTransformation(m);
-            //qDebug() << "Mouse move event Begrenzung erreicht";
-        }
+//        if(m_disc->getFieldCoord().x() > movePos.x()){
+//            //m.translate(moveDistance);
+//            //m_disc->setFieldCoord(moveDistance);
+//            m_disc->setTransformation(m);
+//            //qDebug() << "Mouse move event Begrenzung erreicht";
+//        }
 
 
     //qDebug() << " mouse moved" << "x wert: " << x << "y Wert: " << y;
 }
-
 
 void MyGLItem::mousePressed(int x, int y, int button)
 {
@@ -650,11 +649,6 @@ void MyGLItem::wheelEvent(QWheelEvent * e)
     update();
 }
 
-void MyGLItem::createCube(const QVector3D &lbb, const QVector3D &rtf)
-{
-    m_cube = new GLCube("myCube",1.0,GLColorRgba::clWhite);
-}
-
 void MyGLItem::createNormals()
 {
     m_firstNormalPoint = m_points.size();
@@ -805,25 +799,31 @@ void MyGLItem::turnEnd()
         // Board umdrehen
         rotateBoard();
     }  else {
-        // Spiel neustarten
-        setPlayer(true);
-        setIsMoveCorrect(true);
-        m_eye = QVector3D(0.0, 1.0, 1.0)* 17.0;
-        emit textChanged("Let's fight begin!!!!");
-        emit textColorChanged("black");
-        emit textBackgroundColorChanged("yellow");
-        setupGeometry();
-        m_whitedisks_list.append(m_disc_white_stein);
-        m_whitedisks_list.append(m_disc_white_schere);
-        m_whitedisks_list.append(m_disc_white_papier);
-        m_whitedisks_list.append(m_disc_white_brunnen);
-
-        m_blackdisks_list.append(m_disc_black_stein);
-        m_blackdisks_list.append(m_disc_black_schere);
-        m_blackdisks_list.append(m_disc_black_papier);
-        m_blackdisks_list.append(m_disc_black_brunnen);
-        update();
+        spielNeustarten();
     }
+}
+
+void MyGLItem::spielNeustarten()
+{
+    qDebug() << "Spiel neustarten";
+    // Spiel neustarten
+    setPlayer(true);
+    setIsMoveCorrect(true);
+    m_eye = QVector3D(0.0, 1.0, 1.0)* 17.0;
+    emit textChanged("Let's fight begin!!!!");
+    emit textColorChanged("black");
+    emit textBackgroundColorChanged("yellow");
+    setupGeometry();
+    m_whitedisks_list.append(m_disc_white_stein);
+    m_whitedisks_list.append(m_disc_white_schere);
+    m_whitedisks_list.append(m_disc_white_papier);
+    m_whitedisks_list.append(m_disc_white_brunnen);
+
+    m_blackdisks_list.append(m_disc_black_stein);
+    m_blackdisks_list.append(m_disc_black_schere);
+    m_blackdisks_list.append(m_disc_black_papier);
+    m_blackdisks_list.append(m_disc_black_brunnen);
+    update();
 }
 
 bool MyGLItem::getPlayer() const

@@ -7,6 +7,7 @@ Item {
     id: element
     width: 600
     height: 400
+    property alias button: button
     property alias mouseArea: mouseArea
     property alias myGLItem: myGLItem
     property alias viewportX: myGLItem.viewportX
@@ -22,15 +23,6 @@ Item {
             anchors.fill: parent
         }
 
-        RowLayout {
-            id: rowLayout
-            x: 8
-            y: 310
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 3
-        }
-
         Label {
             id: label
             x: 234
@@ -44,18 +36,27 @@ Item {
                 color: "yellow"
             }
         }
+
         Connections{
             target: myGLItem
             onTextChanged: label.text = text
         }
+
         Connections{
             target: myGLItem
             onTextColorChanged: label.color = color
         }
+
         Connections{
             target: myGLItem
             onTextBackgroundColorChanged: label.background.color = color
         }
 
+        Button {
+            id: button
+            x: 0
+            y: 0
+            text: qsTr("Spiel Neustarten")
+        }
     }
 }

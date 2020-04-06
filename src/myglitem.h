@@ -49,7 +49,6 @@ class MyGLItem : public GLItem
 
     void createTriangles();
     void drawTriangles();
-    void createCube(const QVector3D & llb, const QVector3D & rtf);
     void createNormals();
     void createNormalsF();
     void drawCube();
@@ -106,6 +105,7 @@ public slots:
     void mousePressed(int x, int y, int button);
     void mouseReleased(int x, int y, int button);
     void mouseMoved(int x, int y, int button);
+    void spielNeustarten();
 
 protected:
     /**
