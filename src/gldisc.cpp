@@ -10,7 +10,7 @@ GLDisc::GLDisc(const QString & name, const QVector3D &fieldCoord, float radius, 
     m_slices = slices;
     m_drawingMode = GL_TRIANGLE_STRIP;
     m_isKing = false;
-    setShowFrame(true);
+    setShowFrame(false);
 }
 
 void GLDisc::makeSurface(QVector<GLPoint> *pointContainer, QVector<GLushort> *indexContainer)

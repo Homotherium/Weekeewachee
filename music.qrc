@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>music/Link.wav</file>
+        <file>music/Blop.wav</file>
+        <file>music/clearly.wav</file>
     </qresource>
 </RCC>

@@ -410,13 +410,14 @@ void MyGLItem::moveDisk(GLDisc * disk, QVector3D start, QVector3D end)
         disk->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, 0.0f));
         qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
     }
-    m_sounds->playSound(":/music/Link.wav");
+    m_sounds->playSound(":/music/clearly.wav");
 }
 
 void MyGLItem::move_away(GLDisc *disk)
 {
     disk->move(QVector3D(+100.0f, 0.0f, +100.0f));
     disk->setDisc_Coordinates(disk->getDisc_Coordinates() + QVector3D(+100.0f, 0.0f, +100.0f));
+    m_sounds->playSound(":/music/Blop.wav");
     qDebug() << "Disk " << disk->getDisc_Color() << " " << disk->getDisc_Name() << " ist gelöscht";
 }
 
