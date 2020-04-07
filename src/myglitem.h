@@ -95,7 +95,6 @@ public:
     bool gameOverTest();
     void rotateBoard();
     void turnEnd();
-    void setStartDiskPositions();
 
 signals:
     void textChanged(const QString & text);

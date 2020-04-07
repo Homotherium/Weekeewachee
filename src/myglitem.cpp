@@ -157,6 +157,16 @@ void MyGLItem::setupGeometry()
     m_disc_black_papier->readBinaryModelFile(":/models/Stein_weiss1.dat");
     m_disc_black_brunnen->readBinaryModelFile(":/models/Stein_weiss1.dat");
 
+    m_disc_black_schere->move(QVector3D(-4.5f, 0.0f, -7.5f));
+    m_disc_black_stein->move(QVector3D(-1.5f, 0.0f, -7.5f));
+    m_disc_black_papier->move(QVector3D(1.5f, 0.0f, -7.5f));
+    m_disc_black_brunnen->move(QVector3D(4.5f, 0.0f, -7.5f));
+
+    m_disc_white_brunnen->move(QVector3D(-4.5f, 0.0f, 7.5f));
+    m_disc_white_papier->move(QVector3D(-1.5f, 0.0f, 7.5f));
+    m_disc_white_stein->move(QVector3D(1.5f, 0.0f, 7.5f));
+    m_disc_white_schere->move(QVector3D(4.5f, 0.0f, 7.5f));
+
     m_disc_black_schere->setDisc_Color("black");
     m_disc_black_stein->setDisc_Color("black");
     m_disc_black_papier->setDisc_Color("black");
@@ -167,8 +177,15 @@ void MyGLItem::setupGeometry()
     m_disc_white_stein->setDisc_Color("white");
     m_disc_white_schere->setDisc_Color("white");
 
-    setStartDiskPositions();
+    m_disc_black_schere->setDisc_Coordinates(QVector3D(-4.5f, 0.0f, -7.5f));
+    m_disc_black_stein->setDisc_Coordinates(QVector3D(-1.5f, 0.0f, -7.5f));
+    m_disc_black_papier->setDisc_Coordinates(QVector3D(1.5f, 0.0f, -7.5f));
+    m_disc_black_brunnen->setDisc_Coordinates(QVector3D(4.5f, 0.0f, -7.5f));
 
+    m_disc_white_brunnen->setDisc_Coordinates(QVector3D(-4.5f, 0.0f, 7.5f));
+    m_disc_white_papier->setDisc_Coordinates(QVector3D(-1.5f, 0.0f, 7.5f));
+    m_disc_white_stein->setDisc_Coordinates(QVector3D(1.5f, 0.0f, 7.5f));
+    m_disc_white_schere->setDisc_Coordinates(QVector3D(4.5f, 0.0f, 7.5f));
 }
 
 bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinaten)
@@ -769,29 +786,6 @@ void MyGLItem::turnEnd()
     }
 }
 
-void MyGLItem::setStartDiskPositions()
-{
-    m_disc_black_schere->move(QVector3D(-4.5f, 0.0f, -7.5f));
-    m_disc_black_stein->move(QVector3D(-1.5f, 0.0f, -7.5f));
-    m_disc_black_papier->move(QVector3D(1.5f, 0.0f, -7.5f));
-    m_disc_black_brunnen->move(QVector3D(4.5f, 0.0f, -7.5f));
-
-    m_disc_white_brunnen->move(QVector3D(-4.5f, 0.0f, 7.5f));
-    m_disc_white_papier->move(QVector3D(-1.5f, 0.0f, 7.5f));
-    m_disc_white_stein->move(QVector3D(1.5f, 0.0f, 7.5f));
-    m_disc_white_schere->move(QVector3D(4.5f, 0.0f, 7.5f));
-
-    m_disc_black_schere->setDisc_Coordinates(QVector3D(-4.5f, 0.0f, -7.5f));
-    m_disc_black_stein->setDisc_Coordinates(QVector3D(-1.5f, 0.0f, -7.5f));
-    m_disc_black_papier->setDisc_Coordinates(QVector3D(1.5f, 0.0f, -7.5f));
-    m_disc_black_brunnen->setDisc_Coordinates(QVector3D(4.5f, 0.0f, -7.5f));
-
-    m_disc_white_brunnen->setDisc_Coordinates(QVector3D(-4.5f, 0.0f, 7.5f));
-    m_disc_white_papier->setDisc_Coordinates(QVector3D(-1.5f, 0.0f, 7.5f));
-    m_disc_white_stein->setDisc_Coordinates(QVector3D(1.5f, 0.0f, 7.5f));
-    m_disc_white_schere->setDisc_Coordinates(QVector3D(4.5f, 0.0f, 7.5f));
-}
-
 void MyGLItem::spielNeustarten()
 {
     qDebug() << "Spiel neustarten";
@@ -802,8 +796,8 @@ void MyGLItem::spielNeustarten()
     emit textChanged("Let's fight begin!!!!");
     emit textColorChanged("black");
     emit textBackgroundColorChanged("yellow");
-    qDebug() << "setStartDiskPositions";
-    setStartDiskPositions();
+    qDebug() << "setupGeometry";
+    setupGeometry();
     qDebug() << "Liste";
     m_whitedisks_list.append(m_disc_white_stein);
     m_whitedisks_list.append(m_disc_white_schere);

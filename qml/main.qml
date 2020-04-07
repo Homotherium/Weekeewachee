@@ -10,6 +10,14 @@ ApplicationWindow {
     SwipeView {
         id: swipeView
         anchors.fill: parent
+        focus: true
+        Keys.onPressed: {
+            if (event.key === Qt.Key_R && !event.isAutoRepeat)
+            {
+                GLForm.myGLItem.spielNeustarten();
+                event.accepted = true;
+            }
+        }
 
         GLPage {
             mouseArea.onPressed: myGLItem.mousePressed(mouse.x, mouse.y, mouse.button)
