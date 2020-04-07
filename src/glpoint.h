@@ -41,6 +41,7 @@ class GLPoint {
     const GLColorRgba & color()const{return m_color;}
 
     void move( QVector3D vMove );
+    void moveZero(QVector3D v_Zero);
     void moveTo( QVector3D vMove );
     /**
      * @brief transform Multiply vertex with vertexMatrix and normal with normalMatrix.
@@ -73,5 +74,8 @@ inline GLColorRgba *GLPoint::colorPointer() {
 
 inline void GLPoint::move( QVector3D vMove ) {
     m_vertex = m_vertex + vMove;
+} /* ----- end of method move ----- */
+inline void GLPoint::moveZero(QVector3D v_Zero) {
+    m_vertex = m_vertex + v_Zero;
 } /* ----- end of method move ----- */
 #endif // GLPOINT_H

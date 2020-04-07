@@ -67,6 +67,7 @@ MyGLItem::MyGLItem() : GLItem()
     setIsMoveCorrect(true);
     m_sounds = new music(this);
     m_sounds->setEnabled(true);
+    newgame = true;
 }
 
 void MyGLItem::paintUnderQmlScene()
@@ -128,24 +129,26 @@ void MyGLItem::setupGeometry()
 {
     GLItem::setupGeometry();
     //setup vertexbuffer
-    m_vertexBuffer = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-    if(!m_vertexBuffer->create())
-    {
-        qDebug() << "MIST!!!!!!!!";
-        exit(1);
+    //    m_vertexBuffer = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+    //    if(!m_vertexBuffer->create())
+    //    {
+    //        qDebug() << "MIST!!!!!!!!";
+    //        exit(1);
+    //    }
+    if(newgame){
+        m_field->setTextureFile(":/textures/sbrett.png");
+
+        m_disc_white_schere->setTextureFile(":/textures/Stein_weiss_schere.png");
+        m_disc_white_stein->setTextureFile(":/textures/Stein_weiss_stein.png");
+        m_disc_white_papier->setTextureFile(":/textures/Stein_weiss_papier.png");
+        m_disc_white_brunnen->setTextureFile(":/textures/Stein_weiss_brunnen.png");
+
+        m_disc_black_stein->setTextureFile(":/textures/Stein_Schwarz_stein.png");
+        m_disc_black_schere->setTextureFile(":/textures/Stein_Schwarz_schere.png");
+        m_disc_black_papier->setTextureFile(":/textures/Stein_Schwarz_papier.png");
+        m_disc_black_brunnen->setTextureFile(":/textures/Stein_Schwarz_brunnen.png");
     }
-
-    m_field->setTextureFile(":/textures/sbrett.png");
-
-    m_disc_white_schere->setTextureFile(":/textures/Stein_weiss_schere.png");
-    m_disc_white_stein->setTextureFile(":/textures/Stein_weiss_stein.png");
-    m_disc_white_papier->setTextureFile(":/textures/Stein_weiss_papier.png");
-    m_disc_white_brunnen->setTextureFile(":/textures/Stein_weiss_brunnen.png");
-
-    m_disc_black_stein->setTextureFile(":/textures/Stein_Schwarz_stein.png");
-    m_disc_black_schere->setTextureFile(":/textures/Stein_Schwarz_schere.png");
-    m_disc_black_papier->setTextureFile(":/textures/Stein_Schwarz_papier.png");
-    m_disc_black_brunnen->setTextureFile(":/textures/Stein_Schwarz_brunnen.png");
+    newgame = false;
 
     m_disc_white_schere->readBinaryModelFile(":/models/Stein_weiss1.dat");
     m_disc_white_stein->readBinaryModelFile(":/models/Stein_weiss1.dat");
@@ -350,14 +353,6 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
         }
     }
     turnEnd();
-    // Print Black List
-    //    for (int b = 0; b < m_blackdisks_list.size(); b++) {
-    //        qDebug() << m_blackdisks_list[b]->getDisc_Name() << m_blackdisks_list[b]->getDisc_Color() << m_blackdisks_list[b]->getDisc_Coordinates();
-    //    }
-    // Print White List
-    //    for (int w = 0; w < m_whitedisks_list.size(); w++) {
-    //        qDebug() << m_whitedisks_list[w]->getDisc_Name() << m_whitedisks_list[w]->getDisc_Color() << m_whitedisks_list[w]->getDisc_Coordinates();
-    //    }
     return true;
 }
 
@@ -449,6 +444,8 @@ void MyGLItem::mouseReleased(int x, int y, int button)
     float end_z = end.z();
     if (end_x > 6.0f || end_x < -6.0f || end_z > 9.0f || end_z < -9.0f){
         qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        m_disc->draw(renderer());
+        update();
         m_sounds->playSound(":/music/when.wav");
         setIsMoveCorrect(false);
     }
@@ -477,17 +474,17 @@ void MyGLItem::mouseMoved(int x, int y, int button)
     if(window())
         window()->update();
 
-//    QVector3D movePos;
-//    renderer()->mouseIntersection(&movePos, v_Y, 0.0f, m_lastMouseEvent->pos());
-//    QVector3D moveDistance = movePos + m_pressPosToDiscPos;
-//    QMatrix4x4 m;
+    //    QVector3D movePos;
+    //    renderer()->mouseIntersection(&movePos, v_Y, 0.0f, m_lastMouseEvent->pos());
+    //    QVector3D moveDistance = movePos + m_pressPosToDiscPos;
+    //    QMatrix4x4 m;
 
-//        if(m_disc->getFieldCoord().x() > movePos.x()){
-//            //m.translate(moveDistance);
-//            //m_disc->setFieldCoord(moveDistance);
-//            m_disc->setTransformation(m);
-//            //qDebug() << "Mouse move event Begrenzung erreicht";
-//        }
+    //        if(m_disc->getFieldCoord().x() > movePos.x()){
+    //            //m.translate(moveDistance);
+    //            //m_disc->setFieldCoord(moveDistance);
+    //            m_disc->setTransformation(m);
+    //            //qDebug() << "Mouse move event Begrenzung erreicht";
+    //        }
 
 
     //qDebug() << " mouse moved" << "x wert: " << x << "y Wert: " << y;
@@ -786,9 +783,24 @@ void MyGLItem::turnEnd()
     }
 }
 
+void MyGLItem::printDiskLists()
+{
+    // Print Black List
+    for (int b = 0; b < m_blackdisks_list.size(); b++) {
+        qDebug() << m_blackdisks_list[b]->getDisc_Name() << m_blackdisks_list[b]->getDisc_Color() << m_blackdisks_list[b]->getDisc_Coordinates();
+    }
+    // Print White List
+    for (int w = 0; w < m_whitedisks_list.size(); w++) {
+        qDebug() << m_whitedisks_list[w]->getDisc_Name() << m_whitedisks_list[w]->getDisc_Color() << m_whitedisks_list[w]->getDisc_Coordinates();
+    }
+}
+
 void MyGLItem::spielNeustarten()
 {
     qDebug() << "Spiel neustarten";
+    // Liste löschen
+    m_whitedisks_list.clear();
+    m_blackdisks_list.clear();
     // Spiel neustarten
     setPlayer(true);
     setIsMoveCorrect(true);

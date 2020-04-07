@@ -435,6 +435,14 @@ void GLBody::move(QVector3D vMove)
     findMinMaxCoordinates();
 }
 
+void GLBody::moveZero()
+{
+    for(int i = m_firstPoint; i < m_nextPoint; i++)
+        (*m_points)[i].moveZero(v_Zero);
+    m_center = v_Zero;
+    findMinMaxCoordinates();
+}
+
 void GLBody::moveDisc(QVector3D vMove)
 {
     for(int i = m_firstPoint; i < m_nextPoint; i++)

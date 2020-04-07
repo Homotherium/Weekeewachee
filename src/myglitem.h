@@ -69,6 +69,7 @@ class MyGLItem : public GLItem
 
     bool player;
     bool isMoveCorrect;
+    bool newgame;
     music * m_sounds;
 
 private:
@@ -95,6 +96,7 @@ public:
     bool gameOverTest();
     void rotateBoard();
     void turnEnd();
+    void printDiskLists();
 
 signals:
     void textChanged(const QString & text);

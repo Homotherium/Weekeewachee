@@ -226,6 +226,7 @@ public:
       * Moves the body by adding vMove to all vertices.
       */
     void move(QVector3D vMove);
+    void moveZero();
 
     /**
      * @brief transformPoints apply m_transformation to all points and set m_transformation to identity.
