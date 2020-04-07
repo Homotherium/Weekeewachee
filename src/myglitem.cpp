@@ -29,15 +29,15 @@ MyGLItem::MyGLItem() : GLItem()
     m_movementEnabled = false;
     m_timer->start();
 
-    m_disc_white_stein = new GLDisc("stein",QVector3D(2,0.0,-5));
-    m_disc_white_schere = new GLDisc("schere", QVector3D(4.5,0.0,-5));
-    m_disc_white_papier = new GLDisc("papier",QVector3D(-2,0.0,-5));
-    m_disc_white_brunnen = new GLDisc("brunnen",QVector3D(-4.5,0.0,-5));
+    m_disc_white_stein = new GLDisc("stein",QVector3D(-1.5, 0.0, -7.5));
+    m_disc_white_schere = new GLDisc("schere", QVector3D(1.5, 0.0, -7.5));
+    m_disc_white_papier = new GLDisc("papier",QVector3D(-4.5, 0.0, -7.5));
+    m_disc_white_brunnen = new GLDisc("brunnen",QVector3D(-4.5, 0.0, -7.5));
 
-    m_disc_black_stein = new GLDisc("stein",QVector3D(-2.0,0.0,5));
-    m_disc_black_schere = new GLDisc("schere",QVector3D(-4.5, 0.0, 5));
-    m_disc_black_papier = new GLDisc("papier",QVector3D(2.0,0.0,5));
-    m_disc_black_brunnen = new GLDisc("brunnen",QVector3D(4.5,0.0,5));
+    m_disc_black_stein = new GLDisc("stein",QVector3D(-4.5, 0.0, 7.5));
+    m_disc_black_schere = new GLDisc("schere",QVector3D(-1.5, 0.0, 7.5));
+    m_disc_black_papier = new GLDisc("papier",QVector3D(1.5, 0.0, 7.5));
+    m_disc_black_brunnen = new GLDisc("brunnen",QVector3D(4.5, 0.0, 7.5));
 
     m_whitedisks_list.append(m_disc_white_stein);
     m_whitedisks_list.append(m_disc_white_schere);
