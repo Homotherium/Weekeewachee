@@ -62,6 +62,10 @@ public:
     void setDisc_Color(const QString &disc_Color);
 
     QString getDisc_Name() const;
+    QString diskLastmove;
+
+    QString getDiskLastmove() const;
+    void setDiskLastmove(const QString &value);
 
 private:
     float m_height;

@@ -365,48 +365,56 @@ void MyGLItem::moveDisk(GLDisc * disk, QVector3D start, QVector3D end)
     if (x_diff < -1.5f && z_diff > 1.5f) {
         disk->move(QVector3D(+3.0f, 0.0f, -3.0f));
         disk->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, -3.0f));
+        disk->setDiskLastmove("oben-rechts");
         qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
     }
     // oben-links
     if (x_diff > 1.5f && z_diff > 1.5f) {
         disk->move(QVector3D(-3.0f, 0.0f, -3.0f));
         disk->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, -3.0f));
+        disk->setDiskLastmove("oben-links");
         qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
     }
     // unten-links
     if (x_diff > 1.5f && z_diff < -1.5f) {
         disk->move(QVector3D(-3.0f, 0.0f, +3.0f));
         disk->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, +3.0f));
+        disk->setDiskLastmove("unten-links");
         qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
     }
     // unten-rechts
     if (x_diff < -1.5f && z_diff < -1.5f) {
         disk->move(QVector3D(+3.0f, 0.0f, +3.0f));
         disk->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, +3.0f));
+        disk->setDiskLastmove("unten-rechts");
         qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
     }
     // oben
     if (x_diff < 1.5f && x_diff > -1.5f && z_diff > 1.5f) {
         disk->move(QVector3D(0.0f, 0.0f, -3.0f));
         disk->setDisc_Coordinates(start + QVector3D(0.0f, 0.0f, -3.0f));
+        disk->setDiskLastmove("oben");
         qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
     }
     // unten
     if (x_diff < 1.5f && x_diff > -1.5f && z_diff < -1.5f) {
         disk->move(QVector3D(0.0f, 0.0f, +3.0f));
         disk->setDisc_Coordinates(start + QVector3D(0.0f, 0.0f, +3.0f));
+        disk->setDiskLastmove("unten");
         qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
     }
     // links
     if (x_diff > 1.5f && z_diff > -1.5f && z_diff < 1.5f) {
         disk->move(QVector3D(-3.0f, 0.0f, 0.0f));
         disk->setDisc_Coordinates(start + QVector3D(-3.0f, 0.0f, 0.0f));
+        disk->setDiskLastmove("links");
         qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
     }
     // rechts
     if (x_diff < -1.5f && z_diff > -1.5f && z_diff < 1.5f) {
         disk->move(QVector3D(+3.0f, 0.0f, 0.0f));
         disk->setDisc_Coordinates(start + QVector3D(+3.0f, 0.0f, 0.0f));
+        disk->setDiskLastmove("rechts");
         qDebug() << "new Disc_Coordinates: " << disk->getDisc_Coordinates();
     }
     m_sounds->playSound(":/music/clearly.wav");
@@ -418,6 +426,43 @@ void MyGLItem::move_away(GLDisc *disk)
     disk->setDisc_Coordinates(disk->getDisc_Coordinates() + QVector3D(+100.0f, 0.0f, +100.0f));
     m_sounds->playSound(":/music/Blop.wav");
     qDebug() << "Disk " << disk->getDisc_Color() << " " << disk->getDisc_Name() << " ist gelöscht";
+}
+
+void MyGLItem::move_back(GLDisc *disk)
+{
+    QString backmove = disk->getDiskLastmove();
+    if (backmove == "oben-rechts"){
+        disk->move(QVector3D(-3.0f, 0.0f, +3.0f));
+        disk->setDisc_Coordinates(disk->getDisc_Coordinates() + QVector3D(-3.0f, 0.0f, +3.0f));
+    }
+    if (backmove == "oben-links"){
+        disk->move(QVector3D(+3.0f, 0.0f, +3.0f));
+        disk->setDisc_Coordinates(disk->getDisc_Coordinates() + QVector3D(+3.0f, 0.0f, +3.0f));
+    }
+    if (backmove == "unten-links"){
+        disk->move(QVector3D(+3.0f, 0.0f, -3.0f));
+        disk->setDisc_Coordinates(disk->getDisc_Coordinates() + QVector3D(+3.0f, 0.0f, -3.0f));
+    }
+    if (backmove == "unten-rechts"){
+        disk->move(QVector3D(-3.0f, 0.0f, -3.0f));
+        disk->setDisc_Coordinates(disk->getDisc_Coordinates() + QVector3D(-3.0f, 0.0f, -3.0f));
+    }
+    if (backmove == "oben"){
+        disk->move(QVector3D(0.0f, 0.0f, +3.0f));
+        disk->setDisc_Coordinates(disk->getDisc_Coordinates() + QVector3D(0.0f, 0.0f, +3.0f));
+    }
+    if (backmove == "unten"){
+        disk->move(QVector3D(0.0f, 0.0f, -3.0f));
+        disk->setDisc_Coordinates(disk->getDisc_Coordinates() + QVector3D(0.0f, 0.0f, -3.0f));
+    }
+    if (backmove == "links"){
+        disk->move(QVector3D(+3.0f, 0.0f, 0.0f));
+        disk->setDisc_Coordinates(disk->getDisc_Coordinates() + QVector3D(+3.0f, 0.0f, 0.0f));
+    }
+    if (backmove == "rechts"){
+        disk->move(QVector3D(-3.0f, 0.0f, 0.0f));
+        disk->setDisc_Coordinates(disk->getDisc_Coordinates() + QVector3D(-3.0f, 0.0f, 0.0f));
+    }
 }
 
 void MyGLItem::changePlayer(bool player)
@@ -752,6 +797,38 @@ bool MyGLItem::gameOverTest()
     return false;
 }
 
+bool MyGLItem::diskCollision(GLDisc *disk)
+{
+    if (disk->getDisc_Color() == "black"){
+        for (int i = 0; i < m_whitedisks_list.size(); i++) {
+            if(disk->getDisc_Coordinates() == m_whitedisks_list[i]->getDisc_Coordinates())
+            {
+                return true;
+            }
+        }
+        for (int i = 0; i < m_blackdisks_list.size(); i++) {
+            if(disk->getDisc_Coordinates() == m_blackdisks_list[i]->getDisc_Coordinates() && disk->getDisc_Name() !=  m_blackdisks_list[i]->getDisc_Name())
+            {
+                return true;
+            }
+        }
+    } else
+        for (int i = 0; i < m_whitedisks_list.size(); i++) {
+            if(disk->getDisc_Coordinates() == m_whitedisks_list[i]->getDisc_Coordinates() && disk->getDisc_Name() !=  m_whitedisks_list[i]->getDisc_Name())
+            {{
+                return true;
+            }
+        }
+        for (int i = 0; i < m_blackdisks_list.size(); i++) {
+            if(disk->getDisc_Coordinates() == m_blackdisks_list[i]->getDisc_Coordinates())
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void MyGLItem::rotateBoard()
 {
     QVector3D factor = QVector3D(1.0f, 1.0f, -1.0f);
@@ -774,6 +851,12 @@ void MyGLItem::rotateBoard()
 void MyGLItem::turnEnd()
 {
     if (!gameOverTest()){
+        // Disk Collision
+        if(diskCollision(m_disc)){
+            qDebug() << "Disk Collision";
+            move_back(m_disc);
+            m_sounds->playSound(":/music/when.wav");
+        }
         // Spieler wechsel
         changePlayer(player);
         // Board umdrehen

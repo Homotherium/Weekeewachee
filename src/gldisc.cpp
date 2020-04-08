@@ -9,6 +9,7 @@ GLDisc::GLDisc(const QString & name, const QVector3D &fieldCoord, float radius, 
     m_height = height;
     m_slices = slices;
     m_drawingMode = GL_TRIANGLE_STRIP;
+    diskLastmove = "";
     m_isKing = false;
     setShowFrame(false);
 }
@@ -145,6 +146,16 @@ void GLDisc::setDisc_Color(const QString &disc_Color)
 QString GLDisc::getDisc_Name() const
 {
     return m_disc_Name;
+}
+
+QString GLDisc::getDiskLastmove() const
+{
+    return diskLastmove;
+}
+
+void GLDisc::setDiskLastmove(const QString &value)
+{
+    diskLastmove = value;
 }
 
 void GLDisc::finishAnimation()

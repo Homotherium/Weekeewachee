@@ -85,6 +85,7 @@ public:
     bool kampf(GLDisc * disk, QVector3D stein, QPoint hit_coordinaten);
     void moveDisk(GLDisc * disk, QVector3D start, QVector3D end);
     void move_away(GLDisc * disk);
+    void move_back(GLDisc * disk);
     void changePlayer(bool player);
 
     bool getPlayer() const;
@@ -94,6 +95,7 @@ public:
     void setIsMoveCorrect(bool value);
     bool discsDistance(QVector3D disc1, QVector3D disc2);
     bool gameOverTest();
+    bool diskCollision(GLDisc * disk);
     void rotateBoard();
     void turnEnd();
     void printDiskLists();
