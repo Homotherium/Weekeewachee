@@ -59,8 +59,8 @@ MyGLItem::MyGLItem() : GLItem()
     m_whitePos.append(QVector3D(1.5f, 0.0f, 7.5f));
     m_whitePos.append(QVector3D(4.5f, 0.0f, 7.5f));
 
-    m_disc = new GLDisc("My disc",QVector3D(0.0, 0.0,0.0));
-    m_disc_other = new GLDisc("My disc Other",QVector3D(0, 0.0, 0));
+    m_disc = new GLDisc("My disc", QVector3D(0.0, 0.0,0.0));
+    m_disc_other = new GLDisc("My disc Other", QVector3D(100.0, 0.0, 100.0));
 
     m_field = new GLField();
     setPlayer(true);
@@ -86,6 +86,8 @@ void MyGLItem::paintOnTopOfQmlScene()
     m_disc_white_schere->draw(renderer());
     m_disc_white_papier->draw(renderer());
     m_disc_white_brunnen->draw(renderer());
+
+    m_disc_other->draw(renderer());
 }
 
 void MyGLItem::createTriangles()
@@ -189,6 +191,12 @@ void MyGLItem::setupGeometry()
     m_disc_white_papier->setDisc_Coordinates(QVector3D(-1.5f, 0.0f, 7.5f));
     m_disc_white_stein->setDisc_Coordinates(QVector3D(1.5f, 0.0f, 7.5f));
     m_disc_white_schere->setDisc_Coordinates(QVector3D(4.5f, 0.0f, 7.5f));
+
+    // Fake disk
+    m_disc_other->setTextureFile(":/textures/Stein_schwarz.png");
+    m_disc_other->readBinaryModelFile(":/models/Stein_weiss1.dat");
+    m_disc_other->move(QVector3D(100.0f, 0.0f, 100.0f));
+    m_disc_other->setDisc_Coordinates(QVector3D(100.0f, 0.0f, 100.0f));
 }
 
 bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinaten)
@@ -658,7 +666,6 @@ void MyGLItem::doSynchronizeThreads()
             m_animationActive = false;
         }
     }
-
 }
 
 void MyGLItem::setupBuffers()
@@ -995,6 +1002,7 @@ void MyGLItem::turnEnd()
         changePlayer(player);
         // Board umdrehen
         rotateBoard();
+        m_disc = m_disc_other;
     }  else {
         spielNeustarten();
     }
