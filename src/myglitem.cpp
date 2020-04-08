@@ -1071,23 +1071,18 @@ void MyGLItem::setDisks()
     QList<GLDisc*> whiteDisks = m_whitedisks_list;
     QList<QVector3D> whitePositions = m_whitePos;
     // Shuffle
-    qsrand(time(NULL));
+    qsrand(uint(time(nullptr)));
     for (int i = 0; i < 3; i++) {
         std::random_shuffle(whitePositions.begin()+i, whitePositions.begin()+4);
         std::random_shuffle(blackPositions.begin() + i, blackPositions.begin() + 4);
-
     }
     // Schwarze Steine
-    qDebug() << "Schwarze Steine";
     for (int b = 0; b < blackDisks.size(); b++) {
-        qDebug() << blackPositions[b];
         blackDisks[b]->move(blackPositions[b]);
         blackDisks[b]->setDisc_Coordinates(blackPositions[b]);
     }
     // Weise Steine
-    qDebug() << "Weise Steine";
     for (int w = 0; w < whiteDisks.size(); w++) {
-        qDebug() << whitePositions[w];
         whiteDisks[w]->move(whitePositions[w]);
         whiteDisks[w]->setDisc_Coordinates(whitePositions[w]);
     }
