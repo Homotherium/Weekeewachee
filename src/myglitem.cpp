@@ -929,6 +929,9 @@ bool MyGLItem::diskCollision(GLDisc *disk)
         for (int i = 0; i < m_whitedisks_list.size(); i++) {
             if(disk->getDisc_Coordinates() == m_whitedisks_list[i]->getDisc_Coordinates())
             {
+                if (disk->getDisc_Name() == m_whitedisks_list[i]->getDisc_Name()){
+                    return true;
+                }
                 collisionKampf(disk, m_whitedisks_list[i]);
                 return false;
             }
@@ -949,6 +952,9 @@ bool MyGLItem::diskCollision(GLDisc *disk)
         for (int i = 0; i < m_blackdisks_list.size(); i++) {
             if(disk->getDisc_Coordinates() == m_blackdisks_list[i]->getDisc_Coordinates())
             {
+                if (disk->getDisc_Name() == m_blackdisks_list[i]->getDisc_Name()){
+                    return true;
+                }
                 collisionKampf(disk, m_blackdisks_list[i]);
                 return false;
             }
