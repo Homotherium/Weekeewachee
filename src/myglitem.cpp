@@ -162,15 +162,15 @@ void MyGLItem::setupGeometry()
     m_disc_black_papier->readBinaryModelFile(":/models/Stein_weiss1.dat");
     m_disc_black_brunnen->readBinaryModelFile(":/models/Stein_weiss1.dat");
 
-    m_disc_black_schere->move(QVector3D(-4.5f, 0.0f, -7.5f));
-    m_disc_black_stein->move(QVector3D(-1.5f, 0.0f, -7.5f));
-    m_disc_black_papier->move(QVector3D(1.5f, 0.0f, -7.5f));
-    m_disc_black_brunnen->move(QVector3D(4.5f, 0.0f, -7.5f));
+    //    m_disc_black_schere->move(QVector3D(-4.5f, 0.0f, -7.5f));
+    //    m_disc_black_stein->move(QVector3D(-1.5f, 0.0f, -7.5f));
+    //    m_disc_black_papier->move(QVector3D(1.5f, 0.0f, -7.5f));
+    //    m_disc_black_brunnen->move(QVector3D(4.5f, 0.0f, -7.5f));
 
-    m_disc_white_brunnen->move(QVector3D(-4.5f, 0.0f, 7.5f));
-    m_disc_white_papier->move(QVector3D(-1.5f, 0.0f, 7.5f));
-    m_disc_white_stein->move(QVector3D(1.5f, 0.0f, 7.5f));
-    m_disc_white_schere->move(QVector3D(4.5f, 0.0f, 7.5f));
+    //    m_disc_white_brunnen->move(QVector3D(-4.5f, 0.0f, 7.5f));
+    //    m_disc_white_papier->move(QVector3D(-1.5f, 0.0f, 7.5f));
+    //    m_disc_white_stein->move(QVector3D(1.5f, 0.0f, 7.5f));
+    //    m_disc_white_schere->move(QVector3D(4.5f, 0.0f, 7.5f));
 
     m_disc_black_schere->setDisc_Color("black");
     m_disc_black_stein->setDisc_Color("black");
@@ -182,15 +182,18 @@ void MyGLItem::setupGeometry()
     m_disc_white_stein->setDisc_Color("white");
     m_disc_white_schere->setDisc_Color("white");
 
-    m_disc_black_schere->setDisc_Coordinates(QVector3D(-4.5f, 0.0f, -7.5f));
-    m_disc_black_stein->setDisc_Coordinates(QVector3D(-1.5f, 0.0f, -7.5f));
-    m_disc_black_papier->setDisc_Coordinates(QVector3D(1.5f, 0.0f, -7.5f));
-    m_disc_black_brunnen->setDisc_Coordinates(QVector3D(4.5f, 0.0f, -7.5f));
+    //    m_disc_black_schere->setDisc_Coordinates(QVector3D(-4.5f, 0.0f, -7.5f));
+    //    m_disc_black_stein->setDisc_Coordinates(QVector3D(-1.5f, 0.0f, -7.5f));
+    //    m_disc_black_papier->setDisc_Coordinates(QVector3D(1.5f, 0.0f, -7.5f));
+    //    m_disc_black_brunnen->setDisc_Coordinates(QVector3D(4.5f, 0.0f, -7.5f));
 
-    m_disc_white_brunnen->setDisc_Coordinates(QVector3D(-4.5f, 0.0f, 7.5f));
-    m_disc_white_papier->setDisc_Coordinates(QVector3D(-1.5f, 0.0f, 7.5f));
-    m_disc_white_stein->setDisc_Coordinates(QVector3D(1.5f, 0.0f, 7.5f));
-    m_disc_white_schere->setDisc_Coordinates(QVector3D(4.5f, 0.0f, 7.5f));
+    //    m_disc_white_brunnen->setDisc_Coordinates(QVector3D(-4.5f, 0.0f, 7.5f));
+    //    m_disc_white_papier->setDisc_Coordinates(QVector3D(-1.5f, 0.0f, 7.5f));
+    //    m_disc_white_stein->setDisc_Coordinates(QVector3D(1.5f, 0.0f, 7.5f));
+    //    m_disc_white_schere->setDisc_Coordinates(QVector3D(4.5f, 0.0f, 7.5f));
+
+    // Set Disks
+    setDisks();
 
     // Fake disk
     m_disc_other->setTextureFile(":/textures/Stein_schwarz.png");
@@ -1002,6 +1005,7 @@ void MyGLItem::turnEnd()
         changePlayer(player);
         // Board umdrehen
         rotateBoard();
+        // Actual disk to Fake disk
         m_disc = m_disc_other;
     }  else {
         spielNeustarten();
@@ -1058,4 +1062,31 @@ bool MyGLItem::getPlayer() const
 void MyGLItem::setPlayer(bool value)
 {
     player = value;
+}
+
+void MyGLItem::setDisks()
+{
+    QList<GLDisc*> blackDisks = m_blackdisks_list;
+    QList<QVector3D> blackPositions = m_blackPos;
+    QList<GLDisc*> whiteDisks = m_whitedisks_list;
+    QList<QVector3D> whitePositions = m_whitePos;
+    // Shuffle
+    for (int i = 0; i < 3; i++) {
+        std::random_shuffle(blackPositions.begin(), blackPositions.begin()+4);
+        std::random_shuffle(whitePositions.begin(), whitePositions.begin()+4);
+    }
+    // Schwarze Steine
+    qDebug() << "Schwarze Steine";
+    for (int b = 0; b < blackDisks.size(); b++) {
+        qDebug() << blackPositions[b];
+        blackDisks[b]->move(blackPositions[b]);
+        blackDisks[b]->setDisc_Coordinates(blackPositions[b]);
+    }
+    // Weise Steine
+    qDebug() << "Weise Steine";
+    for (int w = 0; w < whiteDisks.size(); w++) {
+        qDebug() << whitePositions[w];
+        whiteDisks[w]->move(whitePositions[w]);
+        whiteDisks[w]->setDisc_Coordinates(whitePositions[w]);
+    }
 }

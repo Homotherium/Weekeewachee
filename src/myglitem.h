@@ -9,6 +9,7 @@
 #include "glfield.h"
 #include "glmouseray.h"
 #include "music.h"
+#include <algorithm>
 
 class MyGLItem : public GLItem
 {
@@ -91,6 +92,8 @@ public:
 
     bool getPlayer() const;
     void setPlayer(bool value);
+
+    void setDisks();
 
     bool getIsMoveCorrect() const;
     void setIsMoveCorrect(bool value);
