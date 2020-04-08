@@ -3,6 +3,7 @@
 #include "glitem.h"
 #include "glcube.h"
 #include "glsphere.h"
+#include <time.h>
 #include <QOpenGLBuffer>
 #include <QtGlobal>
 #include "gldisc.h"
