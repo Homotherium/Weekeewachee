@@ -1037,8 +1037,6 @@ void MyGLItem::spielNeustarten()
     emit textChanged("Let's fight begin!!!!");
     emit textColorChanged("black");
     emit textBackgroundColorChanged("yellow");
-    qDebug() << "setupGeometry";
-    setupGeometry();
     qDebug() << "Liste";
     m_whitedisks_list.append(m_disc_white_stein);
     m_whitedisks_list.append(m_disc_white_schere);
@@ -1049,6 +1047,8 @@ void MyGLItem::spielNeustarten()
     m_blackdisks_list.append(m_disc_black_schere);
     m_blackdisks_list.append(m_disc_black_papier);
     m_blackdisks_list.append(m_disc_black_brunnen);
+    qDebug() << "setupGeometry";
+    setupGeometry();
     qDebug() << "Update";
     update();
     qDebug() << "End";
