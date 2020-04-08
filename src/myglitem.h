@@ -86,6 +86,7 @@ public:
     void moveDisk(GLDisc * disk, QVector3D start, QVector3D end);
     void move_away(GLDisc * disk);
     void move_back(GLDisc * disk);
+    QList<GLDisc*> deleteDiskFromList(QList<GLDisc*> m_disks_list, QString disk_name);
     void changePlayer(bool player);
 
     bool getPlayer() const;
@@ -94,6 +95,7 @@ public:
     bool getIsMoveCorrect() const;
     void setIsMoveCorrect(bool value);
     bool discsDistance(QVector3D disc1, QVector3D disc2);
+    void collisionKampf(GLDisc * disc1, GLDisc * disc2);
     bool gameOverTest();
     bool diskCollision(GLDisc * disk);
     void rotateBoard();
