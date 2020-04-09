@@ -21,8 +21,10 @@
 
 #ifdef _WIN32
 #include "GL/gl.h"
-#else
+#elif __APPLE__
 #include "OpenGL/gl.h"
+#else
+#include "GL/gl.h"
 #endif
 
 #define IndexType GLushort
