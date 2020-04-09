@@ -19,9 +19,7 @@
 #include <QVector3D>
 #include "glcolorrgba.h"
 
-#ifdef _WIN32
-#include "GL/gl.h"
-#elif __APPLE__
+#ifdef __APPLE__
 #include "OpenGL/gl.h"
 #else
 #include "GL/gl.h"
