@@ -90,42 +90,6 @@ void MyGLItem::paintOnTopOfQmlScene()
     m_disc_other->draw(renderer());
 }
 
-void MyGLItem::createTriangles()
-{
-    m_firstTrianglePoint = m_points.size();
-
-    m_points.append(GLPoint(QVector3D(0,0,0),v_Z,v_Zero,GLColorRgba::clRed));
-    m_points.append(GLPoint(QVector3D(2,0,0),v_Z,v_Zero,GLColorRgba::clGreen));
-    m_points.append(GLPoint(QVector3D(0,2,0),v_Z,v_Zero,GLColorRgba::clBlue));
-
-    m_lastTrianglePoint	= m_points.size() - 1;
-}
-
-void MyGLItem::drawTriangles()
-{
-    if(m_lastAxesPoint - m_firstAxesPoint == 0) //We have no axes
-    {
-        return;
-    }
-
-    m_renderer->setColorArrayEnabled(true);
-    m_renderer->setLightingEnabled(false);
-
-    m_vertexBuffer->bind();
-    //setup renderer
-    m_renderer->activateAttributeBuffer(GLESRenderer::VERTEX_LOCATION);
-    m_renderer->activateAttributeBuffer(GLESRenderer::COLOR_LOCATION);
-    //draw
-    glDrawArrays(GL_TRIANGLES, m_firstTrianglePoint, m_lastTrianglePoint -
-                 m_firstTrianglePoint + 1);
-    //cleanup
-    m_renderer->disableAttributeArrays();
-    m_vertexBuffer->release();
-
-    //restore old settings
-    m_renderer->setColorArrayEnabled(m_colorArrayEnabled);
-    m_renderer->setLightingEnabled(m_lightingEnabled);
-}
 
 void MyGLItem::setupGeometry()
 {
@@ -692,60 +656,6 @@ void MyGLItem::setupBuffers()
     m_indexBuffer->allocate(m_indices.data(), m_indices.size() * static_cast<int>(sizeof(IndexType)));
     m_indexBuffer->release();
 
-}
-
-void MyGLItem::createNormals()
-{
-    m_firstNormalPoint = m_points.size();
-    for(int i = m_firstCubePoint; i <= m_lastCubePoint; i++)
-    {
-        m_points.append(GLPoint(m_points[i].vertex(),m_points[i].vertex(),m_points[i].normal(),GLColorRgba::clWhite));
-        m_points.append(GLPoint(m_points[i].vertex() + m_points[i].normal(),
-                                m_points[i].normal(),
-                                m_points[i].texCoord(),
-                                GLColorRgba::clWhite));
-    }
-    m_lastNormalPoint = m_points.size() - 1;
-}
-
-void MyGLItem::createNormalsF()
-{
-    m_firstNormalPoint = m_points.size();
-    for(int i = m_firstFPoint; i <= m_lastFPoint; i++)
-    {
-        m_points.append(GLPoint(m_points[i].vertex(),m_points[i].vertex(),m_points[i].normal(),GLColorRgba::clWhite));
-        m_points.append(GLPoint(m_points[i].vertex() + m_points[i].normal(),
-                                m_points[i].normal(),
-                                m_points[i].texCoord(),
-                                GLColorRgba::clWhite));
-    }
-    m_lastNormalPoint = m_points.size() - 1;
-}
-
-void MyGLItem::drawCube()
-{
-    if(m_lastAxesPoint - m_firstAxesPoint == 0) //We have no axes
-    {
-        return;
-    }
-
-    m_renderer->setColorArrayEnabled(true);
-    m_renderer->setLightingEnabled(false);
-
-    m_vertexBuffer->bind();
-    //setup renderer
-    m_renderer->activateAttributeBuffer(GLESRenderer::VERTEX_LOCATION);
-    m_renderer->activateAttributeBuffer(GLESRenderer::COLOR_LOCATION);
-    //draw
-    //    for(int i  = m_firstCubePoint; i < m_lastCubePoint; i += 3)
-    glDrawArrays(GL_TRIANGLES,m_firstCubePoint, m_lastCubePoint - m_firstCubePoint +1);
-    glDrawArrays(GL_LINES,m_firstNormalPoint, m_lastNormalPoint - m_firstNormalPoint +1);
-    //cleanup
-    m_renderer->disableAttributeArrays();
-    m_vertexBuffer->release();
-
-    m_renderer->setColorArrayEnabled(m_colorArrayEnabled);
-    m_renderer->setLightingEnabled(m_lightingEnabled);
 }
 
 bool MyGLItem::getIsMoveCorrect() const
