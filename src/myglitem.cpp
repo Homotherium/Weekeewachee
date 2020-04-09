@@ -583,6 +583,7 @@ void MyGLItem::doSynchronizeThreads()
     //mouse release
     if(m_lastMouseEvent && (m_lastMouseEvent->type() == QMouseEvent::MouseButtonRelease) && !m_lastMouseEvent->isAccepted()){   
         m_disc->setSelected(false);
+        m_disc->jumpDown();
         QVector3D end;
         renderer()->mouseIntersection(&end, v_Y, 0.0f, m_lastMouseEvent->pos());
         qDebug() << "Kampf Überprüfung";
@@ -632,7 +633,6 @@ void MyGLItem::doSynchronizeThreads()
             m_animationActive = false;
         }
     }
-    m_disc->jumpDown();
 }
 
 void MyGLItem::setupBuffers()
