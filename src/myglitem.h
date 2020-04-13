@@ -99,7 +99,7 @@ public:
 
     bool getIsMoveCorrect() const;
     void setIsMoveCorrect(bool value);
-    bool discsDistance(QVector3D disc1, QVector3D disc2);
+    bool discsDistance(QVector3D disc, QVector3D klickPunkt);
     void collisionKampf(GLDisc * disc1, GLDisc * disc2);
     bool gameOverTest();
     bool diskCollision(GLDisc * disk);

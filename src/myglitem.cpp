@@ -675,23 +675,16 @@ void MyGLItem::setIsMoveCorrect(bool value)
     isMoveCorrect = value;
 }
 
-bool MyGLItem::discsDistance(QVector3D disc1, QVector3D disc2)
+bool MyGLItem::discsDistance(QVector3D disc, QVector3D klickPunkt)
 {
-    QVector3D distanceVector = QVector3D(disc1.x() - disc2.x(), 0.0f, disc1.z() - disc2.z());
-    float distance = sqrt(distanceVector.x() * distanceVector.x() + distanceVector.z() * distanceVector.z());
-    if (abs(abs(disc1.x()) - abs(disc2.x())) < 1.5f || abs(abs(disc1.z()) - abs(disc2.z())) < 1.5f)
-    {
-        qDebug() << "Gerade gelaufen";
-        if(distance > 4.5f)
-            return false;
+    float x1 = abs(disc.x());
+    float z1 = abs(disc.z());
+    float x2 = abs(klickPunkt.x());
+    float z2 = abs(klickPunkt.z());
+    if (x1-4.5f < x2 && x2 < x1+4.5f && z1-4.5f < z2 && z2 < z1+4.5f){
+        return true;
     }
-    else
-    {
-        if (distance > 6.05f){
-            return false;
-        }
-    }
-    return true;
+    return false;
 }
 
 void MyGLItem::collisionKampf(GLDisc * disc1, GLDisc * disc2)
