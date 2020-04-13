@@ -705,7 +705,7 @@ bool MyGLItem::discsDistance(QVector3D disc, QVector3D klickPunkt)
         if (x2 < 0 && z2 > 0){
             qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
             qDebug() << "++ -+";
-            if (x1-4.4f > x2 && x2 > x1+4.4f && z1-4.4f < z2 && z2 < z1+4.4f){
+            if (x1-4.4f < x2 && x2 < x1+4.4f && z1-4.4f < z2 && z2 < z1+4.4f){
                 qDebug() << "true";
                 return true;
             } else {
@@ -715,7 +715,7 @@ bool MyGLItem::discsDistance(QVector3D disc, QVector3D klickPunkt)
         if (x2 < 0 && z2 < 0){
             qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
             qDebug() << "++ --";
-            if (x1-4.4f > x2 && x2 > x1+4.4f && z1-4.4f > z2 && z2 > z1+4.4f){
+            if (x1-4.4f < x2 && x2 < x1+4.4f && z1-4.4f < z2 && z2 < z1+4.4f){
                 qDebug() << "true";
                 return true;
             } else {
@@ -747,7 +747,7 @@ bool MyGLItem::discsDistance(QVector3D disc, QVector3D klickPunkt)
         if (x2 < 0 && z2 > 0){
             qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
             qDebug() << "+- -+";
-            if (x1-4.4f > x2 && x2 > x1+4.4f && z1+4.4f < z2 && z2 < z1-4.4f){
+            if (x1-4.4f < x2 && x2 < x1+4.4f && z1+4.4f > z2 && z2 > z1-4.4f){
                 qDebug() << "true";
                 return true;
             } else {
@@ -757,7 +757,7 @@ bool MyGLItem::discsDistance(QVector3D disc, QVector3D klickPunkt)
         if (x2 < 0 && z2 < 0){
             qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
             qDebug() << "+- --";
-            if (x1-4.4f > x2 && x2 > x1+4.4f && z1+4.4f > z2 && z2 > z1-4.4f){
+            if (x1-4.4f < x2 && x2 < x1+4.4f && z1+4.4f > z2 && z2 > z1-4.4f){
                 qDebug() << "true";
                 return true;
             } else {
@@ -769,7 +769,7 @@ bool MyGLItem::discsDistance(QVector3D disc, QVector3D klickPunkt)
         if (x2 > 0 && z2 > 0){
             qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
             qDebug() << "-+ ++";
-            if (x1+4.4f < x2 && x2 < x1-4.4f && z1-4.4f < z2 && z2 < z1+4.4f){
+            if (x1+4.4f > x2 && x2 > x1-4.4f && z1-4.4f < z2 && z2 < z1+4.4f){
                 qDebug() << "true";
                 return true;
             } else {
@@ -779,7 +779,7 @@ bool MyGLItem::discsDistance(QVector3D disc, QVector3D klickPunkt)
         if (x2 > 0 && z2 < 0){
             qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
             qDebug() << "-+ +-";
-            if (x1+4.4f < x2 && x2 < x1-4.4f && z1-4.4f > z2 && z2 > z1+4.4f){
+            if (x1+4.4f > x2 && x2 > x1-4.4f && z1-4.4f < z2 && z2 < z1+4.4f){
                 qDebug() << "true";
                 return true;
             } else {
@@ -811,7 +811,7 @@ bool MyGLItem::discsDistance(QVector3D disc, QVector3D klickPunkt)
         if (x2 > 0 && z2 > 0){
             qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
             qDebug() << "-- ++";
-            if (x1+4.4f < x2 && x2 < x1-4.4f && z1+4.4f < z2 && z2 < z1-4.4f){
+            if (x1+4.4f > x2 && x2 > x1-4.4f && z1+4.4f > z2 && z2 > z1-4.4f){
                 qDebug() << "true";
                 return true;
             } else {
@@ -821,7 +821,7 @@ bool MyGLItem::discsDistance(QVector3D disc, QVector3D klickPunkt)
         if (x2 > 0 && z2 < 0){
             qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
             qDebug() << "-- +-";
-            if (x1+4.4f < x2 && x2 < x1-4.4f && z1+4.4f > z2 && z2 > z1-4.4f){
+            if (x1+4.4f > x2 && x2 > x1-4.4f && z1+4.4f > z2 && z2 > z1-4.4f){
                 qDebug() << "true";
                 return true;
             } else {
