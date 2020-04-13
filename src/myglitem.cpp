@@ -681,7 +681,7 @@ bool MyGLItem::discsDistance(QVector3D disc, QVector3D klickPunkt)
     float z1 = abs(disc.z());
     float x2 = abs(klickPunkt.x());
     float z2 = abs(klickPunkt.z());
-    if (x1-4.5f < x2 && x2 < x1+4.5f && z1-4.5f < z2 && z2 < z1+4.5f){
+    if (x1-4.4f < x2 && x2 < x1+4.4f && z1-4.4f < z2 && z2 < z1+4.4f){
         return true;
     }
     return false;
