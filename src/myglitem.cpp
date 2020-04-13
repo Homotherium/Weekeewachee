@@ -677,12 +677,177 @@ void MyGLItem::setIsMoveCorrect(bool value)
 
 bool MyGLItem::discsDistance(QVector3D disc, QVector3D klickPunkt)
 {
-    float x1 = abs(disc.x());
-    float z1 = abs(disc.z());
-    float x2 = abs(klickPunkt.x());
-    float z2 = abs(klickPunkt.z());
-    if (x1-4.4f < x2 && x2 < x1+4.4f && z1-4.4f < z2 && z2 < z1+4.4f){
-        return true;
+    float x1 = disc.x();
+    float z1 = disc.z();
+    float x2 = klickPunkt.x();
+    float z2 = klickPunkt.z();
+    if (x1 > 0 && z1 > 0){
+        if (x2 > 0 && z2 > 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "++ ++";
+            if (x1-4.4f < x2 && x2 < x1+4.4f && z1-4.4f < z2 && z2 < z1+4.4f){
+                qDebug() << "true";
+                return true;
+            } else {
+                qDebug() << "false";
+            }
+        }
+        if (x2 > 0 && z2 < 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "++ +-";
+            if (x1-4.4f < x2 && x2 < x1+4.4f && z1-4.4f > z2 && z2 > z1+4.4f){
+                qDebug() << "true";
+                return true;
+            } else {
+                qDebug() << "false";
+            }
+        }
+        if (x2 < 0 && z2 > 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "++ -+";
+            if (x1-4.4f > x2 && x2 > x1+4.4f && z1-4.4f < z2 && z2 < z1+4.4f){
+                qDebug() << "true";
+                return true;
+            } else {
+                qDebug() << "false";
+            }
+        }
+        if (x2 < 0 && z2 < 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "++ --";
+            if (x1-4.4f > x2 && x2 > x1+4.4f && z1-4.4f > z2 && z2 > z1+4.4f){
+                qDebug() << "true";
+                return true;
+            } else {
+                qDebug() << "false";
+            }
+        }
+    }
+    if (x1 > 0 && z1 < 0){
+        if (x2 > 0 && z2 > 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "+- ++";
+            if (x1-4.4f < x2 && x2 < x1+4.4f && z1+4.4f < z2 && z2 < z1-4.4f){
+                qDebug() << "true";
+                return true;
+            } else {
+                qDebug() << "false";
+            }
+        }
+        if (x2 > 0 && z2 < 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "+- +-";
+            if (x1-4.4f < x2 && x2 < x1+4.4f && z1+4.4f > z2 && z2 > z1-4.4f){
+                qDebug() << "true";
+                return true;
+            } else {
+                qDebug() << "false";
+            }
+        }
+        if (x2 < 0 && z2 > 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "+- -+";
+            if (x1-4.4f > x2 && x2 > x1+4.4f && z1+4.4f < z2 && z2 < z1-4.4f){
+                qDebug() << "true";
+                return true;
+            } else {
+                qDebug() << "false";
+            }
+        }
+        if (x2 < 0 && z2 < 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "+- --";
+            if (x1-4.4f > x2 && x2 > x1+4.4f && z1+4.4f > z2 && z2 > z1-4.4f){
+                qDebug() << "true";
+                return true;
+            } else {
+                qDebug() << "false";
+            }
+        }
+    }
+    if (x1 < 0 && z1 > 0){
+        if (x2 > 0 && z2 > 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "-+ ++";
+            if (x1+4.4f < x2 && x2 < x1-4.4f && z1-4.4f < z2 && z2 < z1+4.4f){
+                qDebug() << "true";
+                return true;
+            } else {
+                qDebug() << "false";
+            }
+        }
+        if (x2 > 0 && z2 < 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "-+ +-";
+            if (x1+4.4f < x2 && x2 < x1-4.4f && z1-4.4f > z2 && z2 > z1+4.4f){
+                qDebug() << "true";
+                return true;
+            } else {
+                qDebug() << "false";
+            }
+        }
+        if (x2 < 0 && z2 > 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "-+ -+";
+            if (x1+4.4f > x2 && x2 > x1-4.4f && z1-4.4f < z2 && z2 < z1+4.4f){
+                qDebug() << "true";
+                return true;
+            } else {
+                qDebug() << "false";
+            }
+        }
+        if (x2 < 0 && z2 < 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "-+ --";
+            if (x1+4.4f > x2 && x2 > x1-4.4f && z1-4.4f > z2 && z2 > z1+4.4f){
+                qDebug() << "true";
+                return true;
+            } else {
+                qDebug() << "false";
+            }
+        }
+    }
+    if (x1 < 0 && z1 < 0){
+        if (x2 > 0 && z2 > 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "-- ++";
+            if (x1+4.4f < x2 && x2 < x1-4.4f && z1+4.4f < z2 && z2 < z1-4.4f){
+                qDebug() << "true";
+                return true;
+            } else {
+                qDebug() << "false";
+            }
+        }
+        if (x2 > 0 && z2 < 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "-- +-";
+            if (x1+4.4f < x2 && x2 < x1-4.4f && z1+4.4f > z2 && z2 > z1-4.4f){
+                qDebug() << "true";
+                return true;
+            } else {
+                qDebug() << "false";
+            }
+        }
+        if (x2 < 0 && z2 > 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "-- -+";
+            if (x1+4.4f > x2 && x2 > x1-4.4f && z1+4.4f < z2 && z2 < z1-4.4f){
+                qDebug() << "true";
+                return true;
+            } else {
+                qDebug() << "false";
+            }
+        }
+        if (x2 < 0 && z2 < 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "-- --";
+            if (x1+4.4f > x2 && x2 > x1-4.4f && z1+4.4f > z2 && z2 > z1-4.4f){
+                qDebug() << "true";
+                return true;
+            } else {
+                qDebug() << "false";
+            }
+        }
     }
     return false;
 }
