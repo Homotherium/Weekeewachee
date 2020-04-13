@@ -61,6 +61,7 @@ MyGLItem::MyGLItem() : GLItem()
 
     m_disc = new GLDisc("My disc", QVector3D(0.0, 0.0,0.0));
     m_disc_other = new GLDisc("My disc Other", QVector3D(100.0, 0.0, 100.0));
+    m_disc_temp = m_disc_other;
 
     m_field = new GLField();
     setPlayer(true);
@@ -574,8 +575,11 @@ void MyGLItem::doSynchronizeThreads()
         if(m_disc->isHit(nearPoint, farPoint)){
             m_disc->setSelected(true);
         }
+        m_disc_temp = m_disc;
         qDebug() << "m_animationActive 1: " << m_animationActive;
-        m_disc->jumpUp();
+        qDebug() << "LiftVector vor jumpUp: " << m_disc_temp->getLiftVector();
+        //m_disc->jumpUp();
+        m_disc_temp->jumpUp();
         m_totalAnimationSteps = 50;
         m_animationActive = true;
         m_lastMouseEvent->setAccepted(true);
@@ -589,9 +593,11 @@ void MyGLItem::doSynchronizeThreads()
         qDebug() << "Kampf Überprüfung";
         kampf(m_disc, end, m_lastMouseEvent->pos());
         qDebug() << "";
-        qDebug() << "LiftVector: " << m_disc->getLiftVector();
         qDebug() << "m_animationActive 2: " << m_animationActive;
-        m_disc->jumpDown();
+        //m_disc_temp->setLiftVector(v_Y);
+        qDebug() << "LiftVector vor jumpDown: " << m_disc_temp->getLiftVector();
+        //m_disc->jumpDown();
+        m_disc_temp->jumpDown();
         m_totalAnimationSteps = 50;
         m_animationActive = true;
         m_lastMouseEvent->setAccepted(true);
@@ -630,11 +636,15 @@ void MyGLItem::doSynchronizeThreads()
     if(m_animationActive){
         if(m_animationStep < m_totalAnimationSteps){
             m_animationStep++;
-            m_disc->updateAnimatedProperties(static_cast<float>(m_animationStep) / static_cast<float>(m_totalAnimationSteps) );
+            //m_disc->updateAnimatedProperties(static_cast<float>(m_animationStep) / static_cast<float>(m_totalAnimationSteps) );
+            m_disc_temp->updateAnimatedProperties(static_cast<float>(m_animationStep) / static_cast<float>(m_totalAnimationSteps) );
+            qDebug() << "LiftVector bei Step: " << m_animationStep << " ist " << m_disc->getLiftVector();
         }else{
-            m_disc->finishAnimation();
+            //m_disc->finishAnimation();
+            m_disc_temp->finishAnimation();
             m_animationStep = 0;
             m_animationActive = false;
+            qDebug() << "LiftVector nach Animation: " << m_disc_temp->getLiftVector();
         }
     }
 }

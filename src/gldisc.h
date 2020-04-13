@@ -68,6 +68,7 @@ public:
     void setDiskLastmove(const QString &value);
 
     QVector3D getLiftVector() {return  m_liftVector;}
+    void setLiftVector(QVector3D liftVector) {m_liftVector = liftVector;}
 
 private:
     float m_height;

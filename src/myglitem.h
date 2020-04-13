@@ -31,6 +31,7 @@ class MyGLItem : public GLItem
 
     GLDisc *m_disc;
     GLDisc *m_disc_other;
+    GLDisc *m_disc_temp;
 
     GLDisc *m_disc_white_schere;
     GLDisc *m_disc_white_stein;
