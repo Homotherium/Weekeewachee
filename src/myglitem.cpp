@@ -578,7 +578,7 @@ void MyGLItem::doSynchronizeThreads()
         m_disc_temp = m_disc;
         //m_disc->jumpUp();
         m_disc_temp->jumpUp();
-        m_totalAnimationSteps = 50;
+        m_totalAnimationSteps = 10;
         m_animationActive = true;
         m_lastMouseEvent->setAccepted(true);
     }
@@ -593,7 +593,7 @@ void MyGLItem::doSynchronizeThreads()
         qDebug() << "";
         //m_disc->jumpDown();
         m_disc_temp->jumpDown();
-        m_totalAnimationSteps = 50;
+        m_totalAnimationSteps = 10;
         m_animationActive = true;
         m_lastMouseEvent->setAccepted(true);
     }
