@@ -576,8 +576,6 @@ void MyGLItem::doSynchronizeThreads()
             m_disc->setSelected(true);
         }
         m_disc_temp = m_disc;
-        qDebug() << "m_animationActive 1: " << m_animationActive;
-        qDebug() << "LiftVector vor jumpUp: " << m_disc_temp->getLiftVector();
         //m_disc->jumpUp();
         m_disc_temp->jumpUp();
         m_totalAnimationSteps = 50;
@@ -593,8 +591,6 @@ void MyGLItem::doSynchronizeThreads()
         qDebug() << "Kampf Überprüfung";
         kampf(m_disc, end, m_lastMouseEvent->pos());
         qDebug() << "";
-        qDebug() << "m_animationActive 2: " << m_animationActive;
-        qDebug() << "LiftVector vor jumpDown: " << m_disc_temp->getLiftVector();
         //m_disc->jumpDown();
         m_disc_temp->jumpDown();
         m_totalAnimationSteps = 50;
@@ -637,13 +633,11 @@ void MyGLItem::doSynchronizeThreads()
             m_animationStep++;
             //m_disc->updateAnimatedProperties(static_cast<float>(m_animationStep) / static_cast<float>(m_totalAnimationSteps) );
             m_disc_temp->updateAnimatedProperties(static_cast<float>(m_animationStep) / static_cast<float>(m_totalAnimationSteps) );
-            qDebug() << "LiftVector bei Step: " << m_animationStep << " ist " << m_disc->getLiftVector();
         }else{
             //m_disc->finishAnimation();
             m_disc_temp->finishAnimation();
             m_animationStep = 0;
             m_animationActive = false;
-            qDebug() << "LiftVector nach Animation: " << m_disc_temp->getLiftVector();
         }
     }
 }
