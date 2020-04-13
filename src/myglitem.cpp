@@ -594,7 +594,6 @@ void MyGLItem::doSynchronizeThreads()
         kampf(m_disc, end, m_lastMouseEvent->pos());
         qDebug() << "";
         qDebug() << "m_animationActive 2: " << m_animationActive;
-        //m_disc_temp->setLiftVector(v_Y);
         qDebug() << "LiftVector vor jumpDown: " << m_disc_temp->getLiftVector();
         //m_disc->jumpDown();
         m_disc_temp->jumpDown();
