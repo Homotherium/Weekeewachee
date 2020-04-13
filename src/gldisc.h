@@ -67,6 +67,8 @@ public:
     QString getDiskLastmove() const;
     void setDiskLastmove(const QString &value);
 
+    QVector3D getLiftVector() {return  m_liftVector;}
+
 private:
     float m_height;
     IndexType m_slices;

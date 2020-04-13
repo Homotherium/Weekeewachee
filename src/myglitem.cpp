@@ -574,6 +574,7 @@ void MyGLItem::doSynchronizeThreads()
         if(m_disc->isHit(nearPoint, farPoint)){
             m_disc->setSelected(true);
         }
+        qDebug() << "m_animationActive 1: " << m_animationActive;
         m_disc->jumpUp();
         m_totalAnimationSteps = 50;
         m_animationActive = true;
@@ -581,14 +582,16 @@ void MyGLItem::doSynchronizeThreads()
     }
 
     //mouse release
-    if(m_lastMouseEvent && (m_lastMouseEvent->type() == QMouseEvent::MouseButtonRelease) && !m_lastMouseEvent->isAccepted()){   
-        m_disc->jumpDown();
+    if(m_lastMouseEvent && (m_lastMouseEvent->type() == QMouseEvent::MouseButtonRelease) && !m_lastMouseEvent->isAccepted()){
         m_disc->setSelected(false);
         QVector3D end;
         renderer()->mouseIntersection(&end, v_Y, 0.0f, m_lastMouseEvent->pos());
         qDebug() << "Kampf Überprüfung";
         kampf(m_disc, end, m_lastMouseEvent->pos());
         qDebug() << "";
+        qDebug() << "LiftVector: " << m_disc->getLiftVector();
+        qDebug() << "m_animationActive 2: " << m_animationActive;
+        m_disc->jumpDown();
         m_totalAnimationSteps = 50;
         m_animationActive = true;
         m_lastMouseEvent->setAccepted(true);
@@ -622,6 +625,7 @@ void MyGLItem::doSynchronizeThreads()
 
     //    }
 
+    //qDebug() << "m_animationActive 3: " << m_animationActive;
     //Animation
     if(m_animationActive){
         if(m_animationStep < m_totalAnimationSteps){
