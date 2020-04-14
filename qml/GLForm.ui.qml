@@ -49,7 +49,7 @@ Item {
             anchors.top: parent.top
             anchors.topMargin: 10
             anchors.right: parent.right
-            anchors.rightMargin: 10
+            anchors.rightMargin: 25
             fillMode: Image.PreserveAspectFit
             visible: false
             source: "qrc:/images/alarm.png"
