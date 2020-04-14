@@ -108,6 +108,7 @@ public:
     void turnEnd();
     void printDiskLists();
     void showErrorMesage();
+    void spielNeustarten();
 
 signals:
     void textChanged(const QString & text);
@@ -119,7 +120,7 @@ public slots:
     void mousePressed(int x, int y, int button);
     void mouseReleased(int x, int y, int button);
     void mouseMoved(int x, int y, int button);
-    void spielNeustarten();
+    void alarmOff() {emit errorMessage(false);}
 
 protected:
     /**

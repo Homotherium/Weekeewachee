@@ -5,6 +5,7 @@
 #include <QTime>
 #include <QVector3D>
 #include <QtMath>
+#include <qelapsedtimer.h>
 #include "QThread"
 #include <math.h>
 
@@ -1246,16 +1247,11 @@ void MyGLItem::printDiskLists()
 
 void MyGLItem::showErrorMesage()
 {
-    bool onOff = true;
-    QTime dieTime= QTime::currentTime().addSecs(10);
-    while (QTime::currentTime() < dieTime){
-        if (onOff){
-            qDebug() << "Test 1";
-            emit errorMessage(true);
-            onOff = false;
-        }
-    }
-    emit errorMessage(false);
+    qDebug() << "Alarm";
+    emit errorMessage(true);
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(alarmOff()));
+    timer->start(5000);
 }
 
 void MyGLItem::spielNeustarten()
