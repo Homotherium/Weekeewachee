@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QTranslator>
 #include <QLocale>
+#include <QIcon>
 #include "myglitem.h"
 
 int main(int argc, char *argv[])
@@ -17,6 +18,7 @@ int main(int argc, char *argv[])
         app.installTranslator(&translator);
 
     QQmlApplicationEngine engine;
+    app.setWindowIcon(QIcon(":/icons/icon.ico"));
 
     qmlRegisterType<MyGLItem>("GlComponents",1,0,"MyGLItem");
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));

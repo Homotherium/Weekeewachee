@@ -31,6 +31,7 @@ SOURCES += src/main.cpp \
     src/shaderdebugger.cpp
 
 RESOURCES += \
+    icons.qrc \
     models.qrc \
     music.qrc \
     qml.qrc \
