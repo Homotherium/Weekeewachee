@@ -480,8 +480,14 @@ void MyGLItem::mouseReleased(int x, int y, int button)
         m_sounds->playSound(":/music/when.wav");
         setIsMoveCorrect(false);
     }
-    // Distance Test
-    if (!discsDistance(m_disc->getDisc_Coordinates(), end)){
+    // Weit geclickt
+    if (!isFar(m_disc->getDisc_Coordinates(), end)){
+        qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        m_sounds->playSound(":/music/when.wav");
+        setIsMoveCorrect(false);
+    }
+    // Nah geclickt
+    if (!isNear(m_disc->getDisc_Coordinates(), end)){
         qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
         m_sounds->playSound(":/music/when.wav");
         setIsMoveCorrect(false);
@@ -675,7 +681,7 @@ void MyGLItem::setIsMoveCorrect(bool value)
     isMoveCorrect = value;
 }
 
-bool MyGLItem::discsDistance(QVector3D disc, QVector3D klickPunkt)
+bool MyGLItem::isFar(QVector3D disc, QVector3D klickPunkt)
 {
     float x1 = disc.x();
     float z1 = disc.z();
@@ -850,6 +856,141 @@ bool MyGLItem::discsDistance(QVector3D disc, QVector3D klickPunkt)
         }
     }
     return false;
+}
+
+bool MyGLItem::isNear(QVector3D disc, QVector3D klickPunkt)
+{
+    float x1 = disc.x();
+    float z1 = disc.z();
+    float x2 = klickPunkt.x();
+    float z2 = klickPunkt.z();
+    if (x1 > 0 && z1 > 0){
+        if (x2 > 0 && z2 > 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "++ ++";
+            if (x1-1.4f < x2 && x2 < x1+1.4f && z1-1.4f < z2 && z2 < z1+1.4f){
+                qDebug() << "false";
+                return false;
+            } else {
+                qDebug() << "true";
+            }
+        }
+        if (x2 > 0 && z2 < 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "++ +-";
+            if (x1-1.4f < x2 && x2 < x1+1.4f && z1-1.4f < z2 && z2 < z1+1.4f){
+                qDebug() << "false";
+                return false;
+            } else {
+                qDebug() << "true";
+            }
+        }
+        if (x2 < 0 && z2 > 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "++ -+";
+            if (x1-1.4f < x2 && x2 < x1+1.4f && z1-1.4f < z2 && z2 < z1+1.4f){
+                qDebug() << "false";
+                return false;
+            } else {
+                qDebug() << "true";
+            }
+        }
+        if (x2 < 0 && z2 < 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "++ --";
+            if (x1-1.4f < x2 && x2 < x1+1.4f && z1-1.4f < z2 && z2 < z1+1.4f){
+                qDebug() << "false";
+                return false;
+            } else {
+                qDebug() << "true";
+            }
+        }
+    }
+    if (x1 > 0 && z1 < 0){
+        if (x2 > 0 && z2 > 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "+- ++";
+            if (x1-1.4f < x2 && x2 < x1+1.4f && z1+1.4f > z2 && z2 > z1-1.4f){
+                qDebug() << "false";
+                return false;
+            } else {
+                qDebug() << "true";
+            }
+        }
+        if (x2 > 0 && z2 < 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "+- +-";
+            if (x1-1.4f < x2 && x2 < x1+1.4f && z1+1.4f > z2 && z2 > z1-1.4f){
+                qDebug() << "false";
+                return false;
+            } else {
+                qDebug() << "true";
+            }
+        }
+        if (x2 < 0 && z2 > 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "+- -+";
+            if (x1-1.4f < x2 && x2 < x1+1.4f && z1+1.4f > z2 && z2 > z1-1.4f){
+                qDebug() << "false";
+                return false;
+            } else {
+                qDebug() << "true";
+            }
+        }
+        if (x2 < 0 && z2 < 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "+- --";
+            if (x1-1.4f < x2 && x2 < x1+1.4f && z1+1.4f > z2 && z2 > z1-1.4f){
+                qDebug() << "false";
+                return false;
+            } else {
+                qDebug() << "true";
+            }
+        }
+    }
+    if (x1 < 0 && z1 > 0){
+        if (x2 > 0 && z2 > 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "-+ ++";
+            if (x1+1.4f > x2 && x2 > x1-1.4f && z1-1.4f < z2 && z2 < z1+1.4f){
+                qDebug() << "false";
+                return false;
+            } else {
+                qDebug() << "true";
+            }
+        }
+        if (x2 > 0 && z2 < 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "-+ +-";
+            if (x1+1.4f > x2 && x2 > x1-1.4f && z1-1.4f < z2 && z2 < z1+1.4f){
+                qDebug() << "false";
+                return false;
+            } else {
+                qDebug() << "true";
+            }
+        }
+        if (x2 < 0 && z2 > 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "-+ -+";
+            if (x1+1.4f > x2 && x2 > x1-1.4f && z1-1.4f < z2 && z2 < z1+1.4f){
+                qDebug() << "false";
+                return false;
+            } else {
+                qDebug() << "true";
+            }
+        }
+        if (x2 < 0 && z2 < 0){
+            qDebug() << "Disc: " << x1 << ","<< z1 << ", Punkt: " << x2 << ","<< z2;
+            qDebug() << "-+ --";
+            if (x1+1.4f > x2 && x2 > x1-1.4f && z1-1.4f < z2 && z2 < z1+1.4f){
+                qDebug() << "false";
+                return false;
+            } else {
+                qDebug() << "true";
+            }
+        }
+    }
+    return true;
 }
 
 void MyGLItem::collisionKampf(GLDisc * disc1, GLDisc * disc2)
