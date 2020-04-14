@@ -482,13 +482,13 @@ void MyGLItem::mouseReleased(int x, int y, int button)
     }
     // Weit geclickt
     if (!isFar(m_disc->getDisc_Coordinates(), end)){
-        qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        qDebug() << "Out of Range, weit geclickt!";
         m_sounds->playSound(":/music/when.wav");
         setIsMoveCorrect(false);
     }
     // Nah geclickt
     if (!isNear(m_disc->getDisc_Coordinates(), end)){
-        qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        qDebug() << "Out of Range, nah geclickt!";
         m_sounds->playSound(":/music/when.wav");
         setIsMoveCorrect(false);
     }
