@@ -486,14 +486,14 @@ void MyGLItem::mouseReleased(int x, int y, int button)
         setIsMoveCorrect(false);
     }
     // Weit geclickt
-    if (!isFar(m_disc->getDisc_Coordinates(), end)){
-        qDebug() << "Out of Range, weit geclickt§";
+    else if (!isFar(m_disc->getDisc_Coordinates(), end)){
+        qDebug() << "Out of Range, weit geclickt!";
         showErrorMesage("Zu weit geklickt!");
         m_sounds->playSound(":/music/when.wav");
         setIsMoveCorrect(false);
     }
     // Nah geclickt
-    if (!isNear(m_disc->getDisc_Coordinates(), end)){
+    else if (!isNear(m_disc->getDisc_Coordinates(), end)){
         qDebug() << "Out of Range, nah geclickt!";
         showErrorMesage("Zu nah geklickt!");
         m_sounds->playSound(":/music/when.wav");
@@ -536,6 +536,7 @@ void MyGLItem::mouseMoved(int x, int y, int button)
 
 void MyGLItem::mousePressed(int x, int y, int button)
 {
+    alarmOff();
     if(m_lastMouseEvent)
         delete m_lastMouseEvent;
     m_lastMouseEvent = new QMouseEvent(QMouseEvent::MouseButtonPress, QPointF(x, y), QPointF(x, y),
@@ -557,6 +558,7 @@ void MyGLItem::mousePressed(int x, int y, int button)
     for (int d = 0; d < disks_list.size(); d++) {
         if(disks_list[d]->isHit(QPoint(x,y),renderer())){
             qDebug() << "Spieler darf diese Fabre nicht bewegen!!!!!!!!!!!";
+            showErrorMesage("Falsche Farbe");
             setIsMoveCorrect(false);
         }
     }
