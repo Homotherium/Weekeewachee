@@ -50,6 +50,8 @@ class MyGLItem : public GLItem
 
     GLField *m_field;
 
+    QTimer *alarmtimer;
+
     void createTriangles();
     void drawTriangles();
     void createNormals();
@@ -107,7 +109,7 @@ public:
     void rotateBoard();
     void turnEnd();
     void printDiskLists();
-    void showErrorMesage();
+    void showErrorMesage(QString errorText);
     void spielNeustarten();
 
 signals:
@@ -115,12 +117,13 @@ signals:
     void textColorChanged(const QString & color);
     void textBackgroundColorChanged(const QString & color);
     void errorMessage(const bool & visibility);
+    void errorText(const QString & text);
 
 public slots:
     void mousePressed(int x, int y, int button);
     void mouseReleased(int x, int y, int button);
     void mouseMoved(int x, int y, int button);
-    void alarmOff() {emit errorMessage(false);}
+    void alarmOff() {emit errorMessage(false); emit errorText("");}
 
 protected:
     /**

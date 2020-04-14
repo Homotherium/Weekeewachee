@@ -19,6 +19,7 @@ Item {
         onTextColorChanged: label.color = color
         onTextBackgroundColorChanged: label.background.color = color
         onErrorMessage: image.visible = visibility
+        onErrorText: error.text = text
 
         MouseArea
         {
@@ -52,6 +53,19 @@ Item {
             fillMode: Image.PreserveAspectFit
             visible: false
             source: "qrc:/images/alarm.png"
+        }
+
+        Label {
+            id: error
+            width: 100
+            text: qsTr("")
+            lineHeight: 1.5
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            anchors.top: parent.top
+            anchors.topMargin: 85
+            anchors.right: parent.right
+            anchors.rightMargin: 10
         }
 
     }

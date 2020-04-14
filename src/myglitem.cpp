@@ -71,6 +71,8 @@ MyGLItem::MyGLItem() : GLItem()
     m_sounds = new music(this);
     m_sounds->setEnabled(true);
     newgame = true;
+    alarmtimer = new QTimer(this);
+    connect(alarmtimer, SIGNAL(timeout()), this, SLOT(alarmOff()));
 }
 
 void MyGLItem::paintUnderQmlScene()
@@ -477,7 +479,7 @@ void MyGLItem::mouseReleased(int x, int y, int button)
     float end_z = end.z();
     if (end_x > 6.0f || end_x < -6.0f || end_z > 9.0f || end_z < -9.0f){
         qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
-        showErrorMesage();
+        showErrorMesage("Out of Range!");
         m_disc->draw(renderer());
         update();
         m_sounds->playSound(":/music/when.wav");
@@ -485,15 +487,15 @@ void MyGLItem::mouseReleased(int x, int y, int button)
     }
     // Weit geclickt
     if (!isFar(m_disc->getDisc_Coordinates(), end)){
-        qDebug() << "Out of Range, weit geclickt!";
-        showErrorMesage();
+        qDebug() << "Out of Range, weit geclickt§";
+        showErrorMesage("Zu weit geklickt!");
         m_sounds->playSound(":/music/when.wav");
         setIsMoveCorrect(false);
     }
     // Nah geclickt
     if (!isNear(m_disc->getDisc_Coordinates(), end)){
         qDebug() << "Out of Range, nah geclickt!";
-        showErrorMesage();
+        showErrorMesage("Zu nah geklickt!");
         m_sounds->playSound(":/music/when.wav");
         setIsMoveCorrect(false);
     }
@@ -1245,13 +1247,13 @@ void MyGLItem::printDiskLists()
     }
 }
 
-void MyGLItem::showErrorMesage()
+void MyGLItem::showErrorMesage(QString text)
 {
+    int alarmTime = 5000;
     qDebug() << "Alarm";
     emit errorMessage(true);
-    QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(alarmOff()));
-    timer->start(5000);
+    emit errorText(text);
+    alarmtimer->start(alarmTime);
 }
 
 void MyGLItem::spielNeustarten()
