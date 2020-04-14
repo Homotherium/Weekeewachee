@@ -7,7 +7,6 @@ Item {
     id: element
     width: 600
     height: 400
-    property alias button: button
     property alias mouseArea: mouseArea
     property alias myGLItem: myGLItem
     property alias viewportX: myGLItem.viewportX
@@ -16,6 +15,10 @@ Item {
     MyGLItem {
         id: myGLItem
         anchors.fill: parent
+        onTextChanged: label.text = text
+        onTextColorChanged: label.color = color
+        onTextBackgroundColorChanged: label.background.color = color
+        onErrorMessage: image.visible = visibility
 
         MouseArea
         {
@@ -35,28 +38,21 @@ Item {
             background: Rectangle {
                 color: "yellow"
             }
+
         }
 
-        Connections{
-            target: myGLItem
-            onTextChanged: label.text = text
+        Image {
+            id: image
+            width: 70
+            height: 70
+            anchors.top: parent.top
+            anchors.topMargin: 10
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            fillMode: Image.PreserveAspectFit
+            visible: false
+            source: "qrc:/images/alarm.png"
         }
 
-        Connections{
-            target: myGLItem
-            onTextColorChanged: label.color = color
-        }
-
-        Connections{
-            target: myGLItem
-            onTextBackgroundColorChanged: label.background.color = color
-        }
-
-        Button {
-            id: button
-            x: 0
-            y: 0
-            text: qsTr("Spiel Neustarten")
-        }
     }
 }

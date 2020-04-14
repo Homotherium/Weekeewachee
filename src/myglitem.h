@@ -107,11 +107,13 @@ public:
     void rotateBoard();
     void turnEnd();
     void printDiskLists();
+    void showErrorMesage();
 
 signals:
     void textChanged(const QString & text);
     void textColorChanged(const QString & color);
     void textBackgroundColorChanged(const QString & color);
+    void errorMessage(const bool & visibility);
 
 public slots:
     void mousePressed(int x, int y, int button);

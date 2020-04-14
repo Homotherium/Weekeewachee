@@ -2,6 +2,7 @@
 #include <QQuickWindow>
 #include "src/gldefines.h"
 #include "src/glmouseray.h"
+#include <QTime>
 #include <QVector3D>
 #include <QtMath>
 #include "QThread"
@@ -475,6 +476,7 @@ void MyGLItem::mouseReleased(int x, int y, int button)
     float end_z = end.z();
     if (end_x > 6.0f || end_x < -6.0f || end_z > 9.0f || end_z < -9.0f){
         qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        showErrorMesage();
         m_disc->draw(renderer());
         update();
         m_sounds->playSound(":/music/when.wav");
@@ -483,12 +485,14 @@ void MyGLItem::mouseReleased(int x, int y, int button)
     // Weit geclickt
     if (!isFar(m_disc->getDisc_Coordinates(), end)){
         qDebug() << "Out of Range, weit geclickt!";
+        showErrorMesage();
         m_sounds->playSound(":/music/when.wav");
         setIsMoveCorrect(false);
     }
     // Nah geclickt
     if (!isNear(m_disc->getDisc_Coordinates(), end)){
         qDebug() << "Out of Range, nah geclickt!";
+        showErrorMesage();
         m_sounds->playSound(":/music/when.wav");
         setIsMoveCorrect(false);
     }
@@ -1238,6 +1242,20 @@ void MyGLItem::printDiskLists()
     for (int w = 0; w < m_whitedisks_list.size(); w++) {
         qDebug() << m_whitedisks_list[w]->getDisc_Name() << m_whitedisks_list[w]->getDisc_Color() << m_whitedisks_list[w]->getDisc_Coordinates();
     }
+}
+
+void MyGLItem::showErrorMesage()
+{
+    bool onOff = true;
+    QTime dieTime= QTime::currentTime().addSecs(10);
+    while (QTime::currentTime() < dieTime){
+        if (onOff){
+            qDebug() << "Test 1";
+            emit errorMessage(true);
+            onOff = false;
+        }
+    }
+    emit errorMessage(false);
 }
 
 void MyGLItem::spielNeustarten()

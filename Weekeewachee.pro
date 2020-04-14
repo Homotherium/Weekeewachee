@@ -32,6 +32,7 @@ SOURCES += src/main.cpp \
 
 RESOURCES += \
     icons.qrc \
+    images.qrc \
     models.qrc \
     music.qrc \
     qml.qrc \
