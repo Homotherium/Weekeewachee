@@ -43,6 +43,12 @@ TRANSLATIONS += translations/testmm2019_de.ts
 
 win32 { LIBS += -lopengl32}
 
+# Mac Icon
+ICON = $$PWD/icons/icon.icns
+QMAKE_INFO_PLIST = Info.plist
+OTHER_FILES += Info.plist
+QMAKE_POST_LINK += ;cp -n $$PWD/Icons/$${HC_ICONNAME} $${OUT_PWD}/$${TARGET}.app/Contents/Resources/
+
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 
