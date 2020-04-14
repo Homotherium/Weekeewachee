@@ -18,8 +18,8 @@ Item {
         onTextChanged: label.text = text
         onTextColorChanged: label.color = color
         onTextBackgroundColorChanged: label.background.color = color
-        onErrorMessage: image.visible = visibility
-        onErrorText: error.text = text
+        onErrorIcon: image.visible = visibility
+        onErrorMessage: error.text = text
 
         MouseArea
         {

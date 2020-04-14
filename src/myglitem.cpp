@@ -1251,8 +1251,8 @@ void MyGLItem::showErrorMesage(QString text)
 {
     int alarmTime = 5000;
     qDebug() << "Alarm";
-    emit errorMessage(true);
-    emit errorText(text);
+    emit errorIcon(true);
+    emit errorMessage(text);
     alarmtimer->start(alarmTime);
 }
 
