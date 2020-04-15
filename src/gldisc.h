@@ -48,12 +48,8 @@ public:
      */
     void updateAnimatedProperties(float animationState)Q_DECL_OVERRIDE;
 
-
     void jumpUp();
     void jumpDown();
-
-
-
 
     QVector3D getDisc_Coordinates() const;
     void setDisc_Coordinates(const QVector3D &disc_Coordinates);
@@ -67,15 +63,35 @@ public:
     QString getDiskLastmove() const;
     void setDiskLastmove(const QString &value);
 
+    QVector3D getDisc_MoveCoordinates() const;
+    void setDisc_MoveCoordinates(const QVector3D &disc_MoveCoordinates);
+
+    bool isMoved(){return isMove;}
+    void setIsMoved(bool value);
+
+    QVector3D getStartCoordinates() const;
+    void setStartCoordinates(const QVector3D &value);
+
+    QVector3D getMoveCoordinates() const;
+    void setMoveCoordinates(const QVector3D &value);
+
+    QVector3D getEndCoordinates() const;
+    void setEndCoordinates(const QVector3D &value);
+
 private:
     float m_height;
     IndexType m_slices;
     //QPoint m_FieldCoord;
+    QVector3D startCoordinates;
+    QVector3D moveCoordinates;
+    QVector3D endCoordinates;
     QVector3D m_FieldCoord;
     QVector3D m_disc_Coordinates;
+    QVector3D m_disc_MoveCoordinates;
     QString m_disc_Name;
     QString m_disc_Color;
     bool m_isKing;
+    bool isMove;
 
     //Animation
     QVector3D m_liftVector;
