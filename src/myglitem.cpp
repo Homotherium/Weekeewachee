@@ -495,6 +495,12 @@ QVector3D MyGLItem::moving(QVector3D diskCoor, QVector3D MousePos)
             z = z2 - z1;
             correctur = QVector3D(x, 0.0f, z);
         }
+        if (x2 > 0.0f && z2 < 0.0f) {
+            qDebug() << "++ +-";
+            x = x2 - x1;
+            z = z2 - z1;
+            correctur = QVector3D(x, 0.0f, z);
+        }
     }
     qDebug() << "Correctur: " << correctur;
     return correctur;
