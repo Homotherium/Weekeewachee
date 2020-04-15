@@ -1328,55 +1328,56 @@ void MyGLItem::setDiskToCenter(GLDisc *disc)
     float z_value = 0.0f;
     float x_move = 0.0f;
     float z_move = 0.0f;
+    QVector3D correct = QVector3D (0.0f, 0.0f, 0.0f);
     // X-Werte
     if (x > 0.0f && x < 3.0f){
-        qDebug() << "X 0 3: ";
+        qDebug() << "X 0 3";
         x_value = 1.5f;
         x_move = x-1.5f;
     }
     if (x > 3.0f && x < 6.0f) {
-        qDebug() << "X 3 6: ";
+        qDebug() << "X 3 6";
         x_value = 4.5f;
         x_move = x-4.5f;
     }
     if (x < 0.0f && x > -3.0f){
-        qDebug() << "X 0 -3: ";
+        qDebug() << "X 0 -3";
         x_value = -1.5f;
         x_move = x+1.5f;
     }
     if (x < -3.0f && x > -6.0f) {
-        qDebug() << "X -3 -6: ";
+        qDebug() << "X -3 -6";
         x_value = -4.5f;
         x_move = x+4.5f;
     }
     // Z-Werte
     if (z > 0.0f && z < 3.0f){
-        qDebug() << "Z 0 3: ";
+        qDebug() << "Z 0 3";
         z_value = 1.5f;
         z_move = z-1.5f;
     }
     if (z > 3.0f && z < 6.0f) {
-        qDebug() << "Z 3 6: ";
+        qDebug() << "Z 3 6";
         z_value = 4.5f;
         z_move = z-4.5f;
     }
     if (z > 6.0f && z < 9.0f) {
-        qDebug() << "Z 6 9: ";
+        qDebug() << "Z 6 9";
         z_value = 7.5f;
         z_move = z-7.5f;
     }
     if (z < 0.0f && z > -3.0f){
-        qDebug() << "Z 0 -3: ";
+        qDebug() << "Z 0 -3";
         z_value = -1.5f;
         z_move = z+1.5f;
     }
     if (z < -3.0f && z > -6.0f) {
-        qDebug() << "Z -3 -6: ";
+        qDebug() << "Z -3 -6";
         z_value = -4.5f;
         z_move = z+4.5f;
     }
     if (z < -6.0f && z > -9.0f) {
-        qDebug() << "Z -6 -9: ";
+        qDebug() << "Z -6 -9";
         z_value = -7.5f;
         z_move = z+7.5f;
     }
@@ -1385,21 +1386,19 @@ void MyGLItem::setDiskToCenter(GLDisc *disc)
     // Werte einsetzen
     disc->setMoveCoordinates(QVector3D(x_value, 0.0f, z_value));
     if (x > 0.0f && z > 0.0f){
-        qDebug() << "Move Disk: " << QVector3D(-x_move, 0.0f, -z_move);
-        disc->move(QVector3D(-x_move, 0.0f, -z_move));
+        correct = QVector3D(-x_move, 0.0f, -z_move);
     }
     if (x > 0.0f && z < 0.0f){
-        qDebug() << "Move Disk: " << QVector3D(-x_move, 0.0f, +z_move);
-        disc->move(QVector3D(-x_move, 0.0f, +z_move));
+        correct = QVector3D(-x_move, 0.0f, +z_move);
     }
     if (x < 0.0f && z > 0.0f){
-        qDebug() << "Move Disk: " << QVector3D(-x_move, 0.0f, -z_move);
-        disc->move(QVector3D(-x_move, 0.0f, -z_move));
+        correct = QVector3D(-x_move, 0.0f, -z_move);
     }
     if (x < 0.0f && z < 0.0f){
-        qDebug() << "Move Disk: " << QVector3D(x_move, 0.0f, z_move);
-        disc->move(QVector3D(x_move, 0.0f, z_move));
+        correct = QVector3D(x_move, 0.0f, z_move);
     }
+    qDebug() << "Move Disk: " << correct;
+    disc->move(correct);
     update();
 }
 
