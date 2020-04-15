@@ -51,6 +51,7 @@ class MyGLItem : public GLItem
     GLField *m_field;
 
     QTimer *alarmtimer;
+    QTimer *rotatetimer;
 
     void createTriangles();
     void drawTriangles();
@@ -69,6 +70,8 @@ class MyGLItem : public GLItem
     QMouseEvent * m_lastMouseEvent;
 
     QVector3D m_pressPosToDiscPos;
+    QVector3D diskPosition;
+    QPoint endPunkt;
     bool m_mouseEventProcessed;
     bool m_mouseRaySet;
 
@@ -88,6 +91,8 @@ public:
     void setupGeometry() Q_DECL_OVERRIDE;
 
     bool kampf(GLDisc * disk, QVector3D stein, QPoint hit_coordinaten);
+    bool kampf(GLDisc * disk);
+    QVector3D moving(QVector3D diskCoor, QVector3D MousePos);
     void moveDisk(GLDisc * disk, QVector3D start, QVector3D end);
     void move_away(GLDisc * disk);
     void move_back(GLDisc * disk);
@@ -104,6 +109,7 @@ public:
     bool isFar(QVector3D disc, QVector3D klickPunkt);
     bool isNear(QVector3D disc, QVector3D klickPunkt);
     void collisionKampf(GLDisc * disc1, GLDisc * disc2);
+    void setDiskToCenter(GLDisc * disc);
     bool gameOverTest();
     bool diskCollision(GLDisc * disk);
     void rotateBoard();

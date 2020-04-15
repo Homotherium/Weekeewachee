@@ -11,6 +11,7 @@ GLDisc::GLDisc(const QString & name, const QVector3D &fieldCoord, float radius, 
     m_drawingMode = GL_TRIANGLE_STRIP;
     diskLastmove = "";
     m_isKing = false;
+    isMove = false;
     setShowFrame(false);
 }
 
@@ -156,6 +157,51 @@ QString GLDisc::getDiskLastmove() const
 void GLDisc::setDiskLastmove(const QString &value)
 {
     diskLastmove = value;
+}
+
+QVector3D GLDisc::getDisc_MoveCoordinates() const
+{
+    return m_disc_MoveCoordinates;
+}
+
+void GLDisc::setDisc_MoveCoordinates(const QVector3D &disc_MoveCoordinates)
+{
+    m_disc_MoveCoordinates = disc_MoveCoordinates;
+}
+
+void GLDisc::setIsMoved(bool value)
+{
+    isMove = value;
+}
+
+QVector3D GLDisc::getStartCoordinates() const
+{
+    return startCoordinates;
+}
+
+void GLDisc::setStartCoordinates(const QVector3D &value)
+{
+    startCoordinates = value;
+}
+
+QVector3D GLDisc::getMoveCoordinates() const
+{
+    return moveCoordinates;
+}
+
+void GLDisc::setMoveCoordinates(const QVector3D &value)
+{
+    moveCoordinates = value;
+}
+
+QVector3D GLDisc::getEndCoordinates() const
+{
+    return endCoordinates;
+}
+
+void GLDisc::setEndCoordinates(const QVector3D &value)
+{
+    endCoordinates = value;
 }
 
 void GLDisc::finishAnimation()
