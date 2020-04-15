@@ -790,10 +790,10 @@ void MyGLItem::doSynchronizeThreads()
         qDebug() << "Disc_MoveCoordinates(cor): " << m_disc->getMoveCoordinates();
         m_disc->setEndCoordinates(m_disc->getMoveCoordinates());
         qDebug() << "Disc_EndCoordinates: " << m_disc->getEndCoordinates();
-//        QVector3D end;
-//        renderer()->mouseIntersection(&end, v_Y, 0.0f, m_lastMouseEvent->pos());
+        //        QVector3D end;
+        //        renderer()->mouseIntersection(&end, v_Y, 0.0f, m_lastMouseEvent->pos());
         qDebug() << "Kampf Überprüfung";
-//        kampf(m_disc, end, m_lastMouseEvent->pos());
+        //        kampf(m_disc, end, m_lastMouseEvent->pos());
         kampf(m_disc);
         qDebug() << "";
         m_disc_temp->jumpDown();
@@ -1330,50 +1330,76 @@ void MyGLItem::setDiskToCenter(GLDisc *disc)
     float z_move = 0.0f;
     // X-Werte
     if (x > 0.0f && x < 3.0f){
+        qDebug() << "X 0 3: ";
         x_value = 1.5f;
         x_move = x-1.5f;
     }
     if (x > 3.0f && x < 6.0f) {
+        qDebug() << "X 3 6: ";
         x_value = 4.5f;
         x_move = x-4.5f;
     }
     if (x < 0.0f && x > -3.0f){
+        qDebug() << "X 0 -3: ";
         x_value = -1.5f;
-        x_move = x-1.5f;
+        x_move = x+1.5f;
     }
     if (x < -3.0f && x > -6.0f) {
+        qDebug() << "X -3 -6: ";
         x_value = -4.5f;
-        x_move = x-4.5f;
+        x_move = x+4.5f;
     }
     // Z-Werte
     if (z > 0.0f && z < 3.0f){
+        qDebug() << "Z 0 3: ";
         z_value = 1.5f;
         z_move = z-1.5f;
     }
     if (z > 3.0f && z < 6.0f) {
+        qDebug() << "Z 3 6: ";
         z_value = 4.5f;
         z_move = z-4.5f;
     }
     if (z > 6.0f && z < 9.0f) {
+        qDebug() << "Z 6 9: ";
         z_value = 7.5f;
         z_move = z-7.5f;
     }
     if (z < 0.0f && z > -3.0f){
+        qDebug() << "Z 0 -3: ";
         z_value = -1.5f;
-        z_move = z-1.5f;
+        z_move = z+1.5f;
     }
     if (z < -3.0f && z > -6.0f) {
+        qDebug() << "Z -3 -6: ";
         z_value = -4.5f;
-        z_move = z-4.5f;
+        z_move = z+4.5f;
     }
     if (z < -6.0f && z > -9.0f) {
+        qDebug() << "Z -6 -9: ";
         z_value = -7.5f;
-        z_move = z-7.5f;
+        z_move = z+7.5f;
     }
+    qDebug() << "x_move: " << x_move;
+    qDebug() << "z_move: " << z_move;
     // Werte einsetzen
     disc->setMoveCoordinates(QVector3D(x_value, 0.0f, z_value));
-    qDebug() << "Move Disk: " << QVector3D(-x_move, 0.0f, -z_move);
-    disc->move(QVector3D(-x_move, 0.0f, -z_move));
+    if (x > 0.0f && z > 0.0f){
+        qDebug() << "Move Disk: " << QVector3D(-x_move, 0.0f, -z_move);
+        disc->move(QVector3D(-x_move, 0.0f, -z_move));
+    }
+    if (x > 0.0f && z < 0.0f){
+        qDebug() << "Move Disk: " << QVector3D(-x_move, 0.0f, +z_move);
+        disc->move(QVector3D(-x_move, 0.0f, +z_move));
+    }
+    if (x < 0.0f && z > 0.0f){
+        qDebug() << "Move Disk: " << QVector3D(-x_move, 0.0f, -z_move);
+        disc->move(QVector3D(-x_move, 0.0f, -z_move));
+    }
+    if (x < 0.0f && z < 0.0f){
+        qDebug() << "Move Disk: " << QVector3D(x_move, 0.0f, z_move);
+        disc->move(QVector3D(x_move, 0.0f, z_move));
+    }
     update();
 }
 
@@ -1472,16 +1498,16 @@ void MyGLItem::rotateBoard()
         emit textBackgroundColorChanged("white");
         qDebug() << "Black Player turn";
     }
-//    QVector3D temp = m_eye * factor;
-//    rotatetimer->moveToThread(this->thread());
-//    while(m_eye != temp){
-//        if(temp.z() < 0){
-//            m_eye.setZ(m_eye.z() - 1.0f);
-//        } else {
-//            m_eye.setZ(m_eye.z() + 1.0f);
-//        }
-//        rotatetimer->start(1000);
-//    }
+    //    QVector3D temp = m_eye * factor;
+    //    rotatetimer->moveToThread(this->thread());
+    //    while(m_eye != temp){
+    //        if(temp.z() < 0){
+    //            m_eye.setZ(m_eye.z() - 1.0f);
+    //        } else {
+    //            m_eye.setZ(m_eye.z() + 1.0f);
+    //        }
+    //        rotatetimer->start(1000);
+    //    }
     m_eye = m_eye * factor;
     update();
 }
