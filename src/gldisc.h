@@ -78,12 +78,22 @@ public:
     QVector3D getEndCoordinates() const;
     void setEndCoordinates(const QVector3D &value);
 
+    QVector3D getTempCoordinates() const;
+    void setTempCoordinates(const QVector3D &value);
+
+    int getDx() const;
+    void setDx(int value);
+
+    int getDz() const;
+    void setDz(int value);
+
 private:
     float m_height;
     IndexType m_slices;
     //QPoint m_FieldCoord;
     QVector3D startCoordinates;
     QVector3D moveCoordinates;
+    QVector3D tempCoordinates;
     QVector3D endCoordinates;
     QVector3D m_FieldCoord;
     QVector3D m_disc_Coordinates;
@@ -92,6 +102,8 @@ private:
     QString m_disc_Color;
     bool m_isKing;
     bool isMove;
+    int dx;
+    int dz;
 
     //Animation
     QVector3D m_liftVector;

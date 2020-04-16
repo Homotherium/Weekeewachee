@@ -13,6 +13,8 @@ GLDisc::GLDisc(const QString & name, const QVector3D &fieldCoord, float radius, 
     m_isKing = false;
     isMove = false;
     setShowFrame(false);
+    dx = 0;
+    dz = 0;
 }
 
 void GLDisc::makeSurface(QVector<GLPoint> *pointContainer, QVector<GLushort> *indexContainer)
@@ -202,6 +204,36 @@ QVector3D GLDisc::getEndCoordinates() const
 void GLDisc::setEndCoordinates(const QVector3D &value)
 {
     endCoordinates = value;
+}
+
+QVector3D GLDisc::getTempCoordinates() const
+{
+    return tempCoordinates;
+}
+
+void GLDisc::setTempCoordinates(const QVector3D &value)
+{
+    tempCoordinates = value;
+}
+
+int GLDisc::getDx() const
+{
+    return dx;
+}
+
+void GLDisc::setDx(int value)
+{
+    dx = value;
+}
+
+int GLDisc::getDz() const
+{
+    return dz;
+}
+
+void GLDisc::setDz(int value)
+{
+    dz = value;
 }
 
 void GLDisc::finishAnimation()
