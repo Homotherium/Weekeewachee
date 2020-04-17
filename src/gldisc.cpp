@@ -329,6 +329,12 @@ QList<QString> GLDisc::getList()
     if (listName == "A4"){
         list = A4;
     }
+    if (listName == "A5"){
+        list = A5;
+    }
+    if (listName == "A6"){
+        list = A6;
+    }
     if (listName == "B1"){
         list = B1;
     }
@@ -337,6 +343,12 @@ QList<QString> GLDisc::getList()
     }
     if (listName == "B3"){
         list = B3;
+    }
+    if (listName == "B5"){
+        list = B5;
+    }
+    if (listName == "B6"){
+        list = B6;
     }
     if (listName == "A4"){
         list = B4;
@@ -353,6 +365,12 @@ QList<QString> GLDisc::getList()
     if (listName == "C4"){
         list = C4;
     }
+    if (listName == "C5"){
+        list = C5;
+    }
+    if (listName == "C6"){
+        list = C6;
+    }
     if (listName == "D1"){
         list = D1;
     }
@@ -364,6 +382,12 @@ QList<QString> GLDisc::getList()
     }
     if (listName == "D4"){
         list = D4;
+    }
+    if (listName == "D5"){
+        list = D5;
+    }
+    if (listName == "D6"){
+        list = D6;
     }
     return list;
 }
@@ -421,8 +445,11 @@ QVector3D GLDisc::getVector(QList<QString> list)
 
 bool GLDisc::isMovementOk()
 {
+    qDebug() << "isMovementOk";
     QString moveCoor = getDx_temp() + getDz_temp();
+    qDebug() << "moveCoor:" << moveCoor;
     QList<QString> moveList = getList();
+    qDebug() << "moveList:" << moveList;
     for (int i = 0; i < moveList.size(); i++){
         if (moveList[i] == moveCoor) {
             return true;
@@ -433,7 +460,6 @@ bool GLDisc::isMovementOk()
 
 void GLDisc::backStep()
 {
-    qDebug() << stepVector;
     move(stepVector);
 }
 
