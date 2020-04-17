@@ -828,8 +828,6 @@ void MyGLItem::doSynchronizeThreads()
         //        kampf(m_disc, end, m_lastMouseEvent->pos());
         kampf(m_disc);
         qDebug() << "";
-        m_disc->updateXZ();
-        m_disc->setStepVector({0.0f, 0.0f, 0.0f});
         m_disc_temp->jumpDown();
         m_totalAnimationSteps = 10;
         m_animationActive = true;
@@ -1601,6 +1599,9 @@ void MyGLItem::turnEnd()
         changePlayer(player);
         // Board umdrehen
         rotateBoard();
+        // Update XZ
+        m_disc->setStepVector({0.0f, 0.0f, 0.0f});
+        m_disc->updateXZ();
         // Actual disk to Fake disk
         m_disc = m_disc_other;
     }  else {
