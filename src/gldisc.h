@@ -81,11 +81,25 @@ public:
     QVector3D getTempCoordinates() const;
     void setTempCoordinates(const QVector3D &value);
 
-    int getDx() const;
-    void setDx(int value);
 
-    int getDz() const;
-    void setDz(int value);
+    QString getDx() const;
+    void setDx(const QString &value);
+
+    QString getDz() const;
+    void setDz(QString value);
+
+    QString getDx_temp() const;
+    void setDx_temp(const QString &value);
+
+    QString getDz_temp() const;
+    void setDz_temp(QString value);
+
+    void setXZ();
+    void updateXZ();
+
+    QList<QString> getList();
+    QVector3D getVector(QList<QString> list);
+    bool isMovementOk();
 
 private:
     float m_height;
@@ -102,14 +116,57 @@ private:
     QString m_disc_Color;
     bool m_isKing;
     bool isMove;
-    int dx;
-    int dz;
+    QString dx;
+    QString dz;
+    QString dx_temp;
+    QString dz_temp;
 
     //Animation
     QVector3D m_liftVector;
     QVector3D m_finalLiftVector;
     QVector3D m_startLiftVector;
 
+    //Listen
+    QList<QString> A1 = {{"A2"},{"B1"},{"B2"}};
+    QList<QString> A2 = {{"A1"},{"A3"},{"B1"},{"B2"},{"B3"}};
+    QList<QString> A3 = {{"A2"},{"A4"},{"B2"},{"B3"},{"B4"}};
+    QList<QString> A4 = {{"A3"},{"A5"},{"B3"},{"B4"},{"B5"}};
+    QList<QString> A5 = {{"A4"},{"A6"},{"B4"},{"B5"},{"B6"}};
+    QList<QString> A6 = {{"A5"},{"B5"},{"B6"}};
+
+    QList<QString> B1 = {{"A1"},{"A2"},{"B2"},{"C1"},{"C2"}};
+    QList<QString> B2 = {{"A1"},{"A2"},{"A3"},{"B1"},{"B3"},{"C1"},{"C2"},{"C3"}};
+    QList<QString> B3 = {{"A2"},{"A3"},{"A4"},{"B2"},{"B4"},{"C2"},{"C3"},{"C4"}};
+    QList<QString> B4 = {{"A3"},{"A4"},{"A5"},{"B3"},{"B5"},{"C3"},{"C4"},{"C5"}};
+    QList<QString> B5 = {{"A4"},{"A5"},{"A6"},{"B4"},{"B6"},{"C4"},{"C5"},{"C6"}};
+    QList<QString> B6 = {{"A5"},{"A6"},{"B5"},{"C5"},{"C6"}};
+
+    QList<QString> C1 = {{"B1"},{"B2"},{"C2"},{"D1"},{"D2"}};
+    QList<QString> C2 = {{"B1"},{"B2"},{"B3"},{"C1"},{"C3"},{"D1"},{"D2"},{"D3"}};
+    QList<QString> C3 = {{"B2"},{"B3"},{"B4"},{"C2"},{"C4"},{"D2"},{"D3"},{"D4"}};
+    QList<QString> C4 = {{"B3"},{"B4"},{"B5"},{"C3"},{"C5"},{"D3"},{"D4"},{"D5"}};
+    QList<QString> C5 = {{"B4"},{"B5"},{"B6"},{"C4"},{"C6"},{"D4"},{"D5"},{"D6"}};
+    QList<QString> C6 = {{"B5"},{"B6"},{"C5"},{"D5"},{"D6"}};
+
+    QList<QString> D1 = {{"C1"},{"C2"},{"D2"}};
+    QList<QString> D2 = {{"C1"},{"C2"},{"C3"},{"D1"},{"D3"}};
+    QList<QString> D3 = {{"C2"},{"C3"},{"C4"},{"D2"},{"D4"}};
+    QList<QString> D4 = {{"C3"},{"C4"},{"C5"},{"D3"},{"D5"}};
+    QList<QString> D5 = {{"C4"},{"C5"},{"C6"},{"D4"},{"D6"}};
+    QList<QString> D6 = {{"C5"},{"C6"},{"D5"}};
+
+    //Vectoren Listen
+    QList<QVector3D> left_down = {{0.0f, 0.0f, +3.0f},{+3.0f, 0.0f, 0.0f},{+3.0f, 0.0f, +3.0f}};
+    QList<QVector3D> left_centre = {{0.0f, 0.0f, +3.0f},{0.0f, 0.0f, -3.0f},{+3.0f, 0.0f, +3.0f},{+3.0f, 0.0f, 0.0f},{+3.0f, 0.0f, -3.0f}};
+    QList<QVector3D> left_top = {{0.0f, 0.0f, +3.0f},{+3.0f, 0.0f, +3.0f},{+3.0f, 0.0f, 0.0f}};
+
+    QList<QVector3D> middle_down = {{-3.0f, 0.0f, 0.0f},{-3.0f, 0.0f, -3.0f},{0.0f, 0.0f, -3.0f},{+3.0f, 0.0f, 0.0f},{+3.0f, 0.0f, -3.0f}};
+    QList<QVector3D> middle_centre = {{-3.0f, 0.0f, +3.0f},{-3.0f, 0.0f, 0.0f},{-3.0f, 0.0f, -3.0f},{0.0f, 0.0f, +3.0f},{0.0f, 0.0f, -3.0f},{+3.0f, 0.0f, +3.0f},{+3.0f, 0.0f, 0.0f},{+3.0f, 0.0f, -3.0f}};
+    QList<QVector3D> middle_top = {{-3.0f, 0.0f, +3.0f},{-3.0f, 0.0f, 0.0f},{0.0f, 0.0f, +3.0f},{+3.0f, 0.0f, +3.0f},{+3.0f, 0.0f, 0.0f}};
+
+    QList<QVector3D> right_down = {{-3.0f, 0.0f, 0.0f},{-3.0f, 0.0f, -3.0f},{0.0f, 0.0f, -3.0f}};
+    QList<QVector3D> right_centre = {{-3.0f, 0.0f, +3.0f},{-3.0f, 0.0f, 0.0f},{-3.0f, 0.0f, -3.0f},{0.0f, 0.0f, +3.0f},{0.0f, 0.0f, -3.0f}};
+    QList<QVector3D> right_top = {{-3.0f, 0.0f, +3.0f},{-3.0f, 0.0f, 0.0f},{0.0f, 0.0f, +3.0f}};
 };
 
 #endif // GLDISC_H

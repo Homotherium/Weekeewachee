@@ -13,8 +13,10 @@ GLDisc::GLDisc(const QString & name, const QVector3D &fieldCoord, float radius, 
     m_isKing = false;
     isMove = false;
     setShowFrame(false);
-    dx = 0;
-    dz = 0;
+    dx = "O";
+    dz = "0";
+    dx_temp = "O";
+    dz_temp = "0";
 }
 
 void GLDisc::makeSurface(QVector<GLPoint> *pointContainer, QVector<GLushort> *indexContainer)
@@ -216,24 +218,205 @@ void GLDisc::setTempCoordinates(const QVector3D &value)
     tempCoordinates = value;
 }
 
-int GLDisc::getDx() const
+QString GLDisc::getDx() const
 {
     return dx;
 }
 
-void GLDisc::setDx(int value)
+void GLDisc::setDx(const QString &value)
 {
     dx = value;
 }
 
-int GLDisc::getDz() const
+QString GLDisc::getDz() const
 {
     return dz;
 }
 
-void GLDisc::setDz(int value)
+void GLDisc::setDz(QString value)
 {
     dz = value;
+}
+
+QString GLDisc::getDx_temp() const
+{
+    return dx_temp;
+}
+
+void GLDisc::setDx_temp(const QString &value)
+{
+    dx_temp = value;
+}
+
+QString GLDisc::getDz_temp() const
+{
+    return dz_temp;
+}
+
+void GLDisc::setDz_temp(QString value)
+{
+    dz_temp = value;
+}
+
+void GLDisc::setXZ()
+{
+    float x = getStartCoordinates().x();
+    float z = getStartCoordinates().z();
+    // X-Werte
+    if (x == -4.5f){
+        setDx("A");
+        setDx_temp("A");
+    }
+    if (x == -1.5f){
+        setDx("B");
+        setDx_temp("B");
+    }
+    if (x == 1.5f){
+        setDx("C");
+        setDx_temp("C");
+    }
+    if (x == 4.5f){
+        setDx("D");
+        setDx_temp("D");
+    }
+    // Z-Werte
+    if (z == -7.5f){
+        setDz("1");
+        setDz_temp("1");
+    }
+    if (z == -4.5f){
+        setDz("2");
+        setDz_temp("2");
+    }
+    if (z == -1.5f){
+        setDz("3");
+        setDz_temp("3");
+    }
+    if (z == 1.5f){
+        setDz("4");
+        setDz_temp("4");
+    }
+    if (z == 4.5f){
+        setDz("5");
+        setDz_temp("5");
+    }
+    if (z == 7.5f){
+        setDz("6");
+        setDz_temp("6");
+    }
+}
+
+void GLDisc::updateXZ()
+{
+    setDx(getDx_temp());
+    setDz(getDz_temp());
+}
+
+QList<QString> GLDisc::getList()
+{
+    QString listName = getDx() + getDz();
+    QList<QString> list = {};
+    if (listName == "A1"){
+        list = A1;
+    }
+    if (listName == "A2"){
+        list = A2;
+    }
+    if (listName == "A3"){
+        list = A3;
+    }
+    if (listName == "A4"){
+        list = A4;
+    }
+    if (listName == "B1"){
+        list = B1;
+    }
+    if (listName == "B2"){
+        list = B2;
+    }
+    if (listName == "B3"){
+        list = B3;
+    }
+    if (listName == "A4"){
+        list = B4;
+    }
+    if (listName == "C1"){
+        list = C1;
+    }
+    if (listName == "C2"){
+        list = C2;
+    }
+    if (listName == "C3"){
+        list = C3;
+    }
+    if (listName == "C4"){
+        list = C4;
+    }
+    if (listName == "D1"){
+        list = D1;
+    }
+    if (listName == "D2"){
+        list = D2;
+    }
+    if (listName == "D3"){
+        list = D3;
+    }
+    if (listName == "D4"){
+        list = D4;
+    }
+    return list;
+}
+
+QVector3D GLDisc::getVector(QList<QString> list)
+{
+    QVector3D vector = {0.0f, 0.0f, 0.0f};
+    QString Coord = getDx_temp() + getDz_temp();
+    int pos = 0;
+    for (int i = 0; i < list.size(); i++){
+        if (list[i] == Coord) {
+            pos = i;
+        }
+    }
+    QString bucstabe = getDx_temp();
+    QString zahl = getDz_temp();
+    if (bucstabe == "A"){
+        if (zahl == "1"){
+            vector = left_down[pos];
+        } else if (zahl == "6") {
+            vector = left_top[pos];
+        } else {
+            vector = left_centre[pos];
+        }
+    } else if (bucstabe == "D"){
+        if (zahl == "1"){
+            vector = right_down[pos];
+        } else if (zahl == "6") {
+            vector = right_top[pos];
+        } else {
+            vector = right_centre[pos];
+        }
+    } else {
+        if (zahl == "1"){
+            vector = middle_down[pos];
+        } else if (zahl == "6") {
+            vector = middle_top[pos];
+        } else {
+            vector = middle_centre[pos];
+        }
+    }
+    return vector;
+}
+
+bool GLDisc::isMovementOk()
+{
+    QString moveCoor = getDx_temp() + getDz_temp();
+    QList<QString> moveList = getList();
+    for (int i = 0; i < moveList.size(); i++){
+        if (moveList[i] == moveCoor) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void GLDisc::finishAnimation()
