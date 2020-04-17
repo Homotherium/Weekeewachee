@@ -117,6 +117,7 @@ public:
     void printDiskLists();
     void showErrorMesage(QString errorMessage);
     void spielNeustarten();
+    bool besetzt(QString start, QString zelle, QList<GLDisc*> disks_list);
 
 signals:
     void textChanged(const QString & text);

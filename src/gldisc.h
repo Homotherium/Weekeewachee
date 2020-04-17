@@ -95,6 +95,8 @@ public:
     void setDz_temp(QString value);
 
     void setXZ();
+    QString getXZ(){return getDx()+getDz();}
+    QString getXZ_temp(){return getDx_temp()+getDz_temp();}
     void updateXZ();
 
     QList<QString> getList();

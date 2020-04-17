@@ -349,11 +349,12 @@ bool MyGLItem::kampf(GLDisc *disk)
     // Gleiche Farbe
     if (disk->getDisc_Color() == "black"){
         for (int i = 0; i < m_blackdisks_list.size(); i++) {
-            if(m_blackdisks_list[i]->getStartCoordinates() == disk->getEndCoordinates())
+            if(m_blackdisks_list[i]->getXZ() == disk->getXZ_temp())
             {
                 qDebug() << "Gleiche Farbe: " << disk->getDisc_Name() << " " << disk->getDisc_Color() << " trifft " <<
                             m_blackdisks_list[i]->getDisc_Name() << " " << m_blackdisks_list[i]->getDisc_Color();
                 m_sounds->playSound(":/music/when.wav");
+                disk->backStep();
                 return false;
             }
         }
@@ -361,11 +362,12 @@ bool MyGLItem::kampf(GLDisc *disk)
         e_disks_list = m_whitedisks_list;
     } else {
         for (int i = 0; i < m_whitedisks_list.size(); i++) {
-            if(m_whitedisks_list[i]->getStartCoordinates() == disk->getEndCoordinates())
+            if(m_whitedisks_list[i]->getXZ() == disk->getXZ_temp())
             {
                 qDebug() << "Gleiche Farbe: " << disk->getDisc_Name() << " " << disk->getDisc_Color() << " trifft " <<
                             m_whitedisks_list[i]->getDisc_Name() << " " << m_whitedisks_list[i]->getDisc_Color();
                 m_sounds->playSound(":/music/when.wav");
+                disk->backStep();
                 return false;
             }
         }
@@ -375,7 +377,7 @@ bool MyGLItem::kampf(GLDisc *disk)
     // Kampf
     qDebug() << "Kampf";
     for (int i = 0; i < e_disks_list.size(); i++) {
-        if(e_disks_list[i]->getStartCoordinates() == disk->getEndCoordinates())
+        if(e_disks_list[i]->getXZ() == disk->getXZ_temp())
         {
             if(disk->getDisc_Name() == "stein" && e_disks_list[i]->getDisc_Name() == "schere"){
                 qDebug() << "stein gegen schere";
@@ -481,8 +483,13 @@ bool MyGLItem::kampf(GLDisc *disk)
 
 void MyGLItem::moving(GLDisc * disk, QVector3D MousePos)
 {
-//    qDebug() << "DX" << disk->getStartCoordinates().x() << "DZ" << disk->getStartCoordinates().z()
-//             << "MX" <<MousePos.x() << "MZ" << MousePos.z();
+    QList<GLDisc*> disks_list;
+    if (disk->getDisc_Color() == "black"){
+        disks_list = m_blackdisks_list;
+    } else {
+        disks_list = m_whitedisks_list;
+    }
+
     float mouse_x = MousePos.x();
     float mouse_z = MousePos.z();
     QString buch = disk->getDx_temp();
@@ -519,7 +526,7 @@ void MyGLItem::moving(GLDisc * disk, QVector3D MousePos)
     if (mouse_z > -8.7f && mouse_z < -6.3f) {
         zahl = "6";
     }
-    if (disk->getDx_temp() != buch || disk->getDz_temp() != zahl){
+    if ((disk->getDx_temp() != buch || disk->getDz_temp() != zahl) && !besetzt(disk->getDx()+disk->getDz(), buch+zahl, disks_list)){
         disk->setDx_temp(buch);
         disk->setDz_temp(zahl);
         qDebug() << "StartCoord: " << disk->getDx() << disk->getDz();
@@ -674,33 +681,33 @@ void MyGLItem::mouseReleased(int x, int y, int button)
         window()->update();
 
     m_disc->setSelected(false);
-    // Out of Range Test
-    QVector3D end;
-    renderer()->mouseIntersection(&end, v_Y, 0.0f, m_lastMouseEvent->pos());
-    float end_x = end.x();
-    float end_z = end.z();
-    if (end_x > 6.0f || end_x < -6.0f || end_z > 9.0f || end_z < -9.0f){
-        qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
-        showErrorMesage("Out of Range!");
-        m_disc->draw(renderer());
-        update();
-        m_sounds->playSound(":/music/when.wav");
-        setIsMoveCorrect(false);
-    }
-    // Weit geclickt
-    else if (!isFar(m_disc->getDisc_Coordinates(), end)){
-        qDebug() << "Out of Range, weit geclickt!";
-        showErrorMesage("Zu weit geklickt!");
-        m_sounds->playSound(":/music/when.wav");
-        setIsMoveCorrect(false);
-    }
-    // Nah geclickt
-    else if (!isNear(m_disc->getDisc_Coordinates(), end)){
-        qDebug() << "Out of Range, nah geclickt!";
-        showErrorMesage("Zu nah geklickt!");
-        m_sounds->playSound(":/music/when.wav");
-        setIsMoveCorrect(false);
-    }
+//    // Out of Range Test
+//    QVector3D end;
+//    renderer()->mouseIntersection(&end, v_Y, 0.0f, m_lastMouseEvent->pos());
+//    float end_x = end.x();
+//    float end_z = end.z();
+//    if (end_x > 6.0f || end_x < -6.0f || end_z > 9.0f || end_z < -9.0f){
+//        qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
+//        showErrorMesage("Out of Range!");
+//        m_disc->draw(renderer());
+//        update();
+//        m_sounds->playSound(":/music/when.wav");
+//        setIsMoveCorrect(false);
+//    }
+//    // Weit geclickt
+//    else if (!isFar(m_disc->getDisc_Coordinates(), end)){
+//        qDebug() << "Out of Range, weit geclickt!";
+//        showErrorMesage("Zu weit geklickt!");
+//        m_sounds->playSound(":/music/when.wav");
+//        setIsMoveCorrect(false);
+//    }
+//    // Nah geclickt
+//    else if (!isNear(m_disc->getDisc_Coordinates(), end)){
+//        qDebug() << "Out of Range, nah geclickt!";
+//        showErrorMesage("Zu nah geklickt!");
+//        m_sounds->playSound(":/music/when.wav");
+//        setIsMoveCorrect(false);
+//    }
     QVector3D movePos;
     renderer()->mouseIntersection(&movePos, v_Y, 0.0f, m_lastMouseEvent->pos());
     QVector3D moveDistance = movePos + m_pressPosToDiscPos;
@@ -806,7 +813,7 @@ void MyGLItem::doSynchronizeThreads()
     if(m_lastMouseEvent && (m_lastMouseEvent->type() == QMouseEvent::MouseMove) && !m_lastMouseEvent->isAccepted()){
         m_lastMouseEvent->setAccepted(true);
         renderer()->mouseIntersection(&diskPosition, v_Y, 0.0f, m_lastMouseEvent->pos());
-        qDebug() << "MouseVector" << diskPosition;
+        //qDebug() << "MouseVector" << diskPosition;
         endPunkt = m_lastMouseEvent->pos();
         moving(m_disc, diskPosition);
         update();
@@ -816,12 +823,6 @@ void MyGLItem::doSynchronizeThreads()
     if(m_lastMouseEvent && (m_lastMouseEvent->type() == QMouseEvent::MouseButtonRelease) && !m_lastMouseEvent->isAccepted()){
         m_disc->setSelected(false);
         m_disc->setIsMoved(false);
-        qDebug() << "Disc_StartCoordinates: " << m_disc->getStartCoordinates();
-        qDebug() << "Disc_MoveCoordinates: " << m_disc->getMoveCoordinates();
-        //setDiskToCenter(m_disc);
-        qDebug() << "Disc_MoveCoordinates(cor): " << m_disc->getMoveCoordinates();
-        m_disc->setEndCoordinates(m_disc->getMoveCoordinates());
-        qDebug() << "Disc_EndCoordinates: " << m_disc->getEndCoordinates();
         //        QVector3D end;
         //        renderer()->mouseIntersection(&end, v_Y, 0.0f, m_lastMouseEvent->pos());
         qDebug() << "Kampf Überprüfung";
@@ -1599,6 +1600,13 @@ void MyGLItem::turnEnd()
         changePlayer(player);
         // Board umdrehen
         rotateBoard();
+        // Koordinaten setzen
+        qDebug() << "Disc_StartCoordinates: " << m_disc->getStartCoordinates();
+        qDebug() << "Disc_MoveCoordinates: " << m_disc->getMoveCoordinates();
+        //setDiskToCenter(m_disc);
+        qDebug() << "Disc_MoveCoordinates(cor): " << m_disc->getMoveCoordinates();
+        m_disc->setEndCoordinates(m_disc->getMoveCoordinates());
+        qDebug() << "Disc_EndCoordinates: " << m_disc->getEndCoordinates();
         // Update XZ
         m_disc->setStepVector({0.0f, 0.0f, 0.0f});
         m_disc->updateXZ();
@@ -1658,6 +1666,18 @@ void MyGLItem::spielNeustarten()
     qDebug() << "Update";
     update();
     qDebug() << "End";
+}
+
+bool MyGLItem::besetzt(QString start, QString zelle, QList<GLDisc*> disks_list)
+{
+    QString stein = "";
+    for (int i = 0; i < disks_list.size(); i++) {
+        stein = disks_list[i]->getDx() + disks_list[i]->getDz();
+        if (stein == zelle && stein != start){
+            return true;
+        }
+    }
+    return false;
 }
 
 bool MyGLItem::getPlayer() const
