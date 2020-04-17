@@ -280,27 +280,27 @@ void GLDisc::setXZ()
         setDx_temp("D");
     }
     // Z-Werte
-    if (z == -7.5f){
+    if (z == 7.5f){
         setDz("1");
         setDz_temp("1");
     }
-    if (z == -4.5f){
+    if (z == 4.5f){
         setDz("2");
         setDz_temp("2");
     }
-    if (z == -1.5f){
+    if (z == 1.5f){
         setDz("3");
         setDz_temp("3");
     }
-    if (z == 1.5f){
+    if (z == -1.5f){
         setDz("4");
         setDz_temp("4");
     }
-    if (z == 4.5f){
+    if (z == -4.5f){
         setDz("5");
         setDz_temp("5");
     }
-    if (z == 7.5f){
+    if (z == -7.5f){
         setDz("6");
         setDz_temp("6");
     }
@@ -374,33 +374,43 @@ QVector3D GLDisc::getVector(QList<QString> list)
     int pos = 0;
     for (int i = 0; i < list.size(); i++){
         if (list[i] == Coord) {
+            qDebug() << "Coord: " << Coord << ", pos: " << i;
             pos = i;
         }
     }
-    QString bucstabe = getDx_temp();
-    QString zahl = getDz_temp();
+    QString bucstabe = getDx();
+    QString zahl = getDz();
     if (bucstabe == "A"){
         if (zahl == "1"){
+            qDebug() << "left_down";
             vector = left_down[pos];
         } else if (zahl == "6") {
+            qDebug() << "left_top";
             vector = left_top[pos];
         } else {
+            qDebug() << "left_centre";
             vector = left_centre[pos];
         }
     } else if (bucstabe == "D"){
         if (zahl == "1"){
+            qDebug() << "right_down";
             vector = right_down[pos];
         } else if (zahl == "6") {
+            qDebug() << "right_top";
             vector = right_top[pos];
         } else {
+            qDebug() << "right_centre";
             vector = right_centre[pos];
         }
     } else {
         if (zahl == "1"){
+            qDebug() << "middle_down";
             vector = middle_down[pos];
         } else if (zahl == "6") {
+            qDebug() << "middle_top";
             vector = middle_top[pos];
         } else {
+            qDebug() << "middle_centre";
             vector = middle_centre[pos];
         }
     }

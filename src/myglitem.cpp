@@ -485,46 +485,54 @@ void MyGLItem::moving(GLDisc * disk, QVector3D MousePos)
 //             << "MX" <<MousePos.x() << "MZ" << MousePos.z();
     float mouse_x = MousePos.x();
     float mouse_z = MousePos.z();
+    QString buch = disk->getDx_temp();
+    QString zahl = disk->getDz_temp();
     // X-Werte
     if (mouse_x > -5.7f && mouse_x < -3.3f){
-        disk->setDx_temp("A");
+        buch = "A";
     }
     if (mouse_x > -2.7f && mouse_x < -0.3f){
-        disk->setDx_temp("B");
+        buch = "B";
     }
     if (mouse_x > 0.3f && mouse_x < 2.7f){
-        disk->setDx_temp("C");
+        buch = "C";
     }
     if (mouse_x > 3.3f && mouse_x < 5.7f){
-        disk->setDx_temp("D");
+        buch = "D";
     }
     // Z-Werte
     if (mouse_z > 6.3f && mouse_z < 8.7f) {
-        disk->setDz_temp("1");
+        zahl = "1";
     }
     if (mouse_z > 3.3f && mouse_z < 5.7f) {
-        disk->setDz_temp("2");
+        zahl = "2";
     }
     if (mouse_z > 0.3f && mouse_z < 2.7f) {
-        disk->setDz_temp("3");
+        zahl = "3";
     }
     if (mouse_z > -2.7f && mouse_z < -0.3f) {
-        disk->setDz_temp("4");
+        zahl = "4";
     }
     if (mouse_z > -5.7f && mouse_z < -3.3f) {
-        disk->setDz_temp("5");
+        zahl = "5";
     }
     if (mouse_z > -8.7f && mouse_z < -6.3f) {
-        disk->setDz_temp("6");
+        zahl = "6";
     }
-    qDebug() << "StartCoord: " << disk->getDx() << disk->getDz();
-    qDebug() << "Coord: " << disk->getDx_temp() << disk->getDz_temp();
-    if (disk->isMovementOk()){
-        QVector3D moveDisk = disk->getVector(disk->getList());
-        qDebug() << "Move Coor: " << disk->getMoveCoordinates();
-        disk->setMoveCoordinates(disk->getMoveCoordinates() + moveDisk);
-        qDebug() << "Moved to: " << disk->getMoveCoordinates();
-        disk->move(moveDisk);
+    if (disk->getDx_temp() != buch || disk->getDz_temp() != zahl){
+        disk->setDx_temp(buch);
+        disk->setDz_temp(zahl);
+        qDebug() << "StartCoord: " << disk->getDx() << disk->getDz();
+        qDebug() << "Coord: " << disk->getDx_temp() << disk->getDz_temp();
+        if (disk->isMovementOk()){
+            qDebug() << disk->getList();
+            QVector3D moveDisk = disk->getVector(disk->getList());
+            qDebug() << moveDisk;
+            qDebug() << "Move Coor: " << disk->getMoveCoordinates();
+            disk->setMoveCoordinates(disk->getMoveCoordinates() + moveDisk);
+            qDebug() << "Moved to: " << disk->getMoveCoordinates();
+            disk->move(moveDisk);
+        }
     }
 }
 
