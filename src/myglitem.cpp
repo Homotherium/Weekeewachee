@@ -525,13 +525,15 @@ void MyGLItem::moving(GLDisc * disk, QVector3D MousePos)
         qDebug() << "StartCoord: " << disk->getDx() << disk->getDz();
         qDebug() << "Coord: " << disk->getDx_temp() << disk->getDz_temp();
         if (disk->isMovementOk()){
+            disk->backStep();
             qDebug() << disk->getList();
             QVector3D moveDisk = disk->getVector(disk->getList());
             qDebug() << moveDisk;
             qDebug() << "Move Coor: " << disk->getMoveCoordinates();
-            disk->setMoveCoordinates(disk->getMoveCoordinates() + moveDisk);
+            disk->setMoveCoordinates(disk->getStartCoordinates() + moveDisk);
             qDebug() << "Moved to: " << disk->getMoveCoordinates();
             disk->move(moveDisk);
+
         }
     }
 }
@@ -782,6 +784,7 @@ void MyGLItem::doSynchronizeThreads()
     //Mouse pressed
     if(m_lastMouseEvent && (m_lastMouseEvent->type() == QMouseEvent::MouseButtonPress) && !m_lastMouseEvent->isAccepted()){
         m_lastMouseEvent->setAccepted(true);
+        m_disc->setIsMoved(true);
         QVector3D nearPoint;
         QVector3D farPoint;
         if( m_lastMouseEvent){
@@ -791,7 +794,6 @@ void MyGLItem::doSynchronizeThreads()
             m_disc->setSelected(true);
         }
         m_disc->setMoveCoordinates(m_disc->getStartCoordinates());
-        m_disc->setIsMoved(true);
         m_disc_temp = m_disc;
         m_disc_temp->jumpUp();
         //m_disc->setTempCoordinates(QVector3D(0.0f, 0.0f,0.0f));
@@ -827,6 +829,7 @@ void MyGLItem::doSynchronizeThreads()
         kampf(m_disc);
         qDebug() << "";
         m_disc->updateXZ();
+        m_disc->setStepVector({0.0f, 0.0f, 0.0f});
         m_disc_temp->jumpDown();
         m_totalAnimationSteps = 10;
         m_animationActive = true;

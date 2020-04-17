@@ -100,6 +100,10 @@ public:
     QList<QString> getList();
     QVector3D getVector(QList<QString> list);
     bool isMovementOk();
+    void backStep();
+
+    QVector3D getStepVector() const;
+    void setStepVector(const QVector3D &value);
 
 private:
     float m_height;
@@ -120,6 +124,8 @@ private:
     QString dz;
     QString dx_temp;
     QString dz_temp;
+    QVector3D stepVector;
+
 
     //Animation
     QVector3D m_liftVector;

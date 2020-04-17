@@ -17,6 +17,7 @@ GLDisc::GLDisc(const QString & name, const QVector3D &fieldCoord, float radius, 
     dz = "0";
     dx_temp = "O";
     dz_temp = "0";
+    stepVector = {0.0f, 0.0f, 0.0f};
 }
 
 void GLDisc::makeSurface(QVector<GLPoint> *pointContainer, QVector<GLushort> *indexContainer)
@@ -414,6 +415,7 @@ QVector3D GLDisc::getVector(QList<QString> list)
             vector = middle_centre[pos];
         }
     }
+    setStepVector(-vector);
     return vector;
 }
 
@@ -427,6 +429,22 @@ bool GLDisc::isMovementOk()
         }
     }
     return false;
+}
+
+void GLDisc::backStep()
+{
+    qDebug() << stepVector;
+    move(stepVector);
+}
+
+QVector3D GLDisc::getStepVector() const
+{
+    return stepVector;
+}
+
+void GLDisc::setStepVector(const QVector3D &value)
+{
+    stepVector = value;
 }
 
 void GLDisc::finishAnimation()
