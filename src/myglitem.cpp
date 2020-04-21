@@ -547,7 +547,7 @@ void MyGLItem::moving(GLDisc * disk, QVector3D MousePos)
             disk->setMoveCoordinates(disk->getStartCoordinates() + moveDisk);
             qDebug() << "Moved to: " << disk->getMoveCoordinates();
             disk->move(moveDisk);
-
+            m_sounds->playSound(":/music/clearly.wav");
         }
     }
 }
