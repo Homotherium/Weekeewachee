@@ -344,14 +344,14 @@ QList<QString> GLDisc::getList()
     if (listName == "B3"){
         list = B3;
     }
+    if (listName == "B4"){
+        list = B4;
+    }
     if (listName == "B5"){
         list = B5;
     }
     if (listName == "B6"){
         list = B6;
-    }
-    if (listName == "A4"){
-        list = B4;
     }
     if (listName == "C1"){
         list = C1;

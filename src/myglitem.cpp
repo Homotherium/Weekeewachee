@@ -341,6 +341,7 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
 bool MyGLItem::kampf(GLDisc *disk)
 {
     if (!isMoveCorrect){
+        disk->backStep();
         return false;
     }
     QList<GLDisc*> f_disks_list;
