@@ -463,76 +463,77 @@ bool MyGLItem::kampf(GLDisc *disk)
 
 void MyGLItem::moving(GLDisc * disk, QVector3D MousePos)
 {
-    disk->setIsMoved(false);
-    alarmOff();
-    QList<GLDisc*> frends_list;
-    QList<GLDisc*> enemy_list;
-    if (disk->getDisc_Color() == "black"){
-        frends_list = m_blackdisks_list;
-        enemy_list = m_whitedisks_list;
-    } else {
-        frends_list = m_whitedisks_list;
-        enemy_list = m_blackdisks_list;
-    }
+    if (isMoveCorrect){
+        alarmOff();
+        QList<GLDisc*> frends_list;
+        QList<GLDisc*> enemy_list;
+        if (disk->getDisc_Color() == "black"){
+            frends_list = m_blackdisks_list;
+            enemy_list = m_whitedisks_list;
+        } else {
+            frends_list = m_whitedisks_list;
+            enemy_list = m_blackdisks_list;
+        }
 
-    float mouse_x = MousePos.x();
-    float mouse_z = MousePos.z();
-    QString buch = disk->getDx_temp();
-    QString zahl = disk->getDz_temp();
-    // Out of Range
-    if (mouse_x > 6.0f || mouse_x < -6.0f || mouse_z > 9.0f || mouse_z < -9.0f){
-        //        qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
-        showErrorMesage("Out of Range!");
-        m_sounds->playSound(":/music/when.wav");
-    }
-    // X-Werte
-    if (mouse_x > -5.9f && mouse_x < -3.1f){
-        buch = "A";
-    }
-    if (mouse_x > -2.9f && mouse_x < -0.1f){
-        buch = "B";
-    }
-    if (mouse_x > 0.1f && mouse_x < 2.9f){
-        buch = "C";
-    }
-    if (mouse_x > 3.1f && mouse_x < 5.9f){
-        buch = "D";
-    }
-    // Z-Werte
-    if (mouse_z > 6.1f && mouse_z < 8.9f) {
-        zahl = "1";
-    }
-    if (mouse_z > 3.1f && mouse_z < 5.9f) {
-        zahl = "2";
-    }
-    if (mouse_z > 0.1f && mouse_z < 2.9f) {
-        zahl = "3";
-    }
-    if (mouse_z > -2.9f && mouse_z < -0.1f) {
-        zahl = "4";
-    }
-    if (mouse_z > -5.9f && mouse_z < -3.1f) {
-        zahl = "5";
-    }
-    if (mouse_z > -8.9f && mouse_z < -6.1f) {
-        zahl = "6";
-    }
-    if ((disk->getDx_temp() != buch || disk->getDz_temp() != zahl) && !besetzt(disk->getDx()+disk->getDz(), buch+zahl, disk->getDisc_Name(), frends_list, enemy_list)){
-        disk->setDx_temp(buch);
-        disk->setDz_temp(zahl);
-        qDebug() << "StartCoord: " << disk->getDx() << disk->getDz();
-        qDebug() << "Coord: " << disk->getDx_temp() << disk->getDz_temp();
-        if (disk->isMovementOk()){
-            disk->backStep();
-            qDebug() << disk->getList();
-            QVector3D moveDisk = disk->getVector(disk->getList());
-            qDebug() << moveDisk;
-            qDebug() << "Move Coor: " << disk->getMoveCoordinates();
-            disk->setMoveCoordinates(disk->getStartCoordinates() + moveDisk);
-            qDebug() << "Moved to: " << disk->getMoveCoordinates();
-            disk->move(moveDisk);
-            m_sounds->playSound(":/music/clearly.wav");
-            disk->setIsMoved(true);
+        float mouse_x = MousePos.x();
+        float mouse_z = MousePos.z();
+        QString buch = disk->getDx_temp();
+        QString zahl = disk->getDz_temp();
+        // Out of Range
+        if (mouse_x > 6.0f || mouse_x < -6.0f || mouse_z > 9.0f || mouse_z < -9.0f){
+            //        qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
+            showErrorMesage("Out of Range!");
+            m_sounds->playSound(":/music/when.wav");
+        }
+        // X-Werte
+        if (mouse_x > -5.9f && mouse_x < -3.1f){
+            buch = "A";
+        }
+        if (mouse_x > -2.9f && mouse_x < -0.1f){
+            buch = "B";
+        }
+        if (mouse_x > 0.1f && mouse_x < 2.9f){
+            buch = "C";
+        }
+        if (mouse_x > 3.1f && mouse_x < 5.9f){
+            buch = "D";
+        }
+        // Z-Werte
+        if (mouse_z > 6.1f && mouse_z < 8.9f) {
+            zahl = "1";
+        }
+        if (mouse_z > 3.1f && mouse_z < 5.9f) {
+            zahl = "2";
+        }
+        if (mouse_z > 0.1f && mouse_z < 2.9f) {
+            zahl = "3";
+        }
+        if (mouse_z > -2.9f && mouse_z < -0.1f) {
+            zahl = "4";
+        }
+        if (mouse_z > -5.9f && mouse_z < -3.1f) {
+            zahl = "5";
+        }
+        if (mouse_z > -8.9f && mouse_z < -6.1f) {
+            zahl = "6";
+        }
+        if ((disk->getDx_temp() != buch || disk->getDz_temp() != zahl) && !besetzt(disk->getDx()+disk->getDz(), buch+zahl, disk->getDisc_Name(), frends_list, enemy_list)){
+            disk->setDx_temp(buch);
+            disk->setDz_temp(zahl);
+            qDebug() << "StartCoord: " << disk->getDx() << disk->getDz();
+            qDebug() << "Coord: " << disk->getDx_temp() << disk->getDz_temp();
+            if (disk->isMovementOk()){
+                disk->backStep();
+                qDebug() << disk->getList();
+                QVector3D moveDisk = disk->getVector(disk->getList());
+                qDebug() << moveDisk;
+                qDebug() << "Move Coor: " << disk->getMoveCoordinates();
+                disk->setMoveCoordinates(disk->getStartCoordinates() + moveDisk);
+                qDebug() << "Moved to: " << disk->getMoveCoordinates();
+                disk->move(moveDisk);
+                m_sounds->playSound(":/music/clearly.wav");
+                disk->setIsMoved(true);
+            }
         }
     }
 }
