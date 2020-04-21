@@ -458,6 +458,25 @@ bool GLDisc::isMovementOk()
     return false;
 }
 
+bool GLDisc::isFigth(QString enemy)
+{
+    qDebug() << "isFigth";
+    QList<QString> moveList = getList();
+    qDebug() << "moveList:" << moveList;
+    for (int i = 0; i < moveList.size(); i++){
+        if (moveList[i] == enemy){
+            qDebug() << "Gegener ist erreichtbar";
+            return true;
+        }
+    }
+//    if (moveList.contains(enemy)){
+//        qDebug() << "Gegener ist erreichtbar";
+//        return true;
+//    }
+    qDebug() << "Gegener ist nicht erreichtbar";
+    return false;
+}
+
 void GLDisc::backStep()
 {
     move(stepVector);

@@ -101,7 +101,9 @@ public:
 
     QList<QString> getList();
     QVector3D getVector(QList<QString> list);
+
     bool isMovementOk();
+    bool isFigth(QString enemy);
     void backStep();
 
     QVector3D getStepVector() const;
