@@ -340,10 +340,6 @@ bool MyGLItem::kampf(GLDisc * disk, QVector3D kampf_punkt, QPoint hit_coordinate
 
 bool MyGLItem::kampf(GLDisc *disk)
 {
-    if (!isMoveCorrect){
-        disk->backStep();
-        return false;
-    }
     QList<GLDisc*> f_disks_list;
     QList<GLDisc*> e_disks_list;
     bool figth = false;
@@ -484,11 +480,14 @@ bool MyGLItem::kampf(GLDisc *disk)
 
 void MyGLItem::moving(GLDisc * disk, QVector3D MousePos)
 {
-    QList<GLDisc*> disks_list;
+    QList<GLDisc*> frends_list;
+    QList<GLDisc*> enemy_list;
     if (disk->getDisc_Color() == "black"){
-        disks_list = m_blackdisks_list;
+        frends_list = m_blackdisks_list;
+        enemy_list = m_whitedisks_list;
     } else {
-        disks_list = m_whitedisks_list;
+        frends_list = m_whitedisks_list;
+        enemy_list = m_blackdisks_list;
     }
 
     float mouse_x = MousePos.x();
@@ -527,7 +526,7 @@ void MyGLItem::moving(GLDisc * disk, QVector3D MousePos)
     if (mouse_z > -8.7f && mouse_z < -6.3f) {
         zahl = "6";
     }
-    if ((disk->getDx_temp() != buch || disk->getDz_temp() != zahl) && !besetzt(disk->getDx()+disk->getDz(), buch+zahl, disks_list)){
+    if ((disk->getDx_temp() != buch || disk->getDz_temp() != zahl) && !besetzt(disk->getDx()+disk->getDz(), buch+zahl, disk->getDisc_Name(), frends_list, enemy_list)){
         disk->setDx_temp(buch);
         disk->setDz_temp(zahl);
         qDebug() << "StartCoord: " << disk->getDx() << disk->getDz();
@@ -1669,12 +1668,18 @@ void MyGLItem::spielNeustarten()
     qDebug() << "End";
 }
 
-bool MyGLItem::besetzt(QString start, QString zelle, QList<GLDisc*> disks_list)
+bool MyGLItem::besetzt(QString start, QString zelle, QString disk_name, QList<GLDisc*> frends_list, QList<GLDisc*> enemy_list)
 {
     QString stein = "";
-    for (int i = 0; i < disks_list.size(); i++) {
-        stein = disks_list[i]->getDx() + disks_list[i]->getDz();
+    for (int i = 0; i < frends_list.size(); i++) {
+        stein = frends_list[i]->getDx() + frends_list[i]->getDz();
         if (stein == zelle && stein != start){
+            return true;
+        }
+    }
+    for (int i = 0; i < enemy_list.size(); i++) {
+        stein = enemy_list[i]->getDx() + enemy_list[i]->getDz();
+        if (stein == zelle && enemy_list[i]->getDisc_Name() == disk_name){
             return true;
         }
     }
