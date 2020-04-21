@@ -502,35 +502,35 @@ void MyGLItem::moving(GLDisc * disk, QVector3D MousePos)
         m_sounds->playSound(":/music/when.wav");
     }
     // X-Werte
-    if (mouse_x > -5.7f && mouse_x < -3.3f){
+    if (mouse_x > -5.9f && mouse_x < -3.1f){
         buch = "A";
     }
-    if (mouse_x > -2.7f && mouse_x < -0.3f){
+    if (mouse_x > -2.9f && mouse_x < -0.1f){
         buch = "B";
     }
-    if (mouse_x > 0.3f && mouse_x < 2.7f){
+    if (mouse_x > 0.1f && mouse_x < 2.9f){
         buch = "C";
     }
-    if (mouse_x > 3.3f && mouse_x < 5.7f){
+    if (mouse_x > 3.1f && mouse_x < 5.9f){
         buch = "D";
     }
     // Z-Werte
-    if (mouse_z > 6.3f && mouse_z < 8.7f) {
+    if (mouse_z > 6.1f && mouse_z < 8.9f) {
         zahl = "1";
     }
-    if (mouse_z > 3.3f && mouse_z < 5.7f) {
+    if (mouse_z > 3.1f && mouse_z < 5.9f) {
         zahl = "2";
     }
-    if (mouse_z > 0.3f && mouse_z < 2.7f) {
+    if (mouse_z > 0.1f && mouse_z < 2.9f) {
         zahl = "3";
     }
-    if (mouse_z > -2.7f && mouse_z < -0.3f) {
+    if (mouse_z > -2.9f && mouse_z < -0.1f) {
         zahl = "4";
     }
-    if (mouse_z > -5.7f && mouse_z < -3.3f) {
+    if (mouse_z > -5.9f && mouse_z < -3.1f) {
         zahl = "5";
     }
-    if (mouse_z > -8.7f && mouse_z < -6.3f) {
+    if (mouse_z > -8.9f && mouse_z < -6.1f) {
         zahl = "6";
     }
     if ((disk->getDx_temp() != buch || disk->getDz_temp() != zahl) && !besetzt(disk->getDx()+disk->getDz(), buch+zahl, disk->getDisc_Name(), frends_list, enemy_list)){
