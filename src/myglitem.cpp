@@ -480,6 +480,7 @@ bool MyGLItem::kampf(GLDisc *disk)
 
 void MyGLItem::moving(GLDisc * disk, QVector3D MousePos)
 {
+    alarmOff();
     QList<GLDisc*> frends_list;
     QList<GLDisc*> enemy_list;
     if (disk->getDisc_Color() == "black"){
@@ -494,6 +495,12 @@ void MyGLItem::moving(GLDisc * disk, QVector3D MousePos)
     float mouse_z = MousePos.z();
     QString buch = disk->getDx_temp();
     QString zahl = disk->getDz_temp();
+    // Out of Range
+    if (mouse_x > 6.0f || mouse_x < -6.0f || mouse_z > 9.0f || mouse_z < -9.0f){
+//        qDebug() << "Out of Range, new disc_Coordinates: " << m_disc->getDisc_Coordinates();
+        showErrorMesage("Out of Range!");
+        m_sounds->playSound(":/music/when.wav");
+    }
     // X-Werte
     if (mouse_x > -5.7f && mouse_x < -3.3f){
         buch = "A";
@@ -821,6 +828,7 @@ void MyGLItem::doSynchronizeThreads()
 
     //mouse release
     if(m_lastMouseEvent && (m_lastMouseEvent->type() == QMouseEvent::MouseButtonRelease) && !m_lastMouseEvent->isAccepted()){
+        alarmOff();
         m_disc->setSelected(false);
         m_disc->setIsMoved(false);
         //        QVector3D end;
@@ -1674,12 +1682,16 @@ bool MyGLItem::besetzt(QString start, QString zelle, QString disk_name, QList<GL
     for (int i = 0; i < frends_list.size(); i++) {
         stein = frends_list[i]->getDx() + frends_list[i]->getDz();
         if (stein == zelle && stein != start){
+            showErrorMesage("Gleiche Farbe!");
+            m_sounds->playSound(":/music/when.wav");
             return true;
         }
     }
     for (int i = 0; i < enemy_list.size(); i++) {
         stein = enemy_list[i]->getDx() + enemy_list[i]->getDz();
         if (stein == zelle && enemy_list[i]->getDisc_Name() == disk_name){
+            showErrorMesage("Gleiche Stein!");
+            m_sounds->playSound(":/music/when.wav");
             return true;
         }
     }
