@@ -51,9 +51,6 @@ public:
     void jumpUp();
     void jumpDown();
 
-    QVector3D getDisc_Coordinates() const;
-    void setDisc_Coordinates(const QVector3D &disc_Coordinates);
-
     QString getDisc_Color() const;
     void setDisc_Color(const QString &disc_Color);
 
@@ -63,24 +60,8 @@ public:
     QString getDiskLastmove() const;
     void setDiskLastmove(const QString &value);
 
-    QVector3D getDisc_MoveCoordinates() const;
-    void setDisc_MoveCoordinates(const QVector3D &disc_MoveCoordinates);
-
     bool isMoved(){return isMove;}
     void setIsMoved(bool value);
-
-    QVector3D getStartCoordinates() const;
-    void setStartCoordinates(const QVector3D &value);
-
-    QVector3D getMoveCoordinates() const;
-    void setMoveCoordinates(const QVector3D &value);
-
-    QVector3D getEndCoordinates() const;
-    void setEndCoordinates(const QVector3D &value);
-
-    QVector3D getTempCoordinates() const;
-    void setTempCoordinates(const QVector3D &value);
-
 
     QString getDx() const;
     void setDx(const QString &value);
@@ -108,18 +89,21 @@ public:
 
     QVector3D getStepVector() const;
     void setStepVector(const QVector3D &value);
+    void getInfo();
+
+    QVector3D getHoldCoordinates() const;
+    void setHoldCoordinates(const QVector3D &value);
+
+    QVector3D getMoveCoordinates() const;
+    void setMoveCoordinates(const QVector3D &value);
 
 private:
     float m_height;
     IndexType m_slices;
     //QPoint m_FieldCoord;
-    QVector3D startCoordinates;
+    QVector3D holdCoordinates;
     QVector3D moveCoordinates;
-    QVector3D tempCoordinates;
-    QVector3D endCoordinates;
     QVector3D m_FieldCoord;
-    QVector3D m_disc_Coordinates;
-    QVector3D m_disc_MoveCoordinates;
     QString m_disc_Name;
     QString m_disc_Color;
     bool m_isKing;

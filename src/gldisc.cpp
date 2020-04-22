@@ -129,16 +129,6 @@ void GLDisc::jumpDown()
     m_startLiftVector = m_liftVector;
 }
 
-QVector3D GLDisc::getDisc_Coordinates() const
-{
-    return m_disc_Coordinates;
-}
-
-void GLDisc::setDisc_Coordinates(const QVector3D &disc_Coordinates)
-{
-    m_disc_Coordinates = disc_Coordinates;
-}
-
 QString GLDisc::getDisc_Color() const
 {
     return m_disc_Color;
@@ -164,59 +154,9 @@ void GLDisc::setDiskLastmove(const QString &value)
     diskLastmove = value;
 }
 
-QVector3D GLDisc::getDisc_MoveCoordinates() const
-{
-    return m_disc_MoveCoordinates;
-}
-
-void GLDisc::setDisc_MoveCoordinates(const QVector3D &disc_MoveCoordinates)
-{
-    m_disc_MoveCoordinates = disc_MoveCoordinates;
-}
-
 void GLDisc::setIsMoved(bool value)
 {
     isMove = value;
-}
-
-QVector3D GLDisc::getStartCoordinates() const
-{
-    return startCoordinates;
-}
-
-void GLDisc::setStartCoordinates(const QVector3D &value)
-{
-    startCoordinates = value;
-}
-
-QVector3D GLDisc::getMoveCoordinates() const
-{
-    return moveCoordinates;
-}
-
-void GLDisc::setMoveCoordinates(const QVector3D &value)
-{
-    moveCoordinates = value;
-}
-
-QVector3D GLDisc::getEndCoordinates() const
-{
-    return endCoordinates;
-}
-
-void GLDisc::setEndCoordinates(const QVector3D &value)
-{
-    endCoordinates = value;
-}
-
-QVector3D GLDisc::getTempCoordinates() const
-{
-    return tempCoordinates;
-}
-
-void GLDisc::setTempCoordinates(const QVector3D &value)
-{
-    tempCoordinates = value;
 }
 
 QString GLDisc::getDx() const
@@ -261,8 +201,8 @@ void GLDisc::setDz_temp(QString value)
 
 void GLDisc::setXZ()
 {
-    float x = getStartCoordinates().x();
-    float z = getStartCoordinates().z();
+    float x = getHoldCoordinates().x();
+    float z = getHoldCoordinates().z();
     // X-Werte
     if (x == -4.5f){
         setDx("A");
@@ -445,16 +385,18 @@ QVector3D GLDisc::getVector(QList<QString> list)
 
 bool GLDisc::isMovementOk()
 {
-    qDebug() << "isMovementOk";
+    qDebug() << "+++++++++isMovementOk+++++++++++";
     QString moveCoor = getDx_temp() + getDz_temp();
     qDebug() << "moveCoor:" << moveCoor;
     QList<QString> moveList = getList();
     qDebug() << "moveList:" << moveList;
     for (int i = 0; i < moveList.size(); i++){
         if (moveList[i] == moveCoor) {
+            qDebug() << "--------------------------------";
             return true;
         }
     }
+    qDebug() << "--------------------------------";
     return false;
 }
 
@@ -492,6 +434,43 @@ void GLDisc::setStepVector(const QVector3D &value)
     stepVector = value;
 }
 
+void GLDisc::getInfo()
+{
+    qDebug() << "";
+    qDebug() << "+++++++++Disk Info+++++++++";
+    qDebug() << "Disk Name: " << getDisc_Name();
+    qDebug() << "Disk Farbe: " << getDisc_Color();
+    qDebug() << "Disk holdCoordinates: " << getHoldCoordinates();
+    qDebug() << "Disk moveCoordinates: " << getMoveCoordinates();
+    qDebug() << "Disk XZ: " << getXZ();
+    qDebug() << "Disk moveList: " << getList();
+    qDebug() << "Disk XZ_temp: " << getXZ_temp();
+    qDebug() << "Disk stepVector: " << getStepVector();
+    qDebug() << "";
+
+
+}
+
+QVector3D GLDisc::getHoldCoordinates() const
+{
+    return holdCoordinates;
+}
+
+void GLDisc::setHoldCoordinates(const QVector3D &value)
+{
+    holdCoordinates = value;
+}
+
+QVector3D GLDisc::getMoveCoordinates() const
+{
+    return moveCoordinates;
+}
+
+void GLDisc::setMoveCoordinates(const QVector3D &value)
+{
+    moveCoordinates = value;
+}
+
 void GLDisc::finishAnimation()
 {
     m_liftVector = m_finalLiftVector;
@@ -505,8 +484,8 @@ void GLDisc::updateAnimatedProperties(float animationState)
 bool GLDisc::isMovementOk(GLDisc * disc, const QVector3D vMove, GLField * m_field)
 {
     //QVector3D startingPosition = m_field->fieldToPosition(disc->getFieldCoord());
-    QVector3D startingPosition = disc->getDisc_Coordinates();
-    QVector3D targetPosition = vMove + disc->getDisc_Coordinates();
+    QVector3D startingPosition = disc->getHoldCoordinates();
+    QVector3D targetPosition = vMove + disc->getHoldCoordinates();
 
     QVector3D vTotalMove = targetPosition - startingPosition;
 

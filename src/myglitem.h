@@ -90,12 +90,9 @@ public:
     void paintOnTopOfQmlScene() Q_DECL_OVERRIDE;
     void setupGeometry() Q_DECL_OVERRIDE;
 
-    bool kampf(GLDisc * disk, QVector3D stein, QPoint hit_coordinaten);
     bool kampf(GLDisc * disk);
     void moving(GLDisc * disk, QVector3D MousePos);
-    void moveDisk(GLDisc * disk, QVector3D start, QVector3D end);
     void move_away(GLDisc * disk);
-    void move_back(GLDisc * disk);
     QList<GLDisc*> deleteDiskFromList(QList<GLDisc*> m_disks_list, QString disk_name);
     void changePlayer(bool player);
 
