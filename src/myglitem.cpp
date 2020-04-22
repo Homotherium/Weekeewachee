@@ -292,6 +292,15 @@ bool MyGLItem::kampf(GLDisc *disk)
             m_whitedisks_list = f_disks_list;
         }
     }
+    // set Moved
+    m_disc->setIsMoved(false);
+    // Koordinaten setzen
+    qDebug() << "Disc HoldCoordinates: " << m_disc->getHoldCoordinates();
+    qDebug() << "Disc MoveCoordinates: " << m_disc->getMoveCoordinates();
+    m_disc->setHoldCoordinates(m_disc->getMoveCoordinates());
+    // Update XZ
+    m_disc->setStepVector(QVector3D(0.0f, 0.0f, 0.0f));
+    m_disc->updateXZ();
     turnEnd();
     return true;
 }
@@ -358,7 +367,9 @@ void MyGLItem::moving(GLDisc * disk, QVector3D MousePos)
             qDebug() << "StartCoord: " << disk->getDx() << disk->getDz();
             qDebug() << "Coord: " << disk->getDx_temp() << disk->getDz_temp();
             if (disk->isMovementOk()){
-                disk->backStep();
+                if(disk->isMoved()){
+                   disk->backStep();
+                }
                 qDebug() << disk->getList();
                 QVector3D moveDisk = disk->getVector(disk->getList());
                 qDebug() << moveDisk;
@@ -526,6 +537,7 @@ void MyGLItem::doSynchronizeThreads()
         if(m_disc->isHit(nearPoint, farPoint)){
             m_disc->setSelected(true);
         }
+        m_disc->setIsMoved(false);
         m_disc->setMoveCoordinates(m_disc->getHoldCoordinates());
         m_disc_temp = m_disc;
         m_disc_temp->jumpUp();
@@ -1246,41 +1258,49 @@ bool MyGLItem::gameOverTest()
 
 bool MyGLItem::diskCollision(GLDisc *disk)
 {
+    qDebug() << "diskCollision test";
     if (disk->getDisc_Color() == "black"){
         for (int i = 0; i < m_whitedisks_list.size(); i++) {
-            if(disk->getMoveCoordinates() == m_whitedisks_list[i]->getHoldCoordinates())
+            if(disk->getHoldCoordinates() == m_whitedisks_list[i]->getHoldCoordinates())
             {
                 if (disk->getDisc_Name() == m_whitedisks_list[i]->getDisc_Name()){
+                    qDebug() << "Schwarz-Weiss gleiche Disks";
                     return true;
                 }
                 collisionKampf(disk, m_whitedisks_list[i]);
+                qDebug() << "Schwarz-Weiss collisionKampf";
                 return false;
             }
         }
         for (int i = 0; i < m_blackdisks_list.size(); i++) {
-            if(disk->getMoveCoordinates() == m_blackdisks_list[i]->getHoldCoordinates() && disk->getDisc_Name() !=  m_blackdisks_list[i]->getDisc_Name())
+            if(disk->getHoldCoordinates() == m_blackdisks_list[i]->getHoldCoordinates() && disk->getDisc_Name() !=  m_blackdisks_list[i]->getDisc_Name())
             {
+                qDebug() << "Schwarz-Schwarz diskCollision";
                 return true;
             }
         }
     } else {
         for (int i = 0; i < m_whitedisks_list.size(); i++) {
-            if(disk->getMoveCoordinates() == m_whitedisks_list[i]->getHoldCoordinates() && disk->getDisc_Name() !=  m_whitedisks_list[i]->getDisc_Name())
+            if(disk->getHoldCoordinates() == m_whitedisks_list[i]->getHoldCoordinates() && disk->getDisc_Name() !=  m_whitedisks_list[i]->getDisc_Name())
             {
+                qDebug() << "Weiss-Weiss diskCollision";
                 return true;
             }
         }
         for (int i = 0; i < m_blackdisks_list.size(); i++) {
-            if(disk->getMoveCoordinates() == m_blackdisks_list[i]->getHoldCoordinates())
+            if(disk->getHoldCoordinates() == m_blackdisks_list[i]->getHoldCoordinates())
             {
                 if (disk->getDisc_Name() == m_blackdisks_list[i]->getDisc_Name()){
+                    qDebug() << "Weiss-Schwarz gleiche Disks";
                     return true;
                 }
                 collisionKampf(disk, m_blackdisks_list[i]);
+                qDebug() << "Weiss-Schwarz collisionKampf";
                 return false;
             }
         }
     }
+    qDebug() << "Shit!!!";
     return false;
 }
 
@@ -1315,14 +1335,6 @@ void MyGLItem::rotateBoard()
 
 void MyGLItem::turnEnd()
 {
-    qDebug() << "Schwarze";
-    for (int i = 0; i < m_blackdisks_list.size(); i++) {
-        qDebug() << m_blackdisks_list[i]->getXZ() << m_blackdisks_list[i]->getXZ_temp() << m_blackdisks_list[i]->getMoveCoordinates();
-    }
-    qDebug() << "Weise";
-    for (int i = 0; i < m_whitedisks_list.size(); i++) {
-        qDebug() << m_whitedisks_list[i]->getXZ() << m_whitedisks_list[i]->getXZ_temp()<< m_whitedisks_list[i]->getMoveCoordinates();
-    }
     if (!gameOverTest()){
         // Disk Collision
         if(diskCollision(m_disc)){
@@ -1330,19 +1342,12 @@ void MyGLItem::turnEnd()
             m_disc->backStep();
             m_sounds->playSound(":/music/when.wav");
         }
+        // Actual disk to Fake disk
+        m_disc = m_disc_other;
         // Spieler wechsel
         changePlayer(player);
         // Board umdrehen
         rotateBoard();
-        // Koordinaten setzen
-        qDebug() << "Disc HoldCoordinates: " << m_disc->getHoldCoordinates();
-        qDebug() << "Disc MoveCoordinates: " << m_disc->getMoveCoordinates();
-        m_disc->setHoldCoordinates(m_disc->getMoveCoordinates());
-        // Update XZ
-        m_disc->setStepVector(QVector3D(0.0f, 0.0f, 0.0f));
-        m_disc->updateXZ();
-        // Actual disk to Fake disk
-        m_disc = m_disc_other;
     }  else {
         spielNeustarten();
     }

@@ -379,24 +379,22 @@ QVector3D GLDisc::getVector(QList<QString> list)
             vector = middle_centre[pos];
         }
     }
+    qDebug() << "add Vector: " << vector;
     setStepVector(-vector);
     return vector;
 }
 
 bool GLDisc::isMovementOk()
 {
-    qDebug() << "+++++++++isMovementOk+++++++++++";
     QString moveCoor = getDx_temp() + getDz_temp();
     qDebug() << "moveCoor:" << moveCoor;
     QList<QString> moveList = getList();
     qDebug() << "moveList:" << moveList;
     for (int i = 0; i < moveList.size(); i++){
         if (moveList[i] == moveCoor) {
-            qDebug() << "--------------------------------";
             return true;
         }
     }
-    qDebug() << "--------------------------------";
     return false;
 }
 
