@@ -293,14 +293,14 @@ bool MyGLItem::kampf(GLDisc *disk)
         }
     }
     // set Moved
-    m_disc->setIsMoved(false);
+    disk->setIsMoved(false);
     // Koordinaten setzen
     qDebug() << "Disc HoldCoordinates: " << m_disc->getHoldCoordinates();
     qDebug() << "Disc MoveCoordinates: " << m_disc->getMoveCoordinates();
-    m_disc->setHoldCoordinates(m_disc->getMoveCoordinates());
+    disk->setHoldCoordinates(m_disc->getMoveCoordinates());
     // Update XZ
-    m_disc->setStepVector(QVector3D(0.0f, 0.0f, 0.0f));
-    m_disc->updateXZ();
+    disk->setStepVector(QVector3D(0.0f, 0.0f, 0.0f));
+    disk->updateXZ();
     turnEnd();
     return true;
 }
