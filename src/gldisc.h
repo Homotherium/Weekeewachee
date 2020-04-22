@@ -97,6 +97,8 @@ public:
     QVector3D getMoveCoordinates() const;
     void setMoveCoordinates(const QVector3D &value);
 
+    QVector3D getFinalLiftVector() const;
+
 private:
     float m_height;
     IndexType m_slices;

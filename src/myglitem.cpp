@@ -321,6 +321,8 @@ void MyGLItem::moving(GLDisc * disk, QVector3D MousePos)
 
         float mouse_x = MousePos.x();
         float mouse_z = MousePos.z();
+        qDebug() << "mouse_x: " << mouse_x;
+        qDebug() << "mouse_z: " << mouse_z;
         QString buch = disk->getDx_temp();
         QString zahl = disk->getDz_temp();
         // Out of Range
@@ -550,11 +552,13 @@ void MyGLItem::doSynchronizeThreads()
     //mouse move
     if(m_lastMouseEvent && (m_lastMouseEvent->type() == QMouseEvent::MouseMove) && !m_lastMouseEvent->isAccepted()){
         m_lastMouseEvent->setAccepted(true);
-        renderer()->mouseIntersection(&diskPosition, v_Y, 0.0f, m_lastMouseEvent->pos());
-        //qDebug() << "MouseVector" << diskPosition;
-        endPunkt = m_lastMouseEvent->pos();
-        moving(m_disc, diskPosition);
-        update();
+        if (m_disc->getFinalLiftVector().y() == 1.0f){
+            renderer()->mouseIntersection(&diskPosition, v_Y, 0.0f, m_lastMouseEvent->pos());
+            //qDebug() << "MouseVector" << diskPosition;
+            endPunkt = m_lastMouseEvent->pos();
+            moving(m_disc, diskPosition);
+            update();
+        }
     }
 
     //mouse release
@@ -1406,6 +1410,12 @@ void MyGLItem::spielNeustarten()
 
 bool MyGLItem::besetzt(QString start, QString zelle, QString disk_name, QList<GLDisc*> frends_list, QList<GLDisc*> enemy_list)
 {
+    qDebug() << "BesetzBlock";
+    qDebug() << "Start XZ: " << start;
+    qDebug() << "Mouse XZ: " << zelle;
+    qDebug() << "Disk name: " << disk_name;
+    qDebug() << "frends_list: " << frends_list;
+    qDebug() << "enemy_list :" << enemy_list;
     QString stein = "";
     for (int i = 0; i < frends_list.size(); i++) {
         stein = frends_list[i]->getDx() + frends_list[i]->getDz();

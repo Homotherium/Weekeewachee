@@ -469,6 +469,11 @@ void GLDisc::setMoveCoordinates(const QVector3D &value)
     moveCoordinates = value;
 }
 
+QVector3D GLDisc::getFinalLiftVector() const
+{
+    return m_finalLiftVector;
+}
+
 void GLDisc::finishAnimation()
 {
     m_liftVector = m_finalLiftVector;
