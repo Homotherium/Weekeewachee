@@ -121,11 +121,6 @@ protected:
      *
      */
     virtual void setupBuffers();
-
-
-
-
-
 };
 
 #endif // MYGLITEM_H
