@@ -1462,12 +1462,14 @@ void MyGLItem::setDisks()
     for (int b = 0; b < blackDisks.size(); b++) {
         blackDisks[b]->move(blackPositions[b]);
         blackDisks[b]->setHoldCoordinates(blackPositions[b]);
+        blackDisks[b]->setMoveCoordinates(blackPositions[b]);
         blackDisks[b]->setXZ();
     }
     // Weise Steine
     for (int w = 0; w < whiteDisks.size(); w++) {
         whiteDisks[w]->move(whitePositions[w]);
         whiteDisks[w]->setHoldCoordinates(whitePositions[w]);
+        whiteDisks[w]->setMoveCoordinates(whitePositions[w]);
         whiteDisks[w]->setXZ();
     }
 }
