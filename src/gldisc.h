@@ -18,24 +18,11 @@ public:
 
     void draw(GLESRenderer *renderer, bool useBuffers = false)Q_DECL_OVERRIDE;
 
-    bool isMovementOk(GLDisc * GLDisc, const QVector3D vMove, GLField * m_field);
-    /** Returns true, if movement is parallel to z or x
-      */
-    bool xzMovement(const QVector3D & vMove);
-    /** Returns a vector with |x| = |z|
-      */
-    QVector3D makeDiagonalMovement(QVector3D vMove);
-
-
     float getHeight(){ return m_height;}
     QVector3D getFieldCoord() const;
     void setFieldCoord(const QVector3D &FieldCoord);
     void becomeKing();
     bool isKing() {return m_isKing;}
-    /**
-      * Returns true, if discs are colliding
-      */
-    bool isColliding(const GLDisc * other);
     void calculateDrawMatrix() Q_DECL_OVERRIDE;
 
     /**

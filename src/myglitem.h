@@ -103,10 +103,7 @@ public:
 
     bool getIsMoveCorrect() const;
     void setIsMoveCorrect(bool value);
-    bool isFar(QVector3D disc, QVector3D klickPunkt);
-    bool isNear(QVector3D disc, QVector3D klickPunkt);
     void collisionKampf(GLDisc * disc1, GLDisc * disc2);
-    void setDiskToCenter(GLDisc * disc);
     bool gameOverTest();
     bool diskCollision(GLDisc * disk);
     void rotateBoard();
