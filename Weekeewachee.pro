@@ -14,7 +14,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += src/main.cpp \
-    src/glsphere.cpp \
     src/music.cpp \
     src/myglitem.cpp \
     src/glbody.cpp \
@@ -58,7 +57,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES +=
 
 HEADERS += \
-    src/glsphere.h \
     src/music.h \
     src/myglitem.h \
     src/glbody.h \
