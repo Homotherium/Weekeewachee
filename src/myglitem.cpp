@@ -769,13 +769,6 @@ bool MyGLItem::gameOverTest()
         m_sounds->playSound(":/music/applauses.wav");
         return true;
     }
-    if (m_whitedisks_list.size() == 1 && m_blackdisks_list.size() == 1){
-        if(m_whitedisks_list[0]->getDisc_Name() == m_blackdisks_list[0]->getDisc_Name()){
-            qDebug() << "Spiel ist unentschieden beendet!";
-            m_sounds->playSound(":/music/applauses.wav");
-            return true;
-        }
-    }
     return false;
 }
 
