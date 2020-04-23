@@ -1,8 +1,6 @@
 #ifndef MYGLITEM_H
 #define MYGLITEM_H
 #include "glitem.h"
-#include "glcube.h"
-#include "glsphere.h"
 #include <time.h>
 #include <QOpenGLBuffer>
 #include <QtGlobal>
@@ -24,8 +22,6 @@ class MyGLItem : public GLItem
     int m_lastFPoint;
     int m_firstNormalPoint;
     int m_lastNormalPoint;
-    GLCube *m_cube;
-    GLSphere *m_sphere;
     QOpenGLBuffer *m_vertexBuffer;
     QOpenGLBuffer * m_indexBuffer;
 

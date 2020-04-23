@@ -15,7 +15,6 @@ MyGLItem::MyGLItem() : GLItem()
     m_backgroundColor = GLColorRgba::clWhite;
     m_drawAxes = false;
     m_movementEnabled = true;
-    m_sphere = new GLSphere(3,50,50);
     m_eye = QVector3D(0.0, 1.0, 1.0)* 17.0;
     m_rotationIncrement = 1.0f;
     m_lightingEnabled = true;
