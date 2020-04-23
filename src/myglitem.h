@@ -14,16 +14,8 @@ class MyGLItem : public GLItem
 {
     Q_OBJECT
 
-    int m_firstTrianglePoint;
-    int m_lastTrianglePoint;
-    int m_firstCubePoint;
-    int m_lastCubePoint;
-    int m_firstFPoint;
-    int m_lastFPoint;
-    int m_firstNormalPoint;
-    int m_lastNormalPoint;
     QOpenGLBuffer *m_vertexBuffer;
-    QOpenGLBuffer * m_indexBuffer;
+    QOpenGLBuffer *m_indexBuffer;
 
     GLDisc *m_disc;
     GLDisc *m_disc_other;
@@ -49,11 +41,6 @@ class MyGLItem : public GLItem
     QTimer *alarmtimer;
     QTimer *rotatetimer;
 
-    void createTriangles();
-    void drawTriangles();
-    void createNormals();
-    void createNormalsF();
-    void drawCube();
 
     void jumpUp();
     void jumpDown();
