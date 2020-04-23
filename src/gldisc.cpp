@@ -201,61 +201,50 @@ void GLDisc::setDz_temp(QString value)
 
 void GLDisc::setXZ()
 {
-    float x = getHoldCoordinates().x();
-    float z = getHoldCoordinates().z();
-    // X-Werte
-    if (x == -4.5f){
-        setDx("A");
-        setDx_temp("A");
+    // Weise Steine
+    if (getHoldCoordinates() == QVector3D(-4.5f, 0.0f, 7.5f)){
+        setDXZ("A1");
+        setDXZ_temp("A1");
     }
-    if (x == -1.5f){
-        setDx("B");
-        setDx_temp("B");
+    if (getHoldCoordinates() == QVector3D(-1.5f, 0.0f, 7.5f)){
+        setDXZ("B1");
+        setDXZ_temp("B1");
     }
-    if (x == 1.5f){
-        setDx("C");
-        setDx_temp("C");
+    if (getHoldCoordinates() == QVector3D(1.5f, 0.0f, 7.5f)){
+        setDXZ("C1");
+        setDXZ_temp("C1");
     }
-    if (x == 4.5f){
-        setDx("D");
-        setDx_temp("D");
+    if (getHoldCoordinates() == QVector3D(4.5f, 0.0f, 7.5f)){
+        setDXZ("D1");
+        setDXZ_temp("D1");
     }
-    // Z-Werte
-    if (z == 7.5f){
-        setDz("1");
-        setDz_temp("1");
+    // Schwarze Steine
+    if (getHoldCoordinates() == QVector3D(-4.5f, 0.0f, -7.5f)){
+        setDXZ("A6");
+        setDXZ_temp("A6");
     }
-    if (z == 4.5f){
-        setDz("2");
-        setDz_temp("2");
+    if (getHoldCoordinates() == QVector3D(-1.5f, 0.0f, -7.5f)){
+        setDXZ("B6");
+        setDXZ_temp("B6");
     }
-    if (z == 1.5f){
-        setDz("3");
-        setDz_temp("3");
+    if (getHoldCoordinates() == QVector3D(1.5f, 0.0f, -7.5f)){
+        setDXZ("C6");
+        setDXZ_temp("C6");
     }
-    if (z == -1.5f){
-        setDz("4");
-        setDz_temp("4");
-    }
-    if (z == -4.5f){
-        setDz("5");
-        setDz_temp("5");
-    }
-    if (z == -7.5f){
-        setDz("6");
-        setDz_temp("6");
+    if (getHoldCoordinates() == QVector3D(4.5f, 0.0f, -7.5f)){
+        setDXZ("D6");
+        setDXZ_temp("D6");
     }
 }
 
 void GLDisc::updateXZ()
 {
-    setDx(getDx_temp());
-    setDz(getDz_temp());
+    setDXZ(getDXZ_temp());
 }
 
 QList<QString> GLDisc::getList()
 {
-    QString listName = getDx() + getDz();
+    QString listName = getDXZ();
     QList<QString> list = {};
     if (listName == "A1"){
         list = A1;
@@ -335,7 +324,7 @@ QList<QString> GLDisc::getList()
 QVector3D GLDisc::getVector(QList<QString> list)
 {
     QVector3D vector = {0.0f, 0.0f, 0.0f};
-    QString Coord = getDx_temp() + getDz_temp();
+    QString Coord = getDXZ_temp();
     int pos = 0;
     for (int i = 0; i < list.size(); i++){
         if (list[i] == Coord) {
@@ -343,42 +332,89 @@ QVector3D GLDisc::getVector(QList<QString> list)
             pos = i;
         }
     }
-    QString bucstabe = getDx();
-    QString zahl = getDz();
-    if (bucstabe == "A"){
-        if (zahl == "1"){
-            qDebug() << "left_down";
-            vector = left_down[pos];
-        } else if (zahl == "6") {
-            qDebug() << "left_top";
-            vector = left_top[pos];
-        } else {
-            qDebug() << "left_centre";
-            vector = left_centre[pos];
-        }
-    } else if (bucstabe == "D"){
-        if (zahl == "1"){
-            qDebug() << "right_down";
-            vector = right_down[pos];
-        } else if (zahl == "6") {
-            qDebug() << "right_top";
-            vector = right_top[pos];
-        } else {
-            qDebug() << "right_centre";
-            vector = right_centre[pos];
-        }
-    } else {
-        if (zahl == "1"){
-            qDebug() << "middle_down";
-            vector = middle_down[pos];
-        } else if (zahl == "6") {
-            qDebug() << "middle_top";
-            vector = middle_top[pos];
-        } else {
-            qDebug() << "middle_centre";
-            vector = middle_centre[pos];
-        }
+    QString startPos = getDXZ();
+    QRegExp zelle;
+    zelle.setPattern("A1");
+    if (zelle.exactMatch(startPos)){
+        qDebug() << "left_down";
+        vector = left_down[pos];
     }
+    zelle.setPattern("A[2-5]");
+    if (zelle.exactMatch(startPos)){
+        qDebug() << "left_centre";
+        vector = left_centre[pos];
+    }
+    zelle.setPattern("A6");
+    if (zelle.exactMatch(startPos)){
+        qDebug() << "left_top";
+        vector = left_top[pos];
+    }
+    zelle.setPattern("[B-C]1");
+    if (zelle.exactMatch(startPos)){
+        qDebug() << "middle_down";
+        vector = middle_down[pos];
+    }
+    zelle.setPattern("[B-C][2-5]");
+    if (zelle.exactMatch(startPos)){
+        qDebug() << "middle_centre";
+        vector = middle_centre[pos];
+    }
+    zelle.setPattern("[B-C]6");
+    if (zelle.exactMatch(startPos)){
+        qDebug() << "middle_top";
+        vector = middle_top[pos];
+    }
+    zelle.setPattern("D1");
+    if (zelle.exactMatch(startPos)){
+        qDebug() << "right_down";
+        vector = right_down[pos];
+    }
+    zelle.setPattern("D[2-5]");
+    if (zelle.exactMatch(startPos)){
+        qDebug() << "right_centre";
+        vector = right_centre[pos];
+    }
+    zelle.setPattern("D6");
+    if (zelle.exactMatch(startPos)){
+        qDebug() << "right_top";
+        vector = right_top[pos];
+    }
+//    QString bucstabe = getDx();
+//    QString zahl = getDz();
+//    if (bucstabe == "A"){
+//        if (zahl == "1"){
+//            qDebug() << "left_down";
+//            vector = left_down[pos];
+//        } else if (zahl == "6") {
+//            qDebug() << "left_top";
+//            vector = left_top[pos];
+//        } else {
+//            qDebug() << "left_centre";
+//            vector = left_centre[pos];
+//        }
+//    } else if (bucstabe == "D"){
+//        if (zahl == "1"){
+//            qDebug() << "right_down";
+//            vector = right_down[pos];
+//        } else if (zahl == "6") {
+//            qDebug() << "right_top";
+//            vector = right_top[pos];
+//        } else {
+//            qDebug() << "right_centre";
+//            vector = right_centre[pos];
+//        }
+//    } else {
+//        if (zahl == "1"){
+//            qDebug() << "middle_down";
+//            vector = middle_down[pos];
+//        } else if (zahl == "6") {
+//            qDebug() << "middle_top";
+//            vector = middle_top[pos];
+//        } else {
+//            qDebug() << "middle_centre";
+//            vector = middle_centre[pos];
+//        }
+//    }
     qDebug() << "add Vector: " << vector;
     setStepVector(-vector);
     return vector;
@@ -386,7 +422,7 @@ QVector3D GLDisc::getVector(QList<QString> list)
 
 bool GLDisc::isMovementOk()
 {
-    QString moveCoor = getDx_temp() + getDz_temp();
+    QString moveCoor = getDXZ_temp();
     qDebug() << "moveCoor:" << moveCoor;
     QList<QString> moveList = getList();
     qDebug() << "moveList:" << moveList;
@@ -409,10 +445,6 @@ bool GLDisc::isFigth(QString enemy)
             return true;
         }
     }
-//    if (moveList.contains(enemy)){
-//        qDebug() << "Gegener ist erreichtbar";
-//        return true;
-//    }
     qDebug() << "Gegener ist nicht erreichtbar";
     return false;
 }
@@ -472,6 +504,26 @@ void GLDisc::setMoveCoordinates(const QVector3D &value)
 QVector3D GLDisc::getFinalLiftVector() const
 {
     return m_finalLiftVector;
+}
+
+QString GLDisc::getDXZ() const
+{
+    return dXZ;
+}
+
+void GLDisc::setDXZ(const QString &value)
+{
+    dXZ = value;
+}
+
+QString GLDisc::getDXZ_temp() const
+{
+    return dXZ_temp;
+}
+
+void GLDisc::setDXZ_temp(const QString &value)
+{
+    dXZ_temp = value;
 }
 
 void GLDisc::finishAnimation()

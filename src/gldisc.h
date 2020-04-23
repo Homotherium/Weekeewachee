@@ -99,6 +99,12 @@ public:
 
     QVector3D getFinalLiftVector() const;
 
+    QString getDXZ() const;
+    void setDXZ(const QString &value);
+
+    QString getDXZ_temp() const;
+    void setDXZ_temp(const QString &value);
+
 private:
     float m_height;
     IndexType m_slices;
@@ -110,6 +116,8 @@ private:
     QString m_disc_Color;
     bool m_isKing;
     bool isMove;
+    QString dXZ;
+    QString dXZ_temp;
     QString dx;
     QString dz;
     QString dx_temp;
