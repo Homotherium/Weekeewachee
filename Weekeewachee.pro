@@ -19,7 +19,6 @@ SOURCES += src/main.cpp \
     src/glbody.cpp \
     src/glbodygroup.cpp \
     src/glcolorrgba.cpp \
-    src/glcube.cpp \
     src/gldisc.cpp \
     src/glesrenderer.cpp \
     src/glfield.cpp \
@@ -62,7 +61,6 @@ HEADERS += \
     src/glbody.h \
     src/glbodygroup.h \
     src/glcolorrgba.h \
-    src/glcube.h \
     src/gldefines.h \
     src/gldisc.h \
     src/glesrenderer.h \

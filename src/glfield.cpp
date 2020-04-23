@@ -2,15 +2,9 @@
 
 GLField::GLField() : GLBody("Plane")
 {
-    /*
-    m_ll = QVector3D{-10.0f, 0.0f, 10.0f};
-    m_ur = QVector3D{10.0f, 0.0f, -10.0f};
-    */
-
     m_ll = QVector3D{-6.0f, 0.0f, -9.0f};
     m_ur = QVector3D{6.0f, 0.0f, 9.0f};
     setDrawingMode(GL_TRIANGLE_STRIP);
-    //setTextureFile("D:/Studium/5_Semester/MM/Jannik_Finke_mm2019/textures/Stein_weiss.png");
     createTextureObjects();
 }
 
@@ -56,11 +50,6 @@ void GLField::makeSurface(QVector<GLPoint> *pointContainer, QVector<GLushort> *i
 
 QVector3D GLField::fieldToPosition(const QVector3D &field)
 {
-    /*
-    if(field.x() < 0 || field.x() > 7 || field.y() < 0 || field.y() > 7)
-        return QVector3D{-9.0, -9.0, -9.0};
-    return QVector3D{-9.0f+(float)field.x()*2.0f+1.0f, 0.0f, 9.0f-(float)field.y()*2.0f-1.0f};
-    */
     QVector3D result;
     QVector3D vx = v_X * m_squareSize;
     QVector3D vz = v_Z * m_squareSize;
