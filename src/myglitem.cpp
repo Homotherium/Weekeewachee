@@ -364,20 +364,20 @@ void MyGLItem::moving(GLDisc * disk, QVector3D MousePos)
             zahl = "6";
         }
         if ((disk->getDXZ_temp() != buch+zahl) && !besetzt(disk->getDXZ(), buch+zahl, disk->getDisc_Name(), frends_list, enemy_list)){
-            disk->setDXZ_temp(buch+zahl);
             qDebug() << "StartCoord: " << disk->getDXZ();
             qDebug() << "Coord: " << disk->getDXZ_temp();
-            if (disk->isMovementOk()){
+            if (disk->isMovementOk(buch+zahl)){
                 if(disk->isMoved()){
                    disk->backStep();
                 }
                 qDebug() << disk->getList();
-                QVector3D moveDisk = disk->getVector(disk->getList());
+                QVector3D moveDisk = disk->getVector(disk->getList(), buch+zahl);
                 qDebug() << moveDisk;
                 qDebug() << "Move Coor: " << disk->getMoveCoordinates();
                 disk->setMoveCoordinates(disk->getHoldCoordinates() + moveDisk);
                 qDebug() << "Moved to: " << disk->getMoveCoordinates();
                 disk->move(moveDisk);
+                disk->setDXZ_temp(buch+zahl);
                 m_sounds->playSound(":/music/clearly.wav");
                 disk->setIsMoved(true);
             }
@@ -1412,8 +1412,6 @@ bool MyGLItem::besetzt(QString start, QString zelle, QString disk_name, QList<GL
     qDebug() << "Start XZ: " << start;
     qDebug() << "Mouse XZ: " << zelle;
     qDebug() << "Disk name: " << disk_name;
-    qDebug() << "frends_list: " << frends_list;
-    qDebug() << "enemy_list :" << enemy_list;
     QString stein = "";
     for (int i = 0; i < frends_list.size(); i++) {
         stein = frends_list[i]->getDXZ();

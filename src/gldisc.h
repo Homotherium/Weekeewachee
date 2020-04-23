@@ -81,9 +81,9 @@ public:
     void updateXZ();
 
     QList<QString> getList();
-    QVector3D getVector(QList<QString> list);
+    QVector3D getVector(QList<QString> list, QString moveXZ);
 
-    bool isMovementOk();
+    bool isMovementOk(QString moveXZ);
     bool isFigth(QString enemy);
     void backStep();
 

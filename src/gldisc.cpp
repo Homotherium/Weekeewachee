@@ -321,14 +321,13 @@ QList<QString> GLDisc::getList()
     return list;
 }
 
-QVector3D GLDisc::getVector(QList<QString> list)
+QVector3D GLDisc::getVector(QList<QString> list, QString moveXZ)
 {
     QVector3D vector = {0.0f, 0.0f, 0.0f};
-    QString Coord = getDXZ_temp();
     int pos = 0;
     for (int i = 0; i < list.size(); i++){
-        if (list[i] == Coord) {
-            qDebug() << "Coord: " << Coord << ", pos: " << i;
+        if (list[i] == moveXZ) {
+            qDebug() << "Coord: " << moveXZ << ", pos: " << i;
             pos = i;
         }
     }
@@ -420,14 +419,13 @@ QVector3D GLDisc::getVector(QList<QString> list)
     return vector;
 }
 
-bool GLDisc::isMovementOk()
+bool GLDisc::isMovementOk(QString moveXZ)
 {
-    QString moveCoor = getDXZ_temp();
-    qDebug() << "moveCoor:" << moveCoor;
+    qDebug() << "moveCoor:" << moveXZ;
     QList<QString> moveList = getList();
     qDebug() << "moveList:" << moveList;
     for (int i = 0; i < moveList.size(); i++){
-        if (moveList[i] == moveCoor) {
+        if (moveList[i] == moveXZ) {
             return true;
         }
     }
