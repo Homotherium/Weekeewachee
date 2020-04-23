@@ -15,7 +15,7 @@ void music::playSound(const QString & fileName)
     if(enabled)
     {
         QMap<QString, QSound * >::iterator it = m_sounds.find(fileName);
-        if(it == m_sounds.end())//not yet loaded
+        if(it == m_sounds.end())
         {
             if(!QFile::exists(fileName))
             {
