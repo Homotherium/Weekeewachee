@@ -1,4 +1,4 @@
-#include "myglitem.h"
+﻿#include "myglitem.h"
 #include <QQuickWindow>
 #include "src/gldefines.h"
 #include "src/glmouseray.h"
@@ -200,7 +200,7 @@ void MyGLItem::doSynchronizeThreads()
         alarmOff();
         m_disc->setSelected(false);
         qDebug() << "Kampf Überprüfung";
-        kampf(m_disc);
+        figth(m_disc);
         qDebug() << "";
         m_disc_temp->jumpDown();
         m_totalAnimationSteps = 10;
@@ -378,7 +378,7 @@ void MyGLItem::moving(GLDisc * disc, QVector3D MousePos)
         if (mouse_z > -8.9f && mouse_z < -6.1f) {
             zahl = "6";
         }
-        if ((disc->getDXZ_temp() != buch+zahl) && !besetzt(disc->getDXZ(), buch+zahl, disc->getDisc_Name(), frends_list, enemy_list)){
+        if ((disc->getDXZ_temp() != buch+zahl) && isFree(disc->getDXZ(), buch+zahl, disc->getDisc_Name(), frends_list, enemy_list)){
             qDebug() << "StartCoord: " << disc->getDXZ();
             qDebug() << "Coord: " << buch+zahl;
             if (disc->isMovementOk(buch+zahl)){
@@ -400,7 +400,7 @@ void MyGLItem::moving(GLDisc * disc, QVector3D MousePos)
     }
 }
 
-bool MyGLItem::besetzt(QString start, QString zelle, QString disc_name, QList<GLDisc*> frends_list, QList<GLDisc*> enemy_list)
+bool MyGLItem::isFree(QString start, QString zelle, QString disc_name, QList<GLDisc*> frends_list, QList<GLDisc*> enemy_list)
 {
     qDebug() << "BesetzBlock";
     qDebug() << "Start XZ: " << start;
@@ -412,7 +412,7 @@ bool MyGLItem::besetzt(QString start, QString zelle, QString disc_name, QList<GL
         if (stein == zelle && stein != start){
             showErrorMesage("Gleiche Farbe!");
             m_sounds->playSound(":/music/when.wav");
-            return true;
+            return false;
         }
     }
     for (int i = 0; i < enemy_list.size(); i++) {
@@ -420,13 +420,13 @@ bool MyGLItem::besetzt(QString start, QString zelle, QString disc_name, QList<GL
         if (stein == zelle && enemy_list[i]->getDisc_Name() == disc_name){
             showErrorMesage("Gleiche Stein!");
             m_sounds->playSound(":/music/when.wav");
-            return true;
+            return false;
         }
     }
-    return false;
+    return true;
 }
 
-bool MyGLItem::kampf(GLDisc *disc)
+bool MyGLItem::figth(GLDisc *disc)
 {
     if (disc->getDXZ() == disc->getDXZ_temp()){
         return false;

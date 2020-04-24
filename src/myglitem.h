@@ -73,7 +73,7 @@ public:
     void paintOnTopOfQmlScene() Q_DECL_OVERRIDE;
     void setupGeometry() Q_DECL_OVERRIDE;
 
-    bool kampf(GLDisc * disc);
+    bool figth(GLDisc * disc);
     void moving(GLDisc * disc, QVector3D MousePos);
     void move_away(GLDisc * disc);
     QList<GLDisc*> deletediscFromList(QList<GLDisc*> m_discs_list, QString disc_name);
@@ -93,7 +93,7 @@ public:
     void turnEnd();
     void showErrorMesage(QString errorMessage);
     void spielNeustarten();
-    bool besetzt(QString start, QString zelle, QString disc_name, QList<GLDisc*> frends_list, QList<GLDisc*> enemy_list);
+    bool isFree(QString start, QString zelle, QString disc_name, QList<GLDisc*> frends_list, QList<GLDisc*> enemy_list);
 
 signals:
     void textChanged(const QString & text);
