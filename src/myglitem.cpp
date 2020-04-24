@@ -18,7 +18,8 @@ MyGLItem::MyGLItem() : GLItem()
 {
     m_backgroundColor = GLColorRgba::clWhite;
     m_movementEnabled = true;
-    m_eye = QVector3D(0.0, 1.0, 1.0)* 17.0;
+    // m_eye Abstand Kamerasicht zu Spielfeld
+    m_eye = QVector3D(0.0f, 17.0f, 17.0f);
     m_lightingEnabled = true;
     m_colorArrayEnabled = true;
     m_mouseRay = new GLMouseRay();
@@ -32,40 +33,49 @@ MyGLItem::MyGLItem() : GLItem()
     m_movementEnabled = false;
     m_timer->start();
 
+    //Weiße Spielsteine
     m_disc_white_stein = new GLDisc("stein",QVector3D(-1.5, 0.0, -7.5));
     m_disc_white_schere = new GLDisc("schere", QVector3D(1.5, 0.0, -7.5));
     m_disc_white_papier = new GLDisc("papier",QVector3D(-4.5, 0.0, -7.5));
     m_disc_white_brunnen = new GLDisc("brunnen",QVector3D(-4.5, 0.0, -7.5));
 
+    //Schwarze Spielsteine
     m_disc_black_stein = new GLDisc("stein",QVector3D(-4.5, 0.0, 7.5));
     m_disc_black_schere = new GLDisc("schere",QVector3D(-1.5, 0.0, 7.5));
     m_disc_black_papier = new GLDisc("papier",QVector3D(1.5, 0.0, 7.5));
     m_disc_black_brunnen = new GLDisc("brunnen",QVector3D(4.5, 0.0, 7.5));
 
+    //Weiße Spielsteine werden in die Liste eingefügt
     m_whitediscs_list.append(m_disc_white_stein);
     m_whitediscs_list.append(m_disc_white_schere);
     m_whitediscs_list.append(m_disc_white_papier);
     m_whitediscs_list.append(m_disc_white_brunnen);
 
+    //Schwarze Spielsteine werden in die Liste eingefügt
     m_blackdiscs_list.append(m_disc_black_stein);
     m_blackdiscs_list.append(m_disc_black_schere);
     m_blackdiscs_list.append(m_disc_black_papier);
     m_blackdiscs_list.append(m_disc_black_brunnen);
 
+    //Startposition von Schwarzen Spielsteinen
     m_blackPos.append(QVector3D(-1.5f, 0.0f, -7.5f));
     m_blackPos.append(QVector3D(1.5f, 0.0f, -7.5f));
     m_blackPos.append(QVector3D(4.5f, 0.0f, -7.5f));
     m_blackPos.append(QVector3D(-4.5f, 0.0f, -7.5f));
 
+    //Startposition von Weißen Spielsteinen
     m_whitePos.append(QVector3D(-4.5f, 0.0f, 7.5f));
     m_whitePos.append(QVector3D(-1.5f, 0.0f, 7.5f));
     m_whitePos.append(QVector3D(1.5f, 0.0f, 7.5f));
     m_whitePos.append(QVector3D(4.5f, 0.0f, 7.5f));
 
-    m_disc = new GLDisc("My disc", QVector3D(0.0, 0.0,0.0));
+    //m_disc = spielbare Disc
+    m_disc = new GLDisc("My disc", QVector3D(0.0, 0.0, 0.0));
+    //m_disc_other = abwählen der aktuellen Disc
     m_disc_other = new GLDisc("My disc Other", QVector3D(100.0, 0.0, 100.0));
     m_disc_temp = m_disc_other;
 
+    //Spielfeld
     m_field = new GLField();
     setPlayer(true);
     setIsMoveCorrect(true);
@@ -93,11 +103,13 @@ void MyGLItem::paintUnderQmlScene()
  */
 void MyGLItem::paintOnTopOfQmlScene()
 {
+    //Zeichnen von Schwarzen Spielsteinen
     m_disc_black_stein->draw(renderer());
     m_disc_black_schere->draw(renderer());
     m_disc_black_papier->draw(renderer());
     m_disc_black_brunnen->draw(renderer());
 
+    //Zeichnen von Weißen Spielsteinen
     m_disc_white_stein->draw(renderer());
     m_disc_white_schere->draw(renderer());
     m_disc_white_papier->draw(renderer());
@@ -115,6 +127,7 @@ void MyGLItem::setupGeometry()
 {
     GLItem::setupGeometry();
     if(newgame){
+        //Texturesetzung muss nur einmal gemacht werden
         m_field->setTextureFile(":/textures/sbrett.png");
 
         m_disc_white_schere->setTextureFile(":/textures/Stein_weiss_schere.png");
@@ -129,6 +142,7 @@ void MyGLItem::setupGeometry()
     }
     newgame = false;
 
+    //Modellsetzung bei jedem neuen Spielstart
     m_disc_white_schere->readBinaryModelFile(":/models/Stein_weiss1.dat");
     m_disc_white_stein->readBinaryModelFile(":/models/Stein_weiss1.dat");
     m_disc_white_papier->readBinaryModelFile(":/models/Stein_weiss1.dat");
@@ -139,6 +153,7 @@ void MyGLItem::setupGeometry()
     m_disc_black_papier->readBinaryModelFile(":/models/Stein_weiss1.dat");
     m_disc_black_brunnen->readBinaryModelFile(":/models/Stein_weiss1.dat");
 
+    //Farbsetzung der Steine
     m_disc_black_schere->setDisc_Color("black");
     m_disc_black_stein->setDisc_Color("black");
     m_disc_black_papier->setDisc_Color("black");
@@ -148,6 +163,8 @@ void MyGLItem::setupGeometry()
     m_disc_white_papier->setDisc_Color("white");
     m_disc_white_stein->setDisc_Color("white");
     m_disc_white_schere->setDisc_Color("white");
+
+    //Disc Startposition setzen
     setDiscs();
 
     // Fake disc
@@ -205,8 +222,11 @@ void MyGLItem::doSynchronizeThreads()
         if(m_disc->isHit(nearPoint, farPoint)){
             m_disc->setSelected(true);
         }
+        //Stein ist noch nicht bewegt
         m_disc->setIsMoved(false);
+        //Zuweisung aktueller Position zu moving Position
         m_disc->setMoveCoordinates(m_disc->getHoldCoordinates());
+        //Stein wird hochgehoben
         m_disc_temp = m_disc;
         m_disc_temp->jumpUp();
         m_totalAnimationSteps = 10;
@@ -217,6 +237,7 @@ void MyGLItem::doSynchronizeThreads()
     //Mouse move
     if(m_lastMouseEvent && (m_lastMouseEvent->type() == QMouseEvent::MouseMove) && !m_lastMouseEvent->isAccepted()){
         m_lastMouseEvent->setAccepted(true);
+        //Wir können Stein nur bewegen, wenn geklickt und der Stein hoch gehoben ist
         if (m_disc->getFinalLiftVector().y() == 1.0f){
             renderer()->mouseIntersection(&discPosition, v_Y, 0.0f, m_lastMouseEvent->pos());
             moving(m_disc, discPosition);
@@ -228,9 +249,10 @@ void MyGLItem::doSynchronizeThreads()
     if(m_lastMouseEvent && (m_lastMouseEvent->type() == QMouseEvent::MouseButtonRelease) && !m_lastMouseEvent->isAccepted()){
         alarmOff();
         m_disc->setSelected(false);
-        qDebug() << "Kampf Überprüfung";
+
         figth(m_disc);
-        qDebug() << "";
+
+        //Stein wird runter gesetzt
         m_disc_temp->jumpDown();
         m_totalAnimationSteps = 10;
         m_animationActive = true;
@@ -257,7 +279,9 @@ void MyGLItem::doSynchronizeThreads()
  */
 void MyGLItem::mousePressed(int x, int y, int button)
 {
+    //Meldung wird ausgeschaltet
     alarmOff();
+
     if(m_lastMouseEvent)
         delete m_lastMouseEvent;
     m_lastMouseEvent = new QMouseEvent(QMouseEvent::MouseButtonPress, QPointF(x, y), QPointF(x, y),
@@ -266,6 +290,8 @@ void MyGLItem::mousePressed(int x, int y, int button)
     if(window())
         window()->update();
     QList<GLDisc*> discs_list;
+
+    //Zuweisung Liste zu Spielerfarbe
     if (player){
         discs_list = m_blackdiscs_list;
     } else {
@@ -368,13 +394,14 @@ void MyGLItem::moving(GLDisc * disc, QVector3D MousePos)
 {
     if (isMoveCorrect){
         alarmOff();
-        QList<GLDisc*> frends_list;
+        QList<GLDisc*> friends_list;
         QList<GLDisc*> enemy_list;
+        //Zuweisung von Listen
         if (disc->getDisc_Color() == "black"){
-            frends_list = m_blackdiscs_list;
+            friends_list = m_blackdiscs_list;
             enemy_list = m_whitediscs_list;
         } else {
-            frends_list = m_whitediscs_list;
+            friends_list = m_whitediscs_list;
             enemy_list = m_blackdiscs_list;
         }
 
@@ -383,6 +410,7 @@ void MyGLItem::moving(GLDisc * disc, QVector3D MousePos)
 
         QString buch = QString(disc->getDXZ_temp()[0]);
         QString zahl = QString(disc->getDXZ_temp()[1]);
+
         // Out of Range
         if (mouse_x > 6.0f || mouse_x < -6.0f || mouse_z > 9.0f || mouse_z < -9.0f){
             showErrorMesage("Out of Range!");
@@ -420,16 +448,24 @@ void MyGLItem::moving(GLDisc * disc, QVector3D MousePos)
         if (mouse_z > -8.9f && mouse_z < -6.1f) {
             zahl = "6";
         }
-        if ((disc->getDXZ_temp() != buch+zahl) && isFree(disc->getDXZ(), buch+zahl, disc->getDisc_Name(), frends_list, enemy_list)){
+
+        //Überprüfung ob Maus bewegt wurde und ob das Feld, auf den die Maus zeigt, frei ist
+        if ((disc->getDXZ_temp() != buch+zahl) && isFree(disc->getDXZ(), buch+zahl, disc->getDisc_Name(), friends_list, enemy_list)){
+            //Überprüfung ob Zielposition von Stein erreichbar ist
             if (disc->isMovementOk(buch+zahl)){
+                //Wenn es nicht im gleichen Zug die erste Stein Bewegung ist, dann muss backStep gemacht werden
                 if(disc->isMoved()){
                    disc->backStep();
                 }
+                //Vektor um wie viel der Stein bewegt werden muss
                 QVector3D movedisc = disc->getVector(disc->getList(), buch+zahl);
+                //Zuweisung neuer Move Koordinaten
                 disc->setMoveCoordinates(disc->getHoldCoordinates() + movedisc);
                 disc->move(movedisc);
+                //Aktualisierung temporärer Koordinaten
                 disc->setDXZ_temp(buch+zahl);
                 m_sounds->playSound(":/music/clearly.wav");
+                //Stein ist in diesem Zug schon mindestens einmal beweget worden
                 disc->setIsMoved(true);
             }
         }
@@ -650,6 +686,7 @@ void MyGLItem::turnEnd()
  */
 bool MyGLItem::isGameOver()
 {
+    //Überprüfung ob ein schwarzer Stein in den Startpositionen der weißen Steine ist
     for (int b = 0; b < m_blackdiscs_list.size(); b++) {
         for (int i = 0; i < 4; i++) {
             if (m_blackdiscs_list[b]->getMoveCoordinates() == m_whitePos[i]){
@@ -659,6 +696,7 @@ bool MyGLItem::isGameOver()
             }
         }
     }
+    //Überprüfung ob ein weißer Stein in den Startpositionen der schwarzen Steine ist
     for (int w = 0; w < m_whitediscs_list.size(); w++) {
         for (int j = 0; j < 4; j++) {
             if (m_whitediscs_list[w]->getMoveCoordinates() == m_blackPos[j]){
@@ -668,11 +706,13 @@ bool MyGLItem::isGameOver()
             }
         }
     }
+    //Überprüfung ob es noch weiße Spielsteine gibt
     if (m_whitediscs_list.isEmpty()){
         qDebug() << "Schwarzer Spieler gewinnt!";
         m_sounds->playSound(":/music/applauses.wav");
         return true;
     }
+    //Überprüfung ob es noch schwarze Spielsteine gibt
     if (m_blackdiscs_list.isEmpty()){
         qDebug() << "Weißer Spieler gewinnt!";
         m_sounds->playSound(":/music/applauses.wav");
@@ -733,6 +773,7 @@ void MyGLItem::restartGame()
     emit textChanged("Let's fight begin!!!!");
     emit textColorChanged("black");
     emit textBackgroundColorChanged("yellow");
+    //Liste wird erneuert
     m_whitediscs_list.append(m_disc_white_stein);
     m_whitediscs_list.append(m_disc_white_schere);
     m_whitediscs_list.append(m_disc_white_papier);
