@@ -9,6 +9,11 @@
 #include "QThread"
 #include <math.h>
 
+/**
+ * Methodenname : MyGLItem
+ * Funktion     : Konstruktor der Klasse MyGLItem
+ * Parameter    : keine
+ */
 MyGLItem::MyGLItem() : GLItem()
 {
     m_backgroundColor = GLColorRgba::clWhite;
@@ -73,11 +78,21 @@ MyGLItem::MyGLItem() : GLItem()
     connect(rotatetimer, SIGNAL(timeout()), this, SLOT(update()));
 }
 
+/**
+ * Methodenname : paintUnderQmlScene
+ * Funktion     : Zeichnen des Feldes
+ * Parameter    : keine
+ */
 void MyGLItem::paintUnderQmlScene()
 {
     m_field->draw(renderer());
 }
 
+/**
+ * Methodenname : paintOnTopOfQmlScene
+ * Funktion     : Zeichnen der Steine
+ * Parameter    : keine
+ */
 void MyGLItem::paintOnTopOfQmlScene()
 {
     m_disc_black_stein->draw(renderer());
