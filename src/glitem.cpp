@@ -179,7 +179,6 @@ void GLItem::paintAfter()
 
 void GLItem::initializeRenderer()
 {
-    qDebug() <<"GlItem::initializeRenderer called.";
 //    if(window()->openglContext() && !m_renderer){
 //        connect(window()->openglContext(), &QOpenGLContext::aboutToBeDestroyed,
 //                this, &GLItem::destroyTextureObjects, Qt::DirectConnection);
@@ -331,7 +330,6 @@ bool GLItem::setupRenderer()
  */
 void GLItem::handleWindowChanged(QQuickWindow *win)
 {
-    qDebug() << "GlItem::handleWindowChanged() called.";
     if (win) {
         // Connect the beforeRendering signal to our paint function.
         // Since this call is executed on the rendering thread it must be
