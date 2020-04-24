@@ -7,15 +7,23 @@
 
 int main(int argc, char *argv[])
 {
-    QLocale::setDefault(QLocale::German);
+    //QLocale::setDefault(QLocale::English);
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);
-
+    QLocale::Language sysLangId = QLocale::system().language();
     QTranslator translator;
-    if(translator.load("Weekeewachee_de.qm",":/translations"))
-        app.installTranslator(&translator);
+    if(sysLangId==QLocale::German)
+    {
+        if(translator.load("Weekeewachee_de.qm",":/translations"))
+            app.installTranslator(&translator);
+    }
+    else{
+        if(translator.load("Weekeewachee.qm",":/translations"))
+            app.installTranslator(&translator);
+    }
+
 
     QQmlApplicationEngine engine;
     app.setWindowIcon(QIcon(":/icons/icon.ico"));
