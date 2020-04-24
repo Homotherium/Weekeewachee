@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>translations/Weekeewachee.qm</file>
+        <file>translations/Weekeewachee_de.qm</file>
     </qresource>
 </RCC>

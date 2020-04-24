@@ -38,7 +38,7 @@ RESOURCES += \
     textures.qrc \
     translations.qrc
 
-TRANSLATIONS += translations/Weekeewachee.ts
+TRANSLATIONS += translations/Weekeewachee_de.ts
 
 win32 { LIBS += -lopengl32}
 

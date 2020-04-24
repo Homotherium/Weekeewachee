@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="de_DE" sourcelanguage="en_US">
+<TS version="2.1" language="de_DE">
 <context>
     <name>GLForm.ui</name>
-    <message>
-        <location filename="../qml/GLForm.ui.qml" line="61"/>
-        <source></source>
-        <translation></translation>
-    </message>
     <message>
         <location filename="../qml/GLForm.ui.qml" line="35"/>
         <source>Let&apos;s fight begin!!!!</source>
         <translation>Spiel starten!!!</translation>
+    </message>
+    <message>
+        <location filename="../qml/GLForm.ui.qml" line="61"/>
+        <source></source>
+        <translation></translation>
     </message>
 </context>
 <context>
