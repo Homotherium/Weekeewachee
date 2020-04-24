@@ -8,6 +8,11 @@
         <source></source>
         <translation></translation>
     </message>
+    <message>
+        <location filename="../qml/GLForm.ui.qml" line="35"/>
+        <source>Let&apos;s fight begin!!!!</source>
+        <translation>Spiel starten!!!</translation>
+    </message>
 </context>
 <context>
     <name>MyGLItem</name>
