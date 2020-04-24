@@ -13,10 +13,6 @@ GLDisc::GLDisc(const QString & name, const QVector3D &fieldCoord, float radius, 
     m_isKing = false;
     isMove = false;
     setShowFrame(false);
-    dx = "O";
-    dz = "0";
-    dx_temp = "O";
-    dz_temp = "0";
     stepVector = {0.0f, 0.0f, 0.0f};
 }
 
@@ -142,46 +138,6 @@ void GLDisc::setdiscLastmove(const QString &value)
 void GLDisc::setIsMoved(bool value)
 {
     isMove = value;
-}
-
-QString GLDisc::getDx() const
-{
-    return dx;
-}
-
-void GLDisc::setDx(const QString &value)
-{
-    dx = value;
-}
-
-QString GLDisc::getDz() const
-{
-    return dz;
-}
-
-void GLDisc::setDz(QString value)
-{
-    dz = value;
-}
-
-QString GLDisc::getDx_temp() const
-{
-    return dx_temp;
-}
-
-void GLDisc::setDx_temp(const QString &value)
-{
-    dx_temp = value;
-}
-
-QString GLDisc::getDz_temp() const
-{
-    return dz_temp;
-}
-
-void GLDisc::setDz_temp(QString value)
-{
-    dz_temp = value;
 }
 
 void GLDisc::setXZ()
@@ -409,23 +365,6 @@ QVector3D GLDisc::getStepVector() const
 void GLDisc::setStepVector(const QVector3D &value)
 {
     stepVector = value;
-}
-
-void GLDisc::getInfo()
-{
-    qDebug() << "";
-    qDebug() << "+++++++++disc Info+++++++++";
-    qDebug() << "disc Name: " << getDisc_Name();
-    qDebug() << "disc Farbe: " << getDisc_Color();
-    qDebug() << "disc holdCoordinates: " << getHoldCoordinates();
-    qDebug() << "disc moveCoordinates: " << getMoveCoordinates();
-    qDebug() << "disc XZ: " << getXZ();
-    qDebug() << "disc moveList: " << getList();
-    qDebug() << "disc XZ_temp: " << getXZ_temp();
-    qDebug() << "disc stepVector: " << getStepVector();
-    qDebug() << "";
-
-
 }
 
 QVector3D GLDisc::getHoldCoordinates() const

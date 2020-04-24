@@ -91,7 +91,6 @@ public:
     bool discCollision(GLDisc * disc);
     void rotateBoard();
     void turnEnd();
-    void printdiscLists();
     void showErrorMesage(QString errorMessage);
     void spielNeustarten();
     bool besetzt(QString start, QString zelle, QString disc_name, QList<GLDisc*> frends_list, QList<GLDisc*> enemy_list);

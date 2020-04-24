@@ -50,21 +50,7 @@ public:
     bool isMoved(){return isMove;}
     void setIsMoved(bool value);
 
-    QString getDx() const;
-    void setDx(const QString &value);
-
-    QString getDz() const;
-    void setDz(QString value);
-
-    QString getDx_temp() const;
-    void setDx_temp(const QString &value);
-
-    QString getDz_temp() const;
-    void setDz_temp(QString value);
-
     void setXZ();
-    QString getXZ(){return getDx()+getDz();}
-    QString getXZ_temp(){return getDx_temp()+getDz_temp();}
     void updateXZ();
 
     QList<QString> getList();
@@ -76,7 +62,6 @@ public:
 
     QVector3D getStepVector() const;
     void setStepVector(const QVector3D &value);
-    void getInfo();
 
     QVector3D getHoldCoordinates() const;
     void setHoldCoordinates(const QVector3D &value);
@@ -105,10 +90,6 @@ private:
     bool isMove;
     QString dXZ;
     QString dXZ_temp;
-    QString dx;
-    QString dz;
-    QString dx_temp;
-    QString dz_temp;
     QVector3D stepVector;
 
 
