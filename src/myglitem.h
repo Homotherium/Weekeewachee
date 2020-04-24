@@ -31,8 +31,8 @@ class MyGLItem : public GLItem
     GLDisc *m_disc_black_papier;
     GLDisc *m_disc_black_brunnen;
 
-    QList<GLDisc*> m_whitedisks_list;
-    QList<GLDisc*> m_blackdisks_list;
+    QList<GLDisc*> m_whitediscs_list;
+    QList<GLDisc*> m_blackdiscs_list;
     QList<QVector3D> m_blackPos;
     QList<QVector3D> m_whitePos;
 
@@ -53,7 +53,7 @@ class MyGLItem : public GLItem
     QMouseEvent * m_lastMouseEvent;
 
     QVector3D m_pressPosToDiscPos;
-    QVector3D diskPosition;
+    QVector3D discPosition;
     QPoint endPunkt;
     bool m_mouseEventProcessed;
     bool m_mouseRaySet;
@@ -73,28 +73,28 @@ public:
     void paintOnTopOfQmlScene() Q_DECL_OVERRIDE;
     void setupGeometry() Q_DECL_OVERRIDE;
 
-    bool kampf(GLDisc * disk);
-    void moving(GLDisc * disk, QVector3D MousePos);
-    void move_away(GLDisc * disk);
-    QList<GLDisc*> deleteDiskFromList(QList<GLDisc*> m_disks_list, QString disk_name);
+    bool kampf(GLDisc * disc);
+    void moving(GLDisc * disc, QVector3D MousePos);
+    void move_away(GLDisc * disc);
+    QList<GLDisc*> deletediscFromList(QList<GLDisc*> m_discs_list, QString disc_name);
     void changePlayer(bool player);
 
     bool getPlayer() const;
     void setPlayer(bool value);
 
-    void setDisks();
+    void setdiscs();
 
     bool getIsMoveCorrect() const;
     void setIsMoveCorrect(bool value);
     void collisionKampf(GLDisc * disc1, GLDisc * disc2);
     bool gameOverTest();
-    bool diskCollision(GLDisc * disk);
+    bool discCollision(GLDisc * disc);
     void rotateBoard();
     void turnEnd();
-    void printDiskLists();
+    void printdiscLists();
     void showErrorMesage(QString errorMessage);
     void spielNeustarten();
-    bool besetzt(QString start, QString zelle, QString disk_name, QList<GLDisc*> frends_list, QList<GLDisc*> enemy_list);
+    bool besetzt(QString start, QString zelle, QString disc_name, QList<GLDisc*> frends_list, QList<GLDisc*> enemy_list);
 
 signals:
     void textChanged(const QString & text);

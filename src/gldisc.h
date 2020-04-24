@@ -42,10 +42,10 @@ public:
     void setDisc_Color(const QString &disc_Color);
 
     QString getDisc_Name() const;
-    QString diskLastmove;
+    QString discLastmove;
 
-    QString getDiskLastmove() const;
-    void setDiskLastmove(const QString &value);
+    QString getdiscLastmove() const;
+    void setdiscLastmove(const QString &value);
 
     bool isMoved(){return isMove;}
     void setIsMoved(bool value);
