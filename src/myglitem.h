@@ -17,6 +17,7 @@ class MyGLItem : public GLItem
     QOpenGLBuffer *m_vertexBuffer;
     QOpenGLBuffer *m_indexBuffer;
 
+    // Spielsteine
     GLDisc *m_disc;
     GLDisc *m_disc_other;
     GLDisc *m_disc_temp;
@@ -31,69 +32,66 @@ class MyGLItem : public GLItem
     GLDisc *m_disc_black_papier;
     GLDisc *m_disc_black_brunnen;
 
+    // Liste der Spielsteine
     QList<GLDisc*> m_whitediscs_list;
     QList<GLDisc*> m_blackdiscs_list;
+    // Liste der Startpositionen der Spielsteine
     QList<QVector3D> m_blackPos;
     QList<QVector3D> m_whitePos;
 
+    // Spielfeld
     GLField *m_field;
 
     QTimer *alarmtimer;
-    QTimer *rotatetimer;
 
 
-    void jumpUp();
-    void jumpDown();
 
     //Animation
     int m_animationStep;
     int m_totalAnimationSteps;
     bool m_animationActive;
+    void jumpUp();
+    void jumpDown();
 
     QMouseEvent * m_lastMouseEvent;
 
-    QVector3D m_pressPosToDiscPos;
     QVector3D discPosition;
-    QPoint endPunkt;
     bool m_mouseEventProcessed;
     bool m_mouseRaySet;
 
+    // Spieler
     bool player;
+    // Darf sich Spielstein bewegen
     bool isMoveCorrect;
+    // Ist es erster Spielstart
     bool newgame;
+    // Sounds
     music * m_sounds;
 
 private:
     GLMouseRay * m_mouseRay;
 
 public:
-    //explicit MyGLItem(QQuickItem *parent = 0);
     MyGLItem();
     void paintUnderQmlScene() Q_DECL_OVERRIDE;
     void paintOnTopOfQmlScene() Q_DECL_OVERRIDE;
     void setupGeometry() Q_DECL_OVERRIDE;
-
-    bool figth(GLDisc * disc);
+    void setDiscs();
     void moving(GLDisc * disc, QVector3D MousePos);
+    bool isFree(QString start, QString zelle, QString disc_name, QList<GLDisc*> frends_list, QList<GLDisc*> enemy_list);
+    bool figth(GLDisc * disc);
     void move_away(GLDisc * disc);
     QList<GLDisc*> deletediscFromList(QList<GLDisc*> m_discs_list, QString disc_name);
+    void turnEnd();
+    bool isGameOver();
     void changePlayer(bool player);
-
+    void rotateBoard();
+    void restartGame();
+    void showErrorMesage(QString errorMessage);
     bool getPlayer() const;
     void setPlayer(bool value);
-
-    void setdiscs();
-
     bool getIsMoveCorrect() const;
     void setIsMoveCorrect(bool value);
-    void collisionKampf(GLDisc * disc1, GLDisc * disc2);
-    bool gameOverTest();
-    bool discCollision(GLDisc * disc);
-    void rotateBoard();
-    void turnEnd();
-    void showErrorMesage(QString errorMessage);
-    void spielNeustarten();
-    bool isFree(QString start, QString zelle, QString disc_name, QList<GLDisc*> frends_list, QList<GLDisc*> enemy_list);
 
 signals:
     void textChanged(const QString & text);
@@ -104,22 +102,22 @@ signals:
 
 public slots:
     void mousePressed(int x, int y, int button);
-    void mouseReleased(int x, int y, int button);
     void mouseMoved(int x, int y, int button);
+    void mouseReleased(int x, int y, int button);
     void alarmOff() {emit errorIcon(false); emit errorMessage("");}
 
 protected:
-    /**
-     * @brief doSynchronizeThreads Copy data from GUI-thread to render-thread and vice versa.
-     * Virtual function to be overridden by subclasses
-     */
-    virtual void doSynchronizeThreads()Q_DECL_OVERRIDE;
-
     /**
      * @brief setupBuffers Create buffer objects and copy data to buffers.
      *
      */
     virtual void setupBuffers();
+
+    /**
+     * @brief doSynchronizeThreads Copy data from GUI-thread to render-thread and vice versa.
+     * Virtual function to be overridden by subclasses
+     */
+    virtual void doSynchronizeThreads()Q_DECL_OVERRIDE;
 };
 
 #endif // MYGLITEM_H
