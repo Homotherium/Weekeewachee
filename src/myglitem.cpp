@@ -301,7 +301,7 @@ void MyGLItem::mousePressed(int x, int y, int button)
     // Ob Spieler richtige Farbe trifft
     for (int d = 0; d < discs_list.size(); d++) {
         if(discs_list[d]->isHit(QPoint(x,y),renderer())){
-            showErrorMesage("Falsche Farbe");
+            showErrorMesage(tr("Wrong color"));
             setIsMoveCorrect(false);
         }
     }
@@ -413,7 +413,7 @@ void MyGLItem::moving(GLDisc * disc, QVector3D MousePos)
 
         // Out of Range
         if (mouse_x > 6.0f || mouse_x < -6.0f || mouse_z > 9.0f || mouse_z < -9.0f){
-            showErrorMesage("Out of Range!");
+            showErrorMesage(tr("Out of Range!"));
             m_sounds->playSound(":/music/when.wav");
         }
         // X-Werte
@@ -483,7 +483,7 @@ bool MyGLItem::isFree(QString start, QString zelle, QString disc_name, QList<GLD
     for (int i = 0; i < frends_list.size(); i++) {
         stein = frends_list[i]->getDXZ();
         if (stein == zelle && stein != start){
-            showErrorMesage("Gleiche Farbe!");
+            showErrorMesage(tr("Same color!"));
             m_sounds->playSound(":/music/when.wav");
             return false;
         }
@@ -491,7 +491,7 @@ bool MyGLItem::isFree(QString start, QString zelle, QString disc_name, QList<GLD
     for (int i = 0; i < enemy_list.size(); i++) {
         stein = enemy_list[i]->getDXZ();
         if (stein == zelle && enemy_list[i]->getDisc_Name() == disc_name){
-            showErrorMesage("Gleiche Stein!");
+            showErrorMesage(tr("Same stone!"));
             m_sounds->playSound(":/music/when.wav");
             return false;
         }
@@ -741,12 +741,12 @@ void MyGLItem::rotateBoard()
     QVector3D factor = QVector3D(1.0f, 1.0f, -1.0f);
     qDebug() << "Seiten wechseln";
     if (player){
-        emit textChanged("Weißer Spieler ist am Zug");
+        emit textChanged(tr("White Players turn"));
         emit textColorChanged("white");
         emit textBackgroundColorChanged("black");
         qDebug() << "Weißer Spieler ist am Zug";
     } else {
-        emit textChanged("Schwarzer Spieler ist am Zug");
+        emit textChanged(tr("Black Players turn"));
         emit textColorChanged("black");
         emit textBackgroundColorChanged("white");
         qDebug() << "Schwarzer Spieler ist am Zug";
@@ -770,7 +770,7 @@ void MyGLItem::restartGame()
     setPlayer(true);
     setIsMoveCorrect(true);
     m_eye = QVector3D(0.0, 1.0, 1.0)* 17.0;
-    emit textChanged("Let's fight begin!!!!");
+    emit textChanged(tr("Let's fight begin!!!!"));
     emit textColorChanged("black");
     emit textBackgroundColorChanged("yellow");
     //Liste wird erneuert

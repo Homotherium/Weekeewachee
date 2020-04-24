@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QTranslator translator;
-    if(translator.load("testmm2019_de.qm",":/translations"))
+    if(translator.load("Weekeewachee.qm",":/translations"))
         app.installTranslator(&translator);
 
     QQmlApplicationEngine engine;
