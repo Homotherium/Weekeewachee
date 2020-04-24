@@ -14,8 +14,6 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QTranslator translator;
-    QLocale::Language sysLangId = QLocale::system().language();
-    qDebug() << sysLangId;
     if(translator.load("Weekeewachee.qm",":/translations"))
         app.installTranslator(&translator);
 
