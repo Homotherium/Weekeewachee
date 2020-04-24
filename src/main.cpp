@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
+
     QLocale::Language sysLangId = QLocale::system().language();
     QTranslator translator;
     if(sysLangId == QLocale::German)
@@ -16,7 +17,6 @@ int main(int argc, char *argv[])
         if(translator.load("Weekeewachee_de.qm",":/translations"))
             app.installTranslator(&translator);
     }
-
 
     QQmlApplicationEngine engine;
     app.setWindowIcon(QIcon(":/icons/icon.ico"));
