@@ -21,8 +21,6 @@ public:
     float getHeight(){ return m_height;}
     QVector3D getFieldCoord() const;
     void setFieldCoord(const QVector3D &FieldCoord);
-    void becomeKing();
-    bool isKing() {return m_isKing;}
     void calculateDrawMatrix() Q_DECL_OVERRIDE;
 
     /**
@@ -43,9 +41,6 @@ public:
 
     QString getDisc_Name() const;
     QString discLastmove;
-
-    QString getdiscLastmove() const;
-    void setdiscLastmove(const QString &value);
 
     bool isMoved(){return isMove;}
     void setIsMoved(bool value);
@@ -80,13 +75,11 @@ public:
 private:
     float m_height;
     IndexType m_slices;
-    //QPoint m_FieldCoord;
     QVector3D holdCoordinates;
     QVector3D moveCoordinates;
     QVector3D m_FieldCoord;
     QString m_disc_Name;
     QString m_disc_Color;
-    bool m_isKing;
     bool isMove;
     QString dXZ;
     QString dXZ_temp;

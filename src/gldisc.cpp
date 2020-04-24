@@ -9,13 +9,16 @@ GLDisc::GLDisc(const QString & name, const QVector3D &fieldCoord, float radius, 
     m_height = height;
     m_slices = slices;
     m_drawingMode = GL_TRIANGLE_STRIP;
-    discLastmove = "";
-    m_isKing = false;
     isMove = false;
     setShowFrame(false);
     stepVector = {0.0f, 0.0f, 0.0f};
 }
 
+/**
+ * Methodenname : makeSurface
+ * Funktion     : Erstellen der Oberfläche
+ * Parameter    : QVector<GLPoint> *pointContainer, QVector<GLushort> *indexContainer
+ */
 void GLDisc::makeSurface(QVector<GLPoint> *pointContainer, QVector<GLushort> *indexContainer)
 {
 
@@ -67,12 +70,6 @@ void GLDisc::makeSurface(QVector<GLPoint> *pointContainer, QVector<GLushort> *in
 void GLDisc::draw(GLESRenderer *renderer, bool useBuffers)
 {
     GLBody::draw(renderer,useBuffers);
-    if(isKing()){
-        renderer->pushMvMatrix();
-        renderer->translate(v_Y * 2.0f);
-        GLBody::draw(renderer,useBuffers);
-        renderer->popMvMatrix();
-    }
 }
 
 void GLDisc::calculateDrawMatrix()
@@ -89,13 +86,6 @@ QVector3D GLDisc::getFieldCoord() const
 void GLDisc::setFieldCoord(const QVector3D &FieldCoord)
 {
     m_FieldCoord = FieldCoord;
-}
-
-void GLDisc::becomeKing()
-{
-    m_height = 2* m_height;
-    m_isKing = true;
-    m_surfaceIsValid = false;
 }
 
 void GLDisc::jumpUp()
@@ -125,21 +115,16 @@ QString GLDisc::getDisc_Name() const
     return m_disc_Name;
 }
 
-QString GLDisc::getdiscLastmove() const
-{
-    return discLastmove;
-}
-
-void GLDisc::setdiscLastmove(const QString &value)
-{
-    discLastmove = value;
-}
-
 void GLDisc::setIsMoved(bool value)
 {
     isMove = value;
 }
 
+/**
+ * Methodenname : setXZ
+ * Funktion     : Wir setzen Spielfeld abhängig von Startkoordinaten
+ * Parameter    : -
+ */
 void GLDisc::setXZ()
 {
     // Weise Steine
@@ -178,11 +163,21 @@ void GLDisc::setXZ()
     }
 }
 
+/**
+ * Methodenname : updateXZ
+ * Funktion     : Wir setzen Spielzelle abhängig von Startkoordinaten
+ * Parameter    : -
+ */
 void GLDisc::updateXZ()
 {
     setDXZ(getDXZ_temp());
 }
 
+/**
+ * Methodenname : getList
+ * Funktion     : Rückgabe mit Liste von erlaubten Spielzellen von aktuellen Stein
+ * Parameter    : -
+ */
 QList<QString> GLDisc::getList()
 {
     QString listName = getDXZ();
@@ -262,13 +257,17 @@ QList<QString> GLDisc::getList()
     return list;
 }
 
+/**
+ * Methodenname : getVector
+ * Funktion     : Rückgabe Vektor für Bewegung
+ * Parameter    : QList<QString> list, QString moveXZ
+ */
 QVector3D GLDisc::getVector(QList<QString> list, QString moveXZ)
 {
     QVector3D vector = {0.0f, 0.0f, 0.0f};
     int pos = 0;
     for (int i = 0; i < list.size(); i++){
         if (list[i] == moveXZ) {
-            qDebug() << "Coord: " << moveXZ << ", pos: " << i;
             pos = i;
         }
     }
@@ -276,59 +275,53 @@ QVector3D GLDisc::getVector(QList<QString> list, QString moveXZ)
     QRegExp zelle;
     zelle.setPattern("A1");
     if (zelle.exactMatch(startPos)){
-        qDebug() << "left_down";
         vector = left_down[pos];
     }
     zelle.setPattern("A[2-5]");
     if (zelle.exactMatch(startPos)){
-        qDebug() << "left_centre";
         vector = left_centre[pos];
     }
     zelle.setPattern("A6");
     if (zelle.exactMatch(startPos)){
-        qDebug() << "left_top";
         vector = left_top[pos];
     }
     zelle.setPattern("[B-C]1");
     if (zelle.exactMatch(startPos)){
-        qDebug() << "middle_down";
         vector = middle_down[pos];
     }
     zelle.setPattern("[B-C][2-5]");
     if (zelle.exactMatch(startPos)){
-        qDebug() << "middle_centre";
         vector = middle_centre[pos];
     }
     zelle.setPattern("[B-C]6");
     if (zelle.exactMatch(startPos)){
-        qDebug() << "middle_top";
         vector = middle_top[pos];
     }
     zelle.setPattern("D1");
     if (zelle.exactMatch(startPos)){
-        qDebug() << "right_down";
         vector = right_down[pos];
     }
     zelle.setPattern("D[2-5]");
     if (zelle.exactMatch(startPos)){
-        qDebug() << "right_centre";
         vector = right_centre[pos];
     }
     zelle.setPattern("D6");
     if (zelle.exactMatch(startPos)){
-        qDebug() << "right_top";
         vector = right_top[pos];
     }
-    qDebug() << "add Vector: " << vector;
+    //Kehrwert von MoveVektor
     setStepVector(-vector);
     return vector;
 }
 
+/**
+ * Methodenname : isMovementOk
+ * Funktion     : Überprüft Bewegung des Steins erlaubt ist
+ * Parameter    : QString moveXZ
+ */
 bool GLDisc::isMovementOk(QString moveXZ)
 {
-    qDebug() << "moveCoor:" << moveXZ;
     QList<QString> moveList = getList();
-    qDebug() << "moveList:" << moveList;
     for (int i = 0; i < moveList.size(); i++){
         if (moveList[i] == moveXZ) {
             return true;
@@ -337,21 +330,27 @@ bool GLDisc::isMovementOk(QString moveXZ)
     return false;
 }
 
+/**
+ * Methodenname : isFigth
+ * Funktion     : Überprüfung ob sich auf unserer Zielzelle ein Gegner befindet
+ * Parameter    : QString enemy
+ */
 bool GLDisc::isFigth(QString enemy)
 {
-    qDebug() << "isFigth";
     QList<QString> moveList = getList();
-    qDebug() << "moveList:" << moveList;
     for (int i = 0; i < moveList.size(); i++){
         if (moveList[i] == enemy){
-            qDebug() << "Gegener ist erreichtbar";
             return true;
         }
     }
-    qDebug() << "Gegener ist nicht erreichtbar";
     return false;
 }
 
+/**
+ * Methodenname : backStep
+ * Funktion     : vor neue Bewegung , Stein muss auf Startposition springen
+ * Parameter    : -
+ */
 void GLDisc::backStep()
 {
     move(stepVector);
