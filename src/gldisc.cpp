@@ -121,10 +121,9 @@ void GLDisc::setIsMoved(bool value)
 }
 
 /**
- * Methodenname : setXZ
- * Funktion     : Wir setzen Spielfeld abhängig von Startkoordinaten
- * Parameter    : -
- */
+* \fn void GLDisc::setXZ()
+* \brief Wir setzen Spielfeld abhängig von Startkoordinaten.
+*/
 void GLDisc::setXZ()
 {
     // Weise Steine
@@ -164,20 +163,19 @@ void GLDisc::setXZ()
 }
 
 /**
- * Methodenname : updateXZ
- * Funktion     : Wir setzen Spielzelle abhängig von Startkoordinaten
- * Parameter    : -
- */
+* \fn void GLDisc::updateXZ()
+* \brief Wir setzen Spielzelle abhängig von Startkoordinaten.
+*/
 void GLDisc::updateXZ()
 {
     setDXZ(getDXZ_temp());
 }
 
 /**
- * Methodenname : getList
- * Funktion     : Rückgabe mit Liste von erlaubten Spielzellen von aktuellen Stein
- * Parameter    : -
- */
+* \fn QList<QString> GLDisc::getList()
+* \brief Rückgabe mit Liste von erlaubten Spielzellen von aktuellen Stein.
+* \return a QList<QString>.
+*/
 QList<QString> GLDisc::getList()
 {
     QString listName = getDXZ();
@@ -258,10 +256,12 @@ QList<QString> GLDisc::getList()
 }
 
 /**
- * Methodenname : getVector
- * Funktion     : Rückgabe Vektor für Bewegung
- * Parameter    : QList<QString> list, QString moveXZ
- */
+* \fn QVector3D GLDisc::getVector(QList<QString> list, QString moveXZ)
+* \brief Rückgabe Vektor für Bewegung.
+* \param list a QList<QString>.
+* \param moveXZ a QString.
+* \return a QList<QString>.
+*/
 QVector3D GLDisc::getVector(QList<QString> list, QString moveXZ)
 {
     QVector3D vector = {0.0f, 0.0f, 0.0f};
@@ -315,10 +315,11 @@ QVector3D GLDisc::getVector(QList<QString> list, QString moveXZ)
 }
 
 /**
- * Methodenname : isMovementOk
- * Funktion     : Überprüft Bewegung des Steins erlaubt ist
- * Parameter    : QString moveXZ
- */
+* \fn bool GLDisc::isMovementOk(QString moveXZ)
+* \brief Überprüft Bewegung des Steins erlaubt ist.
+* \param moveXZ a QString.
+* \return a boolean.
+*/
 bool GLDisc::isMovementOk(QString moveXZ)
 {
     QList<QString> moveList = getList();
@@ -331,10 +332,11 @@ bool GLDisc::isMovementOk(QString moveXZ)
 }
 
 /**
- * Methodenname : isFigth
- * Funktion     : Überprüfung ob sich auf unserer Zielzelle ein Gegner befindet
- * Parameter    : QString enemy
- */
+* \fn bool GLDisc::isFigth(QString enemy)
+* \brief Überprüfung ob sich auf unserer Zielzelle ein Gegner befindet.
+* \param enemy a QString.
+* \return a boolean.
+*/
 bool GLDisc::isFigth(QString enemy)
 {
     QList<QString> moveList = getList();
@@ -347,10 +349,9 @@ bool GLDisc::isFigth(QString enemy)
 }
 
 /**
- * Methodenname : backStep
- * Funktion     : vor neue Bewegung , Stein muss auf Startposition springen
- * Parameter    : -
- */
+* \fn void GLDisc::backStep()
+* \brief vor neue Bewegung , Stein muss auf Startposition springen.
+*/
 void GLDisc::backStep()
 {
     move(stepVector);

@@ -7,7 +7,6 @@
  * \version 1.0
  * \date 27 April 2020
  */
-
 #ifndef GLDISC_H
 #define GLDISC_H
 
