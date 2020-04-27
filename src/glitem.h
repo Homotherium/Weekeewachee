@@ -11,6 +11,7 @@
 #include "glpoint.h"
 #include "glesrenderer.h"
 
+
 /**
  * @brief The GlItem class is a 3D-scene item designed for use in QML SceneGraphs.
  * It should be subclassed  according to your requirements, registered with qmlRegisterType
@@ -32,7 +33,11 @@
  * call Qt.quit() in QML or call QWindow::close() from QMainWindow.
  */
 class GLItem : public QQuickItem
+        #ifdef USE_QOPENGL_FUNCTIONS
+        , public QOpenGLFunctions
+        #endif
 {
+
     Q_OBJECT
 
     Q_PROPERTY(QString vertexShaderFilename READ vertexShaderFilename WRITE setVertexShaderFilename NOTIFY vertexShaderFilenameChanged)

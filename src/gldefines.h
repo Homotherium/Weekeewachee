@@ -25,6 +25,7 @@
 #include "GL/gl.h"
 #endif
 
+
 #define IndexType GLushort
 
 #define USE_QOPENGL_FUNCTIONS

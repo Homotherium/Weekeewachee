@@ -3,6 +3,8 @@
 #include <QThread>
 #include <QtDebug>
 
+
+
 GLMouseRay::GLMouseRay():
     GLBody("MouseRay")
 {
@@ -47,7 +49,9 @@ void GLMouseRay::draw(GLESRenderer *renderer, bool useBuffers)
     float oldPointSize;
     glGetFloatv(GL_POINT_SIZE, &oldPointSize);
     m_drawingMode = GL_POINTS;
-    glPointSize(3.0f);
+#ifndef USE_QOPENGL_FUNCTIONS
+        glPointSize(3.0f);
+#endif
     GLBody::draw(renderer, false);
     m_drawingMode = GL_LINES;
     float oldLineWidth = 1.0;
@@ -56,5 +60,7 @@ void GLMouseRay::draw(GLESRenderer *renderer, bool useBuffers)
     GLBody::draw(renderer, false);
     //clean up
     glLineWidth(oldLineWidth);
-    glPointSize(oldPointSize);
+#ifndef USE_QOPENGL_FUNCTIONS
+        glPointSize(oldPointSize);
+#endif
 }

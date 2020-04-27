@@ -1,4 +1,4 @@
-QT += quick multimedia
+QT += core gui quick qml multimedia
 
 CONFIG += c++11 sdk_no_version_check
 
@@ -40,7 +40,7 @@ RESOURCES += \
 
 TRANSLATIONS += translations/Weekeewachee_de.ts
 
-win32 { LIBS += -lopengl32}
+# win32 { LIBS += -lopengl32}
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
