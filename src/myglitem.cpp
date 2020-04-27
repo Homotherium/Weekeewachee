@@ -10,10 +10,9 @@
 #include <math.h>
 
 /**
- * Methodenname : MyGLItem
- * Funktion     : Konstruktor der Klasse MyGLItem
- * Parameter    : keine
- */
+* \fn MyGLItem::MyGLItem() : GLItem()
+* \brief Konstruktor der Klasse MyGLItem.
+*/
 MyGLItem::MyGLItem() : GLItem()
 {
     m_backgroundColor = GLColorRgba::clWhite;
@@ -87,20 +86,18 @@ MyGLItem::MyGLItem() : GLItem()
 }
 
 /**
- * Methodenname : paintUnderQmlScene
- * Funktion     : Zeichnen des Feldes
- * Parameter    : keine
- */
+* \fn void MyGLItem::paintUnderQmlScene()
+* \brief Zeichnen des Feldes.
+*/
 void MyGLItem::paintUnderQmlScene()
 {
     m_field->draw(renderer());
 }
 
 /**
- * Methodenname : paintOnTopOfQmlScene
- * Funktion     : Zeichnen der Steine
- * Parameter    : keine
- */
+* \fn void MyGLItem::paintOnTopOfQmlScene()
+* \brief Zeichnen der Steine.
+*/
 void MyGLItem::paintOnTopOfQmlScene()
 {
     //Zeichnen von Schwarzen Spielsteinen
@@ -119,10 +116,9 @@ void MyGLItem::paintOnTopOfQmlScene()
 }
 
 /**
- * Methodenname : setupGeometry
- * Funktion     : Textursetzung und Modellsetzung
- * Parameter    : keine
- */
+* \fn void MyGLItem::setupGeometry()
+* \brief Textursetzung und Modellsetzung.
+*/
 void MyGLItem::setupGeometry()
 {
     GLItem::setupGeometry();
@@ -174,12 +170,10 @@ void MyGLItem::setupGeometry()
     m_disc_other->setHoldCoordinates(QVector3D(100.0f, 0.0f, 100.0f));
 }
 
-
 /**
- * Methodenname : setupBuffers
- * Funktion     : Bufferinitialisierung
- * Parameter    : keine
- */
+* \fn void MyGLItem::setupBuffers()
+* \brief Bufferinitialisierung.
+*/
 void MyGLItem::setupBuffers()
 {
     //setup vertexbuffer
@@ -202,10 +196,9 @@ void MyGLItem::setupBuffers()
 }
 
 /**
- * Methodenname : doSynchronizeThreads
- * Funktion     : Realisierung der verschiedenen Threads
- * Parameter    : keine
- */
+* \fn void MyGLItem::doSynchronizeThreads()
+* \brief Realisierung der verschiedenen Threads.
+*/
 void MyGLItem::doSynchronizeThreads()
 {
     GLItem::doSynchronizeThreads();
@@ -273,10 +266,12 @@ void MyGLItem::doSynchronizeThreads()
 }
 
 /**
- * Methodenname : mousePressed
- * Funktion     : Umsetzung der Funktionen beim Drücken der Maustaste
- * Parameter    : int x, y , button
- */
+* \fn void MyGLItem::mousePressed(int x, int y, int button)
+* \brief Umsetzung der Funktionen beim Drücken der Maustaste.
+* \param x a integer.
+* \param y a integer.
+* \param button a integer.
+*/
 void MyGLItem::mousePressed(int x, int y, int button)
 {
     //Meldung wird ausgeschaltet
@@ -319,10 +314,12 @@ void MyGLItem::mousePressed(int x, int y, int button)
 }
 
 /**
- * Methodenname : mouseMoved
- * Funktion     : Umsetzung der Funktionen beim Bewegen der Maus
- * Parameter    : int x, y , button
- */
+* \fn void MyGLItem::mouseMoved(int x, int y, int button)
+* \brief Umsetzung der Funktionen beim Bewegen der Maus.
+* \param x a integer.
+* \param y a integer.
+* \param button a integer.
+*/
 void MyGLItem::mouseMoved(int x, int y, int button)
 {
     if(m_lastMouseEvent)
@@ -336,10 +333,12 @@ void MyGLItem::mouseMoved(int x, int y, int button)
 }
 
 /**
- * Methodenname : mouseReleased
- * Funktion     : Umsetzung der Funktionen beim Loslassen der Maustaste
- * Parameter    : int x, y , button
- */
+* \fn void MyGLItem::mouseReleased(int x, int y, int button)
+* \brief Umsetzung der Funktionen beim Loslassen der Maustaste.
+* \param x a integer.
+* \param y a integer.
+* \param button a integer.
+*/
 void MyGLItem::mouseReleased(int x, int y, int button)
 {
     if(m_lastMouseEvent)
@@ -353,10 +352,9 @@ void MyGLItem::mouseReleased(int x, int y, int button)
 }
 
 /**
- * Methodenname : setDiscs
- * Funktion     : Setzen der zufälligen Position der Steine
- * Parameter    : keine
- */
+* \fn void MyGLItem::setDiscs()
+* \brief Setzen der zufälligen Position der Steine.
+*/
 void MyGLItem::setDiscs()
 {
     QList<GLDisc*> blackdiscs = m_blackdiscs_list;
@@ -386,10 +384,11 @@ void MyGLItem::setDiscs()
 }
 
 /**
- * Methodenname : moving
- * Funktion     : Bewegung der Spielsteine
- * Parameter    : GLDisc * disc, QVector3D MousePos
- */
+* \fn void MyGLItem::moving(GLDisc * disc, QVector3D MousePos)
+* \brief Bewegung der Spielsteine.
+* \param disc a GLDisc.
+* \param MousePos a QVector3D.
+*/
 void MyGLItem::moving(GLDisc * disc, QVector3D MousePos)
 {
     if (isMoveCorrect){
@@ -455,7 +454,7 @@ void MyGLItem::moving(GLDisc * disc, QVector3D MousePos)
             if (disc->isMovementOk(buch+zahl)){
                 //Wenn es nicht im gleichen Zug die erste Stein Bewegung ist, dann muss backStep gemacht werden
                 if(disc->isMoved()){
-                   disc->backStep();
+                    disc->backStep();
                 }
                 //Vektor um wie viel der Stein bewegt werden muss
                 QVector3D movedisc = disc->getVector(disc->getList(), buch+zahl);
@@ -473,10 +472,15 @@ void MyGLItem::moving(GLDisc * disc, QVector3D MousePos)
 }
 
 /**
- * Methodenname : isFree
- * Funktion     : Überprüfung, ob Position frei ist
- * Parameter    : QString start, zelle, disc_name; QList<GLDisc*> frends_list, enemy_list
- */
+* \fn bool MyGLItem::isFree(QString start, QString zelle, QString disc_name, QList<GLDisc*> frends_list, QList<GLDisc*> enemy_list)
+* \brief Überprüfung, ob Position frei ist.
+* \param start a QString.
+* \param zelle a QString.
+* \param disc_name a QString.
+* \param frends_list a QList<GLDisc*>.
+* \param enemy_list a QList<GLDisc*>.
+* \return a boolean
+*/
 bool MyGLItem::isFree(QString start, QString zelle, QString disc_name, QList<GLDisc*> frends_list, QList<GLDisc*> enemy_list)
 {
     QString stein = "";
@@ -500,10 +504,11 @@ bool MyGLItem::isFree(QString start, QString zelle, QString disc_name, QList<GLD
 }
 
 /**
- * Methodenname : figth
- * Funktion     : Umsetzung der Spielsteinkämpfe
- * Parameter    : GLDisc *disc
- */
+* \fn bool MyGLItem::figth(GLDisc *disc)
+* \brief Umsetzung der Spielsteinkämpfe.
+ * \param disc a GLDisc
+* \return a boolean
+*/
 bool MyGLItem::figth(GLDisc *disc)
 {
     if (disc->getDXZ() == disc->getDXZ_temp()){
@@ -633,10 +638,10 @@ bool MyGLItem::figth(GLDisc *disc)
 }
 
 /**
- * Methodenname : move_away
- * Funktion     : Spielstein vom Spielfeld entfernen
- * Parameter    : GLDisc *disc
- */
+* \fn void MyGLItem::move_away(GLDisc *disc)
+* \brief Spielstein vom Spielfeld entfernen.
+* \param disc a GLDisc
+*/
 void MyGLItem::move_away(GLDisc *disc)
 {
     disc->move(QVector3D(+100.0f, 0.0f, +100.0f));
@@ -646,10 +651,12 @@ void MyGLItem::move_away(GLDisc *disc)
 }
 
 /**
- * Methodenname : deletediscFromList
- * Funktion     : Entfernen des gelöschten Spielsteins von der Liste
- * Parameter    : QList<GLDisc *> m_discs_list, QString disc_name
- */
+* \fn QList<GLDisc *> MyGLItem::deletediscFromList(QList<GLDisc *> m_discs_list, QString disc_name)
+* \brief Entfernen des gelöschten Spielsteins von der Liste.
+* \param m_discs_list a QList<GLDisc *>
+* \param disc_name a QString
+* \return a QList<GLDisc *>
+*/
 QList<GLDisc *> MyGLItem::deletediscFromList(QList<GLDisc *> m_discs_list, QString disc_name)
 {
     for (int i = 0; i < m_discs_list.size(); i++) {
@@ -661,10 +668,9 @@ QList<GLDisc *> MyGLItem::deletediscFromList(QList<GLDisc *> m_discs_list, QStri
 }
 
 /**
- * Methodenname : turnEnd
- * Funktion     : Beenden des Zuges und tauschen des Spielers oder bei Spielende Spiel Neustarten
- * Parameter    : keine
- */
+* \fn void MyGLItem::turnEnd()
+* \brief Beenden des Zuges und tauschen des Spielers oder bei Spielende Spiel Neustarten.
+*/
 void MyGLItem::turnEnd()
 {
     if (isGameOver()){
@@ -680,10 +686,10 @@ void MyGLItem::turnEnd()
 }
 
 /**
- * Methodenname : isGameOver
- * Funktion     : Überprüfung, ob es einen Sieger gibt
- * Parameter    : keine
- */
+* \fn bool MyGLItem::isGameOver()
+* \brief Überprüfung, ob es einen Sieger gibt.
+* \return a boolean
+*/
 bool MyGLItem::isGameOver()
 {
     //Überprüfung ob ein schwarzer Stein in den Startpositionen der weißen Steine ist
@@ -722,20 +728,18 @@ bool MyGLItem::isGameOver()
 }
 
 /**
- * Methodenname : changePlayer
- * Funktion     : Spieler wechseln
- * Parameter    : bool player
- */
+* \fn void MyGLItem::changePlayer(bool player)
+* \brief Spieler wechseln.
+*/
 void MyGLItem::changePlayer(bool player)
 {
     setPlayer(!player);
 }
 
 /**
- * Methodenname : rotateBoard
- * Funktion     : Drehen des Spielfeldes
- * Parameter    : keine
- */
+* \fn void MyGLItem::rotateBoard()
+* \brief Drehen des Spielfeldes.
+*/
 void MyGLItem::rotateBoard()
 {
     QVector3D factor = QVector3D(1.0f, 1.0f, -1.0f);
@@ -756,10 +760,9 @@ void MyGLItem::rotateBoard()
 }
 
 /**
- * Methodenname : restartGame
- * Funktion     : Neustarten des Spiels
- * Parameter    : keine
- */
+* \fn void MyGLItem::restartGame()
+* \brief Neustarten des Spiels.
+*/
 void MyGLItem::restartGame()
 {
     qDebug() << "Spiel neustarten";
@@ -787,10 +790,10 @@ void MyGLItem::restartGame()
 }
 
 /**
- * Methodenname : showErrorMesage
- * Funktion     : Anzeigen der Textanzeige
- * Parameter    : QString text
- */
+* \fn void MyGLItem::showErrorMesage(QString text)
+* \brief Anzeigen der Textanzeige.
+* \param text a QString.
+*/
 void MyGLItem::showErrorMesage(QString text)
 {
     int alarmTime = 5000;
@@ -800,40 +803,40 @@ void MyGLItem::showErrorMesage(QString text)
 }
 
 /**
- * Methodenname : getPlayer
- * Funktion     : Getterfunktion des Spielers
- * Parameter    : keine
- */
+* \fn bool MyGLItem::getPlayer() const
+* \brief  Getterfunktion des Spielers.
+* \return a boolean.
+*/
 bool MyGLItem::getPlayer() const
 {
     return player;
 }
 
 /**
- * Methodenname : setPlayer
- * Funktion     : Setterfunktion des Spielers
- * Parameter    : bool value
- */
+* \fn void MyGLItem::setPlayer(bool value)
+* \brief  Setterfunktion des Spielers.
+* \param value a boolean.
+*/
 void MyGLItem::setPlayer(bool value)
 {
     player = value;
 }
 
 /**
- * Methodenname : getIsMoveCorrect
- * Funktion     : Getterfunktion von isMoveCorrect
- * Parameter    : keine
- */
+* \fn bool MyGLItem::getIsMoveCorrect() const
+* \brief Getterfunktion von isMoveCorrect.
+* \return a boolean.
+*/
 bool MyGLItem::getIsMoveCorrect() const
 {
     return isMoveCorrect;
 }
 
 /**
- * Methodenname : setIsMoveCorrect
- * Funktion     : Setterfunktion von isMoveCorrect
- * Parameter    : bool value
- */
+* \fn void MyGLItem::setIsMoveCorrect(bool value)
+* \brief Setterfunktion von isMoveCorrect.
+* \param value a boolean.
+*/
 void MyGLItem::setIsMoveCorrect(bool value)
 {
     isMoveCorrect = value;

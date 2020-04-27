@@ -1,3 +1,13 @@
+/*!
+ * \class MyGLItem myglitem.h "src/myglitem.h"
+ * \brief Itemklasse für das Spiel.
+ * \author Baranov Kostyantyn
+ * \author Behrenbeck David
+ * \author Peddinghaus Mike Frank
+ * \version 1.0
+ * \date 27 April 2020
+ */
+
 #ifndef MYGLITEM_H
 #define MYGLITEM_H
 #include "glitem.h"
@@ -94,16 +104,45 @@ public:
     void setIsMoveCorrect(bool value);
 
 signals:
+    /**
+    * \fn void textChanged(const QString & text)
+    * \brief Labeltext.
+    * \param text a QString
+    */
     void textChanged(const QString & text);
+    /**
+    * \fn void textColorChanged(const QString & color)
+    * \brief Labeltextfarbe.
+    * \param color a QString
+    */
     void textColorChanged(const QString & color);
+    /**
+    * \fn void textBackgroundColorChanged(const QString & color)
+    * \brief Labelhintergrungfarbe.
+    * \param color a QString
+    */
     void textBackgroundColorChanged(const QString & color);
+    /**
+    * \fn void errorIcon(const bool & visibility)
+    * \brief Fehlermeldung Icon.
+    * \param visibility a boolean
+    */
     void errorIcon(const bool & visibility);
+    /**
+    * \fn void errorMessage(const QString & text)
+    * \brief Fehlermeldung Text.
+    * \param text a QString
+    */
     void errorMessage(const QString & text);
 
 public slots:
     void mousePressed(int x, int y, int button);
     void mouseMoved(int x, int y, int button);
     void mouseReleased(int x, int y, int button);
+    /**
+    * \fn void alarmOff()
+    * \brief Fehlermeldung ausschalten.
+    */
     void alarmOff() {emit errorIcon(false); emit errorMessage("");}
 
 protected:

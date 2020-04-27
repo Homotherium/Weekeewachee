@@ -1,3 +1,13 @@
+/*!
+ * \class GLDisc gldisc.h "src/gldisc.h"
+ * \brief Diskklasse für das Spiel.
+ * \author Baranov Kostyantyn
+ * \author Behrenbeck David
+ * \author Peddinghaus Mike Frank
+ * \version 1.0
+ * \date 27 April 2020
+ */
+
 #ifndef GLDISC_H
 #define GLDISC_H
 

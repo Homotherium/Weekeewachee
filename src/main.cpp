@@ -1,3 +1,13 @@
+/*!
+ * \class main
+ * \brief Hauptklasse für das Spiel.
+ * \author Baranov Kostyantyn
+ * \author Behrenbeck David
+ * \author Peddinghaus Mike Frank
+ * \version 1.0
+ * \date 27 April 2020
+ */
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QTranslator>
