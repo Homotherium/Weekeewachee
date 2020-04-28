@@ -9,12 +9,16 @@ GLDisc::GLDisc(const QString & name, const QVector3D &fieldCoord, float radius, 
     m_height = height;
     m_slices = slices;
     m_drawingMode = GL_TRIANGLE_STRIP;
-    diskLastmove = "";
-    m_isKing = false;
     isMove = false;
     setShowFrame(false);
+    stepVector = {0.0f, 0.0f, 0.0f};
 }
 
+/**
+ * Methodenname : makeSurface
+ * Funktion     : Erstellen der Oberfläche
+ * Parameter    : QVector<GLPoint> *pointContainer, QVector<GLushort> *indexContainer
+ */
 void GLDisc::makeSurface(QVector<GLPoint> *pointContainer, QVector<GLushort> *indexContainer)
 {
 
@@ -66,12 +70,6 @@ void GLDisc::makeSurface(QVector<GLPoint> *pointContainer, QVector<GLushort> *in
 void GLDisc::draw(GLESRenderer *renderer, bool useBuffers)
 {
     GLBody::draw(renderer,useBuffers);
-    if(isKing()){
-        renderer->pushMvMatrix();
-        renderer->translate(v_Y * 2.0f);
-        GLBody::draw(renderer,useBuffers);
-        renderer->popMvMatrix();
-    }
 }
 
 void GLDisc::calculateDrawMatrix()
@@ -90,28 +88,6 @@ void GLDisc::setFieldCoord(const QVector3D &FieldCoord)
     m_FieldCoord = FieldCoord;
 }
 
-void GLDisc::becomeKing()
-{
-    m_height = 2* m_height;
-    m_isKing = true;
-    m_surfaceIsValid = false;
-}
-
-bool GLDisc::isColliding(const GLDisc *other)
-{
-    if(this == other)
-        return false;
-
-    if((getCenter() - other->getCenter()).length() > getRadius() + other->getRadius())
-        return false;
-    else
-    {
-        if(fabs(getCenter().y() - other->getCenter().y()) >((m_height + other->m_height) / 2.0))
-            return false;
-        else return true;
-    }
-}
-
 void GLDisc::jumpUp()
 {
     m_finalLiftVector = v_Y;
@@ -122,16 +98,6 @@ void GLDisc::jumpDown()
 {
     m_finalLiftVector = v_Zero;
     m_startLiftVector = m_liftVector;
-}
-
-QVector3D GLDisc::getDisc_Coordinates() const
-{
-    return m_disc_Coordinates;
-}
-
-void GLDisc::setDisc_Coordinates(const QVector3D &disc_Coordinates)
-{
-    m_disc_Coordinates = disc_Coordinates;
 }
 
 QString GLDisc::getDisc_Color() const
@@ -149,39 +115,266 @@ QString GLDisc::getDisc_Name() const
     return m_disc_Name;
 }
 
-QString GLDisc::getDiskLastmove() const
-{
-    return diskLastmove;
-}
-
-void GLDisc::setDiskLastmove(const QString &value)
-{
-    diskLastmove = value;
-}
-
-QVector3D GLDisc::getDisc_MoveCoordinates() const
-{
-    return m_disc_MoveCoordinates;
-}
-
-void GLDisc::setDisc_MoveCoordinates(const QVector3D &disc_MoveCoordinates)
-{
-    m_disc_MoveCoordinates = disc_MoveCoordinates;
-}
-
 void GLDisc::setIsMoved(bool value)
 {
     isMove = value;
 }
 
-QVector3D GLDisc::getStartCoordinates() const
+/**
+* \fn void GLDisc::setXZ()
+* \brief Wir setzen Spielfeld abhängig von Startkoordinaten.
+*/
+void GLDisc::setXZ()
 {
-    return startCoordinates;
+    // Weise Steine
+    if (getHoldCoordinates() == QVector3D(-4.5f, 0.0f, 7.5f)){
+        setDXZ("A1");
+        setDXZ_temp("A1");
+    }
+    if (getHoldCoordinates() == QVector3D(-1.5f, 0.0f, 7.5f)){
+        setDXZ("B1");
+        setDXZ_temp("B1");
+    }
+    if (getHoldCoordinates() == QVector3D(1.5f, 0.0f, 7.5f)){
+        setDXZ("C1");
+        setDXZ_temp("C1");
+    }
+    if (getHoldCoordinates() == QVector3D(4.5f, 0.0f, 7.5f)){
+        setDXZ("D1");
+        setDXZ_temp("D1");
+    }
+    // Schwarze Steine
+    if (getHoldCoordinates() == QVector3D(-4.5f, 0.0f, -7.5f)){
+        setDXZ("A6");
+        setDXZ_temp("A6");
+    }
+    if (getHoldCoordinates() == QVector3D(-1.5f, 0.0f, -7.5f)){
+        setDXZ("B6");
+        setDXZ_temp("B6");
+    }
+    if (getHoldCoordinates() == QVector3D(1.5f, 0.0f, -7.5f)){
+        setDXZ("C6");
+        setDXZ_temp("C6");
+    }
+    if (getHoldCoordinates() == QVector3D(4.5f, 0.0f, -7.5f)){
+        setDXZ("D6");
+        setDXZ_temp("D6");
+    }
 }
 
-void GLDisc::setStartCoordinates(const QVector3D &value)
+/**
+* \fn void GLDisc::updateXZ()
+* \brief Wir setzen Spielzelle abhängig von Startkoordinaten.
+*/
+void GLDisc::updateXZ()
 {
-    startCoordinates = value;
+    setDXZ(getDXZ_temp());
+}
+
+/**
+* \fn QList<QString> GLDisc::getList()
+* \brief Rückgabe mit Liste von erlaubten Spielzellen von aktuellen Stein.
+* \return a QList<QString>.
+*/
+QList<QString> GLDisc::getList()
+{
+    QString listName = getDXZ();
+    QList<QString> list = {};
+    if (listName == "A1"){
+        list = A1;
+    }
+    if (listName == "A2"){
+        list = A2;
+    }
+    if (listName == "A3"){
+        list = A3;
+    }
+    if (listName == "A4"){
+        list = A4;
+    }
+    if (listName == "A5"){
+        list = A5;
+    }
+    if (listName == "A6"){
+        list = A6;
+    }
+    if (listName == "B1"){
+        list = B1;
+    }
+    if (listName == "B2"){
+        list = B2;
+    }
+    if (listName == "B3"){
+        list = B3;
+    }
+    if (listName == "B4"){
+        list = B4;
+    }
+    if (listName == "B5"){
+        list = B5;
+    }
+    if (listName == "B6"){
+        list = B6;
+    }
+    if (listName == "C1"){
+        list = C1;
+    }
+    if (listName == "C2"){
+        list = C2;
+    }
+    if (listName == "C3"){
+        list = C3;
+    }
+    if (listName == "C4"){
+        list = C4;
+    }
+    if (listName == "C5"){
+        list = C5;
+    }
+    if (listName == "C6"){
+        list = C6;
+    }
+    if (listName == "D1"){
+        list = D1;
+    }
+    if (listName == "D2"){
+        list = D2;
+    }
+    if (listName == "D3"){
+        list = D3;
+    }
+    if (listName == "D4"){
+        list = D4;
+    }
+    if (listName == "D5"){
+        list = D5;
+    }
+    if (listName == "D6"){
+        list = D6;
+    }
+    return list;
+}
+
+/**
+* \fn QVector3D GLDisc::getVector(QList<QString> list, QString moveXZ)
+* \brief Rückgabe Vektor für Bewegung.
+* \param list a QList<QString>.
+* \param moveXZ a QString.
+* \return a QList<QString>.
+*/
+QVector3D GLDisc::getVector(QList<QString> list, QString moveXZ)
+{
+    QVector3D vector = {0.0f, 0.0f, 0.0f};
+    int pos = 0;
+    for (int i = 0; i < list.size(); i++){
+        if (list[i] == moveXZ) {
+            pos = i;
+        }
+    }
+    QString startPos = getDXZ();
+    QRegExp zelle;
+    zelle.setPattern("A1");
+    if (zelle.exactMatch(startPos)){
+        vector = left_down[pos];
+    }
+    zelle.setPattern("A[2-5]");
+    if (zelle.exactMatch(startPos)){
+        vector = left_centre[pos];
+    }
+    zelle.setPattern("A6");
+    if (zelle.exactMatch(startPos)){
+        vector = left_top[pos];
+    }
+    zelle.setPattern("[B-C]1");
+    if (zelle.exactMatch(startPos)){
+        vector = middle_down[pos];
+    }
+    zelle.setPattern("[B-C][2-5]");
+    if (zelle.exactMatch(startPos)){
+        vector = middle_centre[pos];
+    }
+    zelle.setPattern("[B-C]6");
+    if (zelle.exactMatch(startPos)){
+        vector = middle_top[pos];
+    }
+    zelle.setPattern("D1");
+    if (zelle.exactMatch(startPos)){
+        vector = right_down[pos];
+    }
+    zelle.setPattern("D[2-5]");
+    if (zelle.exactMatch(startPos)){
+        vector = right_centre[pos];
+    }
+    zelle.setPattern("D6");
+    if (zelle.exactMatch(startPos)){
+        vector = right_top[pos];
+    }
+    //Kehrwert von MoveVektor
+    setStepVector(-vector);
+    return vector;
+}
+
+/**
+* \fn bool GLDisc::isMovementOk(QString moveXZ)
+* \brief Überprüft Bewegung des Steins erlaubt ist.
+* \param moveXZ a QString.
+* \return a boolean.
+*/
+bool GLDisc::isMovementOk(QString moveXZ)
+{
+    QList<QString> moveList = getList();
+    for (int i = 0; i < moveList.size(); i++){
+        if (moveList[i] == moveXZ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+* \fn bool GLDisc::isFigth(QString enemy)
+* \brief Überprüfung ob sich auf unserer Zielzelle ein Gegner befindet.
+* \param enemy a QString.
+* \return a boolean.
+*/
+bool GLDisc::isFigth(QString enemy)
+{
+    QList<QString> moveList = getList();
+    for (int i = 0; i < moveList.size(); i++){
+        if (moveList[i] == enemy){
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+* \fn void GLDisc::backStep()
+* \brief vor neue Bewegung , Stein muss auf Startposition springen.
+*/
+void GLDisc::backStep()
+{
+    move(stepVector);
+}
+
+QVector3D GLDisc::getStepVector() const
+{
+    return stepVector;
+}
+
+void GLDisc::setStepVector(const QVector3D &value)
+{
+    stepVector = value;
+}
+
+QVector3D GLDisc::getHoldCoordinates() const
+{
+    return holdCoordinates;
+}
+
+void GLDisc::setHoldCoordinates(const QVector3D &value)
+{
+    holdCoordinates = value;
 }
 
 QVector3D GLDisc::getMoveCoordinates() const
@@ -194,14 +387,29 @@ void GLDisc::setMoveCoordinates(const QVector3D &value)
     moveCoordinates = value;
 }
 
-QVector3D GLDisc::getEndCoordinates() const
+QVector3D GLDisc::getFinalLiftVector() const
 {
-    return endCoordinates;
+    return m_finalLiftVector;
 }
 
-void GLDisc::setEndCoordinates(const QVector3D &value)
+QString GLDisc::getDXZ() const
 {
-    endCoordinates = value;
+    return dXZ;
+}
+
+void GLDisc::setDXZ(const QString &value)
+{
+    dXZ = value;
+}
+
+QString GLDisc::getDXZ_temp() const
+{
+    return dXZ_temp;
+}
+
+void GLDisc::setDXZ_temp(const QString &value)
+{
+    dXZ_temp = value;
 }
 
 void GLDisc::finishAnimation()
@@ -213,128 +421,3 @@ void GLDisc::updateAnimatedProperties(float animationState)
 {
     m_liftVector = m_startLiftVector + localAnimationState(animationState) *(m_finalLiftVector - m_startLiftVector);
 }
-
-bool GLDisc::isMovementOk(GLDisc * disc, const QVector3D vMove, GLField * m_field)
-{
-    //QVector3D startingPosition = m_field->fieldToPosition(disc->getFieldCoord());
-    QVector3D startingPosition = disc->getDisc_Coordinates();
-    QVector3D targetPosition = vMove + disc->getDisc_Coordinates();
-
-    QVector3D vTotalMove = targetPosition - startingPosition;
-
-    int forward = 1.0;
-
-    qDebug() << "startingPosition: " << startingPosition;
-    qDebug() << "targetPosition: " << targetPosition;
-    qDebug() << "vTotal Move: " << vTotalMove;
-
-    disc->setFieldCoord(targetPosition);
-
-    if(vTotalMove.z() < 3){
-        return true;
-    } else {
-        return false;
-    }
-
-
-    /*
-    int forward = 1.0;
-    if(xzMovement(vTotalMove)) //we want to go straight ahead or sideways
-        return true;
-
-    if(vTotalMove.z() * forward < 0.0)
-        return false;
-    //Check for board limits
-    //if(!m_field->isOnBoard( m_field->fieldToPosition( disc->getFieldCoord()) + vTotalMove))
-    //    return false;
-
-    //Get coordinates of jumpOverField and landingField in moving direction
-    //LDisc * otherDisc = NULL;
-
-
-
-    return true;
-
-
-
-
-/*
-    QVector3D startingPosition = m_field->fieldToPosition(disc->getFieldCoord());
-    QVector3D targetPosition = vMove + disc->getCenter();
-    QVector3D vTotalMove = targetPosition - startingPosition;
-
-    QList<GLDisc *> * ourDiscs;
-    QList<GLDisc *> * otherDiscs;
-    int forward = 1.0; //forward direction for white discs i +Z, for black discs -Z
-    /*
-    if(disc->getColor() == whiteColor) //who are we
-    {
-       ourDiscs = &whiteDiscs;
-       otherDiscs = &blackDiscs;
-       forward = 1.0; //forward = Z
-    }
-    else
-    {
-        ourDiscs = &blackDiscs;
-        otherDiscs = &whiteDiscs;
-        forward = -1.0; //forward = -Z
-    }
-    */
-
-   //Check for moving straight ahead
-    //  if(xzMovement(vTotalMove)) //we want to go straight ahead or sideways
- //     return true;
-
-    //we want to move diagonally
-    //vTotalMove = makeDiagonalMovement(vTotalMove);
-    //Check for backwards movement
-    /*
-    if(! disc->isKing() && (vTotalMove.z() * forward < 0.0))
-        return false;
-    //Check for board limits
-    if(!chessBoard->isOnBoard( chessBoard->fieldToPosition( disc->getFieldCoord()) + vTotalMove))
-        return false;
-    */
-    //Get coordinates of jumpOverField and landingField in moving direction
-    //LDisc * otherDisc = NULL;
-
-
-
-    //return true;
-}
-
-bool GLDisc::xzMovement(const QVector3D & vMove)
-{
-    GLfloat x = vMove.x();
-    GLfloat z = vMove.z();
-    return fabs(z) > 1.0 * fabs(x) || fabs(x) > 1.0 * fabs(z); //we want to go straight ahead or sideways
-}
-
-/** Returns a vector with |x| = |z|
-  */
-QVector3D GLDisc::makeDiagonalMovement(QVector3D vMove)
-{
-    bool negativeZ = vMove.z() < 0.0;
-    bool negativeX = vMove.x() < 0.0;
-    GLfloat absX = fabs(vMove.x());
-    GLfloat absZ = fabs(vMove.z());
-    GLfloat x = vMove.x();
-    GLfloat z = vMove.z();
-    if(absX > absZ)
-    {
-        if(negativeZ)
-          z = -absX;
-        else
-          z = absX;
-    }
-    else
-    {
-        if(negativeX)
-          x = -absZ;
-        else
-          x = absZ;
-    }
-    return QVector3D(x, 0.0, z);
-}
-
-

@@ -1,4 +1,4 @@
-QT += quick multimedia
+QT += core gui quick qml multimedia
 
 CONFIG += c++11 sdk_no_version_check
 
@@ -14,13 +14,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += src/main.cpp \
-    src/glsphere.cpp \
     src/music.cpp \
     src/myglitem.cpp \
     src/glbody.cpp \
     src/glbodygroup.cpp \
     src/glcolorrgba.cpp \
-    src/glcube.cpp \
     src/gldisc.cpp \
     src/glesrenderer.cpp \
     src/glfield.cpp \
@@ -40,9 +38,9 @@ RESOURCES += \
     textures.qrc \
     translations.qrc
 
-TRANSLATIONS += translations/testmm2019_de.ts
+TRANSLATIONS += translations/Weekeewachee_de.ts
 
-win32 { LIBS += -lopengl32}
+# win32 { LIBS += -lopengl32}
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -58,13 +56,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES +=
 
 HEADERS += \
-    src/glsphere.h \
     src/music.h \
     src/myglitem.h \
     src/glbody.h \
     src/glbodygroup.h \
     src/glcolorrgba.h \
-    src/glcube.h \
     src/gldefines.h \
     src/gldisc.h \
     src/glesrenderer.h \

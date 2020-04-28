@@ -27,6 +27,8 @@
 #include "glcolorrgba.h"
 #include "gldefines.h"
 
+
+
 /** \brief A render program that can be used as a simple replacement for the OpenGL fixed
   * function pipeline.
   * \author Walter Roth, 2014

@@ -32,7 +32,7 @@ Item {
             x: 234
             width: 150
             height: 20
-            text: "Let's fight begin!!!!"
+            text: qsTr("Let's fight begin!!!!")
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.topMargin: -200
             horizontalAlignment: Text.AlignHCenter

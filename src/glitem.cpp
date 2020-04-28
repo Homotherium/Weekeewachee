@@ -179,7 +179,9 @@ void GLItem::paintAfter()
 
 void GLItem::initializeRenderer()
 {
-    qDebug() <<"GlItem::initializeRenderer called.";
+    #ifdef USE_QOPENGL_FUNCTIONS
+    QOpenGLFunctions::initializeOpenGLFunctions();
+#endif
 //    if(window()->openglContext() && !m_renderer){
 //        connect(window()->openglContext(), &QOpenGLContext::aboutToBeDestroyed,
 //                this, &GLItem::destroyTextureObjects, Qt::DirectConnection);
@@ -274,9 +276,10 @@ void GLItem::setupView(bool clearBuffers)
     glDepthMask(true);
     if(clearBuffers)
     {
-#ifndef GLES
+#ifndef USE_QOPENGL_FUNCTIONS
         glClearDepth(1.0);
 #endif
+
         glClearColor(m_backgroundColor.red(), m_backgroundColor.green(),
                      m_backgroundColor.blue(), m_backgroundColor.alpha());
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -331,7 +334,6 @@ bool GLItem::setupRenderer()
  */
 void GLItem::handleWindowChanged(QQuickWindow *win)
 {
-    qDebug() << "GlItem::handleWindowChanged() called.";
     if (win) {
         // Connect the beforeRendering signal to our paint function.
         // Since this call is executed on the rendering thread it must be

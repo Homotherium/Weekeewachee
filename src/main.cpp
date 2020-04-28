@@ -1,3 +1,13 @@
+/*!
+ * \class main
+ * \brief Hauptklasse für das Spiel.
+ * \author Baranov Kostyantyn
+ * \author Behrenbeck David
+ * \author Peddinghaus Mike Frank
+ * \version 1.0
+ * \date 27 April 2020
+ */
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QTranslator>
@@ -7,15 +17,16 @@
 
 int main(int argc, char *argv[])
 {
-    QLocale::setDefault(QLocale::German);
-
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
     QGuiApplication app(argc, argv);
 
+    QLocale::Language sysLangId = QLocale::system().language();
     QTranslator translator;
-    if(translator.load("testmm2019_de.qm",":/translations"))
-        app.installTranslator(&translator);
+    if(sysLangId == QLocale::German)
+    {
+        if(translator.load("Weekeewachee_de.qm",":/translations"))
+            app.installTranslator(&translator);
+    }
 
     QQmlApplicationEngine engine;
     app.setWindowIcon(QIcon(":/icons/icon.ico"));
